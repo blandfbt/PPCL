@@ -1,0 +1,27 @@
+// with the appropriate stuff for .pcl files
+// when enter is hit, it puts adjusts the line numbers
+[
+  { 
+    "keys": ["ctrl+shift+l"],
+    "command": "adjust_line_nums",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },
+
+  { 
+    "keys": ["ctrl+shift+k"],
+    "command": "adjust_line_nums2",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },
+
+  { 
+    "keys": ["enter"],
+    "command": "insert_lines",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },
+]
