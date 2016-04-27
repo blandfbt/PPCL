@@ -10,16 +10,16 @@
   },
 
   { 
-    "keys": ["ctrl+shift+k"],
-    "command": "adjust_line_nums2",
+    "keys": ["enter"],
+    "command": "insert_lines",
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
   },
 
   { 
-    "keys": ["enter"],
-    "command": "insert_lines",
+    "keys": ["ctrl+/"],
+    "command": "insert_comment",
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],

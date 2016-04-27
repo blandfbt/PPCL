@@ -1,0 +1,90 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: PPCL
+scopeName: source.PPCL
+fileTypes: [pcl]
+uuid: fac9161e-9bf4-4094-b51b-77b2c3bbd1f1
+
+patterns:
+- comment: Find line numbers at start of code line
+  name: constant.other.PPCL
+  match: ^([0-9]{5})
+
+- comment: Make a comment block.  not native to ppcl, but something i am adding
+  name: comment.block
+  begin: /\*
+  end: \*/
+
+- name: comment.block.PPCL
+  begin: ([0-9]{5}\s{2,}(C|c))
+  end: ($\n)
+  match: (\s(C|c) ?.*)
+
+- comment: make the numbers purple
+  name: constant.numeric.float.ppcl
+  begin: (/b)
+  end: ([ \)])
+  match: ((\d+))(\.)?((\d+)?)|((\.)?((\d+)))
+
+- comment: operators in the PPCL language, but not functions.  make them red
+  name: keyword.control.PPCL
+  match: IF|THEN|ELSE|GOTO
+
+- comment: capture point names and make the orange and itlaic
+  name: variable.parameter.PPCL
+  begin: (\")
+  end: (\")
+  patterns:
+  - match: (\"([a-zA-Z_0-9]*)(\.)*\")
+    captures:
+      '1': {name: variable.parameter.function.ppcl}
+      '2': {name: punctuation.separator.parameters.ppcl}
+
+- comment: match the logical operators make them red
+  name: keyword.operator.comparison.python
+  begin: (\.)
+  end: (\.)
+  patterns:
+  - match: (\.)(EQ|GT|LT|LE|GE)(\.)
+    captures:
+      '1': {name: variable.parameter.function.ppcl}
+
+- comment: capture local points and make them the same color as regular points
+  name: variable.language.PPCL
+  begin: (\$)
+  end: ([ ])
+  match: (\$([a-zA-Z_0-9]*) ?)
+  captures:
+    '1': {name: variable.parameter.function.ppcl}
+    '2': {name: punctuation.separator.parameters.ppcl}
+
+- comment: capture local point definitions and don't change them
+  name: variable.language.PPCL
+  begin: (LOCAL)
+  end: \)
+  match:  (LOCAL\(.*\))
+  captures:
+    '1': {name: punctuation.separator.parameters.ppcl}
+
+- comment: capture SECONDS counters and don't change them
+  name: variable.language.PPCL
+  begin: (SECND)
+  end: \)
+  match:  (SECND[0-9])
+  captures:
+    '1': {name: punctuation.separator.parameters.ppcl}
+
+- comment: capture the priority points and make them green
+  match: (@(NONE|OPER|EMER))
+  captures:
+    '1': {name: entity.name.function}
+    '2': {name: entity.name.function}
+
+- comment: capture the equipment status points and make them green
+  begin: (/b)
+  end: ([ \)])
+  match: (ALARM|OFF|(PRF)?ON|START|STOP)([ \)])
+  captures:
+    '1': {name: entity.name.function}
+    '2': {name: entity.name.function}
+...

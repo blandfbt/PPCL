@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>pcl</string>
+	</array>
+	<key>name</key>
+	<string>PPCL</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Find line numbers at start of code line</string>
+			<key>match</key>
+			<string>^([0-9]{5})</string>
+			<key>name</key>
+			<string>constant.other.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>/\*</string>
+			<key>comment</key>
+			<string>Make a comment block.  not native to ppcl, but something i am adding</string>
+			<key>end</key>
+			<string>\*/</string>
+			<key>name</key>
+			<string>comment.block</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>([0-9]{5}\s{2,}(C|c))</string>
+			<key>end</key>
+			<string>($\n)</string>
+			<key>match</key>
+			<string>(\s(C|c) ?.*)</string>
+			<key>name</key>
+			<string>comment.block.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(/b)</string>
+			<key>comment</key>
+			<string>make the numbers purple</string>
+			<key>end</key>
+			<string>([ \)])</string>
+			<key>match</key>
+			<string>((\d+))(\.)?((\d+)?)|((\.)?((\d+)))</string>
+			<key>name</key>
+			<string>constant.numeric.float.ppcl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>operators in the PPCL language, but not functions.  make them red</string>
+			<key>match</key>
+			<string>IF|THEN|ELSE|GOTO</string>
+			<key>name</key>
+			<string>keyword.control.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(\")</string>
+			<key>comment</key>
+			<string>capture point names and make the orange and itlaic</string>
+			<key>end</key>
+			<string>(\")</string>
+			<key>name</key>
+			<string>variable.parameter.PPCL</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.function.ppcl</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.separator.parameters.ppcl</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(\"([a-zA-Z_0-9]*)(\.)*\")</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(\.)</string>
+			<key>comment</key>
+			<string>match the logical operators make them red</string>
+			<key>end</key>
+			<string>(\.)</string>
+			<key>name</key>
+			<string>keyword.operator.comparison.python</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.function.ppcl</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(\.)(EQ|GT|LT|LE|GE)(\.)</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(\$)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.function.ppcl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.parameters.ppcl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture local points and make them the same color as regular points</string>
+			<key>end</key>
+			<string>([ ])</string>
+			<key>match</key>
+			<string>(\$([a-zA-Z_0-9]*) ?)</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(LOCAL)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.parameters.ppcl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture local point definitions and don't change them</string>
+			<key>end</key>
+			<string>\)</string>
+			<key>match</key>
+			<string>(LOCAL\(.*\))</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(SECND)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.parameters.ppcl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture SECONDS counters and don't change them</string>
+			<key>end</key>
+			<string>\)</string>
+			<key>match</key>
+			<string>(SECND[0-9])</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture the priority points and make them green</string>
+			<key>match</key>
+			<string>(@(NONE|OPER|EMER))</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(/b)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture the equipment status points and make them green</string>
+			<key>end</key>
+			<string>([ \)])</string>
+			<key>match</key>
+			<string>(ALARM|OFF|(PRF)?ON|START|STOP)([ \)])</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.PPCL</string>
+	<key>uuid</key>
+	<string>fac9161e-9bf4-4094-b51b-77b2c3bbd1f1</string>
+</dict>
+</plist>
