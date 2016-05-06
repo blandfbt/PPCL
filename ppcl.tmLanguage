@@ -12,6 +12,86 @@
 	<array>
 		<dict>
 			<key>comment</key>
+			<string>capture reserved words in PPCL, list 01</string>
+			<key>match</key>
+			<string>\b(ACT|ADAPTM|ADAPTS|ALARM|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 02</string>
+			<key>match</key>
+			<string>\b(DEFINE|DISABL|DISALM|DISCOV|DPHONE|EMAUTO|EMFAST|EMOFF|EMON|EMSET)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 03</string>
+			<key>match</key>
+			<string>\b(EMSLOW|ENABLE|ENALM|ENCOV|EPHONE|FAST|HLIMIT|HOLIDA)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 04</string>
+			<key>match</key>
+			<string>\b(INITTO|LLIMIT|LOCAL|LOOP|MAX|MIN|NIGHT|NORMAL|OFF|OIP)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 05</string>
+			<key>match</key>
+			<string>\b(ONPWRT|PDL|PDLDAT|PDLDPG|PDLMTR|PDLSET|RELEAS|RETURN|SAMPLE)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 06</string>
+			<key>match</key>
+			<string>\b(SET|SLOW|SSTO|SSTOCO|STATE|TABLE|TIMAVG|TOD|TODMOD|TODSET)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 07</string>
+			<key>match</key>
+			<string>\b(WAIT|ATN|COM|COS|EXP|LOG|SIN|SQRT|TAN|\.ROOT\.)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 08</string>
+			<key>match</key>
+			<string>\b(ALMPRI|TOTAL|ALMCNT|ALMCT2|$BATT|CRTIME|DAY|DAYOFM|LINK|MONTH)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 09</string>
+			<key>match</key>
+			<string>\b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALARM|ALMACK|AUTO|DEAD|LOW)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture reserved words in PPCL, list 10</string>
+			<key>match</key>
+			<string>\b(OK|DAYMOD|FAILED|FAST|HAND|NGTMOD|SLOW)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
 			<string>Find line numbers at start of code line</string>
 			<key>match</key>
 			<string>^([0-9]{5})</string>
@@ -41,12 +121,54 @@
 		<dict>
 			<key>begin</key>
 			<string>(/b)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture the equipment status points and make them green</string>
+			<key>end</key>
+			<string>([ \)])</string>
+			<key>match</key>
+			<string>(ALARM|OFF|(PRF)?ON|START|STOP)([ \)])</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture the priority points and make them green</string>
+			<key>match</key>
+			<string>(@(NONE|OPER|EMER|PDL|SMOKE))</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(/b)</string>
 			<key>comment</key>
 			<string>make the numbers purple</string>
 			<key>end</key>
 			<string>([ \)])</string>
 			<key>match</key>
-			<string>((\d+))(\.)?((\d+)?)|((\.)?((\d+)))</string>
+			<string>\b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b</string>
 			<key>name</key>
 			<string>constant.numeric.float.ppcl</string>
 		</dict>
@@ -62,7 +184,7 @@
 			<key>begin</key>
 			<string>(\")</string>
 			<key>comment</key>
-			<string>capture point names and make the orange and itlaic</string>
+			<string>capture point names and make the orange and italic</string>
 			<key>end</key>
 			<string>(\")</string>
 			<key>name</key>
@@ -87,6 +209,14 @@
 					<string>(\"([a-zA-Z_0-9]*)(\.)*\")</string>
 				</dict>
 			</array>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>capture pre-APOGEE point names and make the orange and italic</string>
+			<key>match</key>
+			<string>([a-zA-Z0-9]{4,6})</string>
+			<key>name</key>
+			<string>variable.parameter.PPCL</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -157,68 +287,6 @@
 			<string>(LOCAL\(.*\))</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(SECND)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.separator.parameters.ppcl</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>capture SECONDS counters and don't change them</string>
-			<key>end</key>
-			<string>\)</string>
-			<key>match</key>
-			<string>(SECND[0-9])</string>
-			<key>name</key>
-			<string>variable.language.PPCL</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>capture the priority points and make them green</string>
-			<key>match</key>
-			<string>(@(NONE|OPER|EMER))</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(/b)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>capture the equipment status points and make them green</string>
-			<key>end</key>
-			<string>([ \)])</string>
-			<key>match</key>
-			<string>(ALARM|OFF|(PRF)?ON|START|STOP)([ \)])</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

@@ -6,6 +6,47 @@ fileTypes: [pcl]
 uuid: fac9161e-9bf4-4094-b51b-77b2c3bbd1f1
 
 patterns:
+
+- comment: capture reserved words in PPCL, list 01
+  name: variable.language.PPCL
+  match:  \b(ACT|ADAPTM|ADAPTS|ALARM|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b
+
+- comment: capture reserved words in PPCL, list 02
+  name: variable.language.PPCL
+  match:  \b(DEFINE|DISABL|DISALM|DISCOV|DPHONE|EMAUTO|EMFAST|EMOFF|EMON|EMSET)\b
+
+- comment: capture reserved words in PPCL, list 03
+  name: variable.language.PPCL
+  match:  \b(EMSLOW|ENABLE|ENALM|ENCOV|EPHONE|FAST|HLIMIT|HOLIDA)\b
+
+- comment: capture reserved words in PPCL, list 04
+  name: variable.language.PPCL
+  match:  \b(INITTO|LLIMIT|LOCAL|LOOP|MAX|MIN|NIGHT|NORMAL|OFF|OIP)\b
+
+- comment: capture reserved words in PPCL, list 05
+  name: variable.language.PPCL
+  match:  \b(ONPWRT|PDL|PDLDAT|PDLDPG|PDLMTR|PDLSET|RELEAS|RETURN|SAMPLE)\b
+
+- comment: capture reserved words in PPCL, list 06
+  name: variable.language.PPCL
+  match:  \b(SET|SLOW|SSTO|SSTOCO|STATE|TABLE|TIMAVG|TOD|TODMOD|TODSET)\b
+
+- comment: capture reserved words in PPCL, list 07
+  name: variable.language.PPCL
+  match:  \b(WAIT|ATN|COM|COS|EXP|LOG|SIN|SQRT|TAN|\.ROOT\.)\b
+
+- comment: capture reserved words in PPCL, list 08
+  name: variable.language.PPCL
+  match:  \b(ALMPRI|TOTAL|ALMCNT|ALMCT2|$BATT|CRTIME|DAY|DAYOFM|LINK|MONTH)\b
+
+- comment: capture reserved words in PPCL, list 09
+  name: variable.language.PPCL
+  match:  \b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALARM|ALMACK|AUTO|DEAD|LOW)\b
+
+- comment: capture reserved words in PPCL, list 10
+  name: variable.language.PPCL
+  match:  \b(OK|DAYMOD|FAILED|FAST|HAND|NGTMOD|SLOW)\b
+
 - comment: Find line numbers at start of code line
   name: constant.other.PPCL
   match: ^([0-9]{5})
@@ -20,17 +61,32 @@ patterns:
   end: ($\n)
   match: (\s(C|c) ?.*)
 
+- comment: capture the equipment status points and make them green
+  begin: (/b)
+  end: ([ \)])
+  match: (ALARM|OFF|(PRF)?ON|START|STOP)([ \)])
+  captures:
+    '1': {name: entity.name.function}
+    '2': {name: entity.name.function}
+    
+- comment: capture the priority points and make them green
+  match: (@(NONE|OPER|EMER|PDL|SMOKE))
+  captures:
+    '1': {name: entity.name.function}
+    '2': {name: entity.name.function}
+
 - comment: make the numbers purple
   name: constant.numeric.float.ppcl
   begin: (/b)
   end: ([ \)])
-  match: ((\d+))(\.)?((\d+)?)|((\.)?((\d+)))
+  # match: ((\d+))(\.)?((\d+)?)|((\.)?((\d+)))
+  match: \b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b
 
 - comment: operators in the PPCL language, but not functions.  make them red
   name: keyword.control.PPCL
   match: IF|THEN|ELSE|GOTO
 
-- comment: capture point names and make the orange and itlaic
+- comment: capture point names and make the orange and italic
   name: variable.parameter.PPCL
   begin: (\")
   end: (\")
@@ -39,6 +95,10 @@ patterns:
     captures:
       '1': {name: variable.parameter.function.ppcl}
       '2': {name: punctuation.separator.parameters.ppcl}
+
+- comment: capture pre-APOGEE point names and make the orange and italic
+  name: variable.parameter.PPCL
+  match: ([a-zA-Z0-9]{4,6})
 
 - comment: match the logical operators make them red
   name: keyword.operator.comparison.python
@@ -66,25 +126,5 @@ patterns:
   captures:
     '1': {name: punctuation.separator.parameters.ppcl}
 
-- comment: capture SECONDS counters and don't change them
-  name: variable.language.PPCL
-  begin: (SECND)
-  end: \)
-  match:  (SECND[0-9])
-  captures:
-    '1': {name: punctuation.separator.parameters.ppcl}
 
-- comment: capture the priority points and make them green
-  match: (@(NONE|OPER|EMER))
-  captures:
-    '1': {name: entity.name.function}
-    '2': {name: entity.name.function}
-
-- comment: capture the equipment status points and make them green
-  begin: (/b)
-  end: ([ \)])
-  match: (ALARM|OFF|(PRF)?ON|START|STOP)([ \)])
-  captures:
-    '1': {name: entity.name.function}
-    '2': {name: entity.name.function}
 ...
