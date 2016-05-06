@@ -212,6 +212,14 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 	the selected lines. 
 	'''
 	def run(self, edit):
+		# the format of toggle all is
+		# 	len(set()) = 0  <-- hasn't been applied yet
+		# 	len(set()) = 1	<-- XOR set is true/false
+		# 		this means completely toggle all lines
+		# 	len(set()) = 2	<-- set has both commented lines and non-commented
+		# 		this means toggle only the first C in lines with comments
+
+		toggle_all = set()
 		for region in self.view.sel():  
 			# Get the selected text 
 			if region.empty():
@@ -243,6 +251,31 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 					print (commentedLine)
 					self.view.replace(edit, self.view.line(
 							sublime.Region(self.view.text_point(row, 0))), commentedLine)
+
+	
+	def determine_toggle(self, lines):
+		pass
+
+
+	def toggle_comment_new(self, line, toggle):
+		'''
+		given a line, toggle the comment C at the beginning of the line.
+		This is going to look for (#####	C C ) first.  If it finds this, 
+		'''
+		try:
+			lineNum = re.search(r'(^[0-9]+)([\t])(C ?)?', line)
+			# print (lineNum.groups())
+			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
+				tempstring = ''
+				for group in lineNum.groups():
+					tempstring += str(group)
+				# print (tempstring.replace('C', ''))
+				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
+				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
+			else:
+				return (line.replace(lineNum.groups()[0] + '\t', lineNum.groups()[0] + '\tC '))
+		except:
+			pass
 
 
 	def toggle_comment(self, line):
