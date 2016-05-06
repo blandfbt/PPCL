@@ -214,7 +214,7 @@
 			<key>comment</key>
 			<string>capture pre-APOGEE point names and make the orange and italic</string>
 			<key>match</key>
-			<string>([a-zA-Z0-9]{4,6})</string>
+			<string>(@?[a-zA-Z0-9]{4,6})</string>
 			<key>name</key>
 			<string>variable.parameter.PPCL</string>
 		</dict>

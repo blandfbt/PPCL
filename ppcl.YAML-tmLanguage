@@ -98,7 +98,7 @@ patterns:
 
 - comment: capture pre-APOGEE point names and make the orange and italic
   name: variable.parameter.PPCL
-  match: ([a-zA-Z0-9]{4,6})
+  match: (@?[a-zA-Z0-9]{4,6})
 
 - comment: match the logical operators make them red
   name: keyword.operator.comparison.python
