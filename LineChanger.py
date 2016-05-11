@@ -212,14 +212,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 	the selected lines. 
 	'''
 	def run(self, edit):
-		# the format of toggle all is
-		# 	len(set()) = 0  <-- hasn't been applied yet
-		# 	len(set()) = 1	<-- XOR set is true/false
-		# 		this means completely toggle all lines
-		# 	len(set()) = 2	<-- set has both commented lines and non-commented
-		# 		this means toggle only the first C in lines with comments
-
-		toggle_all = set()
+		commented_rows = self.determine_toggle()
 		for region in self.view.sel():  
 			# Get the selected text 
 			if region.empty():
@@ -252,47 +245,59 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 					self.view.replace(edit, self.view.line(
 							sublime.Region(self.view.text_point(row, 0))), commentedLine)
 
-	
-	def determine_toggle(self, lines):
-		pass
+	def determine_toggle(self):
+		'''
+		make a boolean list to determine which lines need to have
+		comments added and/or removed.
+		'''
+		commented_rows = []
+		row_begin = int(self.view.rowcol(self.view.sel()[0].begin())[0])
+		row_end = int(self.view.rowcol(self.view.sel()[0].end())[0])
+		# iterate over all the rows in the selection
+		for row in range(row_begin, row_end+1):
+			line = self.view.substr(self.view.line(
+					sublime.Region(self.view.text_point(row, 0))))
+			lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)?', line)
+			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
+				commented_rows.append(1)
+			else:
+				commented_rows.append(0)
+		# print (commented_rows)
+		return commented_rows
 
 
 	def toggle_comment_new(self, line, toggle):
 		'''
 		given a line, toggle the comment C at the beginning of the line.
-		This is going to look for (#####	C C ) first.  If it finds this, 
+		toggle true/false will add/remove comments
 		'''
-		try:
-			lineNum = re.search(r'(^[0-9]+)([\t])(C ?)?', line)
-			# print (lineNum.groups())
-			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
-				tempstring = ''
-				for group in lineNum.groups():
-					tempstring += str(group)
-				# print (tempstring.replace('C', ''))
-				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
-				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
-			else:
-				return (line.replace(lineNum.groups()[0] + '\t', lineNum.groups()[0] + '\tC '))
-		except:
+		if toggle:
+			try:
+				lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)?', line)
+				if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
+					tempstring = ''
+					for group in lineNum.groups():
+						tempstring += str(group)
+					return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
+				else:
+					return (line.replace(lineNum.groups()[0] + lineNum.groups()[1], lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
+			except:
+				pass
+		else:
 			pass
-
 
 	def toggle_comment(self, line):
 		'''
 		given a line, toggle the comment C at the beginning of the line.
 		'''
 		try:
-			lineNum = re.search(r'(^[0-9]+)([\t])(C ?)?', line)
-			# print (lineNum.groups())
+			lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)?', line)
 			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
 				tempstring = ''
 				for group in lineNum.groups():
 					tempstring += str(group)
-				# print (tempstring.replace('C', ''))
 				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
-				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
 			else:
-				return (line.replace(lineNum.groups()[0] + '\t', lineNum.groups()[0] + '\tC '))
+				return (line.replace(lineNum.groups()[0] + lineNum.groups()[1], lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
 		except:
 			pass
