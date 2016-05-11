@@ -197,7 +197,6 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 		return linenum
 
 
-
 class InsertCommentCommand(sublime_plugin.TextCommand):
 	'''
 	This command will insert a comment (01000 tab C ) when ctrl+/ is pressed over all
@@ -210,9 +209,11 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 		# if all are commented, remove one comment from them all
 		commented_rows = self.determine_toggle()
 		# this truefalse list is to switch the terms
-		true_false = [False, True]
+		# true_false = [False, True]
 		if all(commented_rows[0] == item for item in commented_rows):
 			switch_all = True
+
+		print (commented_rows, switch_all)
 
 		for region in self.view.sel():
 			# Get the selected text 
@@ -223,18 +224,47 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 				for pos in self.view.sel():
 					rows.add(int(self.view.rowcol(pos.begin())[0]))
 
-				for i,row in enumerate(rows):
-					line = self.view.substr(self.view.line(
-							sublime.Region(self.view.text_point(row, 0))))
-					print (commented_rows[i], true_false[commented_rows[i]])
-					if switch_all==True:
-						commentedLine = self.toggle_comment_new(line, True)
-					else:
-						commentedLine = self.toggle_comment_new(line, true_false[commented_rows[i]])
-					self.view.replace(edit, self.view.line(
-							sublime.Region(self.view.text_point(row, commented_rows[i]))), commentedLine)
-				return
+				# check the three cases
+				# 	1) all are not commented
+				# 	2) all are commented
+				# 	3) some are commented
+				for row in rows:
+					if (switch_all==True) and (commented_rows[0]==False):
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cnone ', line, commented_rows[i])
+							print ("1")
+							commentedLine = self.toggle_on(line)
+							# self.view.replace(edit, self.view.line(
+							# 	sublime.Region(self.view.text_point(row, 0))),
+							# 					commentedLine)
 
+					elif (switch_all==True) and (commented_rows[0]==True):
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cfound ', line, commented_rows[i])
+							commentedLine = self.toggle_off(line)
+							# self.view.replace(edit, self.view.line(
+							# 		sublime.Region(self.view.text_point(row, 0))),
+							# 						commentedLine)
+
+					else:
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cfound ', line, commented_rows[i])
+							if commented_rows[i]:
+								commentedLine = self.toggle_off(line)
+							else:
+								commentedLine = self.toggle_on(line)
+							# self.view.replace(edit, self.view.line(
+							# 		sublime.Region(self.view.text_point(row, 0))),
+							# 						commentedLine)
+					self.view.replace(edit, self.view.line(
+							sublime.Region(self.view.text_point(row, 0))),
+											commentedLine)
 			else:
 				# this is the case where there is a region selected
 				# this might not have selected the total lines in the
@@ -243,11 +273,39 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 				row_end = int(self.view.rowcol(self.view.sel()[0].end())[0])
 				# iterate over all the rows in the selection
 				for row in range(row_begin, row_end+1):
-					line = self.view.substr(self.view.line(
-							sublime.Region(self.view.text_point(row, 0))))
-					commentedLine = self.toggle_comment_new(line)
-					self.view.replace(edit, self.view.line(
-							sublime.Region(self.view.text_point(row, 0))), commentedLine)
+					if (switch_all==True) and (commented_rows[0]==False):
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cnone ', line, commented_rows[i])
+							commentedLine = self.toggle_on(line)
+							self.view.replace(edit, self.view.line(
+								sublime.Region(self.view.text_point(row, 0))),
+												commentedLine)
+
+					elif (switch_all==True) and (commented_rows[0]==True):
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cfound ', line, commented_rows[i])
+							commentedLine = self.toggle_off(line)
+							self.view.replace(edit, self.view.line(
+									sublime.Region(self.view.text_point(row, 0))),
+													commentedLine)
+
+					else:
+						for i,row in enumerate(rows):
+							line = self.view.substr(self.view.line(
+									sublime.Region(self.view.text_point(row, 0))))
+							# print ('Cfound ', line, commented_rows[i])
+							if commented_rows[i]:
+								commentedLine = self.toggle_off(line)
+							else:
+								commentedLine = self.toggle_on(line)
+							self.view.replace(edit, self.view.line(
+									sublime.Region(self.view.text_point(row, 0))),
+													commentedLine)
+
 
 	def determine_toggle(self):
 		'''
@@ -270,7 +328,47 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 		return commented_rows
 
 
-	def toggle_comment_new(self, line, toggle):
+	def toggle_on(self,line):
+		'''
+		add a comment to the beginning.
+		'''
+		try:
+			lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)?', line)
+			return (line.replace(lineNum.groups()[0] + lineNum.groups()[1],
+						lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
+		except:
+			print ('error on line' + line)
+
+
+	def toggle_off(self,line):
+		'''
+		remove a comment from the beginning.
+		'''
+		try:
+			lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)', line)
+			tempstring = ''
+			for group in lineNum.groups():
+				tempstring += str(group)
+			return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
+		except:
+			print ('error on line' + line)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	def toggle_some(self, line):
 		'''
 		given a line, toggle the comment C at the beginning of the line.
 		This is going to look for (#####	C C ) first.  If it finds this, 
@@ -286,7 +384,8 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
 				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
 			else:
-				return (line.replace(lineNum.groups()[0] + '\t', lineNum.groups()[0] + '\tC '))
+				return (line.replace(lineNum.groups()[0] + lineNum.groups()[1],
+						lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
 		except:
 			pass
 
