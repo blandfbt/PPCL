@@ -289,7 +289,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 			except:
 				pass
 		else:
-			
+			pass
 
 	def toggle_comment(self, line, toggle):
 		'''
