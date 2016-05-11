@@ -14,7 +14,7 @@
 			<key>comment</key>
 			<string>capture reserved words in PPCL, list 01</string>
 			<key>match</key>
-			<string>\b(ACT|ADAPTM|ADAPTS|ALARM|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b</string>
+			<string>\b(ACT|ADAPTM|ADAPTS|ALARM\(|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
 		</dict>
@@ -78,7 +78,7 @@
 			<key>comment</key>
 			<string>capture reserved words in PPCL, list 09</string>
 			<key>match</key>
-			<string>\b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALARM|ALMACK|AUTO|DEAD|LOW)\b</string>
+			<string>\b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALMACK|AUTO|DEAD|LOW)\b</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
 		</dict>
@@ -120,7 +120,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(/b)</string>
+			<string>(\b)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -214,7 +214,7 @@
 			<key>comment</key>
 			<string>capture pre-APOGEE point names and make the orange and italic</string>
 			<key>match</key>
-			<string>(@?[a-zA-Z0-9]{4,6})</string>
+			<string>(@?[a-zA-Z0-9]{3,6})</string>
 			<key>name</key>
 			<string>variable.parameter.PPCL</string>
 		</dict>

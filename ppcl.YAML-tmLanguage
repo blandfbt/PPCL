@@ -9,7 +9,7 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 01
   name: variable.language.PPCL
-  match:  \b(ACT|ADAPTM|ADAPTS|ALARM|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b
+  match:  \b(ACT|ADAPTM|ADAPTS|ALARM\(|AUTO|DAY|DBSWIT|DC|DCR|DEACT)\b
 
 - comment: capture reserved words in PPCL, list 02
   name: variable.language.PPCL
@@ -41,7 +41,7 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 09
   name: variable.language.PPCL
-  match:  \b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALARM|ALMACK|AUTO|DEAD|LOW)\b
+  match:  \b(NODE[0-9]|PDL|SECNDS|SECND[0-9]|TIME|ALMACK|AUTO|DEAD|LOW)\b
 
 - comment: capture reserved words in PPCL, list 10
   name: variable.language.PPCL
@@ -62,7 +62,7 @@ patterns:
   match: (\s(C|c) ?.*)
 
 - comment: capture the equipment status points and make them green
-  begin: (/b)
+  begin: (\b)
   end: ([ \)])
   match: (ALARM|OFF|(PRF)?ON|START|STOP)([ \)])
   captures:
@@ -98,7 +98,7 @@ patterns:
 
 - comment: capture pre-APOGEE point names and make the orange and italic
   name: variable.parameter.PPCL
-  match: (@?[a-zA-Z0-9]{4,6})
+  match: (@?[a-zA-Z0-9]{3,6})
 
 - comment: match the logical operators make them red
   name: keyword.operator.comparison.python
@@ -125,6 +125,5 @@ patterns:
   match:  (LOCAL\(.*\))
   captures:
     '1': {name: punctuation.separator.parameters.ppcl}
-
 
 ...
