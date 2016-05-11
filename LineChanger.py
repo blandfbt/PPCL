@@ -204,6 +204,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 	the selected lines. 
 	'''
 	def run(self, edit):
+<<<<<<< HEAD
 		# find a boolean array of rows with and without comments.
 		# if none are commented (all 0's), then comment them all
 		# if some are commented, add comments to them all
@@ -215,6 +216,10 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 			switch_all = True
 
 		for region in self.view.sel():
+=======
+		commented_rows = self.determine_toggle()
+		for region in self.view.sel():  
+>>>>>>> 0b86fbeb201920327079f203ebf445cbf06cbf62
 			# Get the selected text 
 			if region.empty():
 				rows = set()
@@ -249,7 +254,10 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 					self.view.replace(edit, self.view.line(
 							sublime.Region(self.view.text_point(row, 0))), commentedLine)
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 0b86fbeb201920327079f203ebf445cbf06cbf62
 	def determine_toggle(self):
 		'''
 		make a boolean list to determine which lines need to have
@@ -291,7 +299,11 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 		else:
 			pass
 
+<<<<<<< HEAD
 	def toggle_comment(self, line, toggle):
+=======
+	def toggle_comment(self, line):
+>>>>>>> 0b86fbeb201920327079f203ebf445cbf06cbf62
 		'''
 		given a line, toggle the comment C at the beginning of the line.
 		'''
