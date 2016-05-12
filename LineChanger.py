@@ -264,6 +264,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 		except:
 			pass
 
+
 	def toggle_off(self,line):
 		'''
 		remove a comment from the beginning.
