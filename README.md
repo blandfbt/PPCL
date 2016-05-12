@@ -14,6 +14,5 @@ It can auto-renumber all the lines with ctrl+shift+l
     100:10
 
 Known bugs
-1) toggling comments needs some work
-2) the line numbering input works the following time, not immediately.  hard to describe, but annoying
+1) the line numbering input works the following time, not immediately.  hard to describe, but annoying
 
