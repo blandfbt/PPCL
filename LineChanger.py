@@ -40,7 +40,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				pass
 			GO_nums = re.search(r'(GOSUB )([0-9]+)', line)
 			try:
-				print (GO_nums.groups())
 				GOs.append(self.add_leading_zeroes(GO_nums.group(2)))
 			except:
 				pass
@@ -71,7 +70,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		GO_map = {}
 		for i, line in enumerate(content.split('\n')):
 			try:
-				lineNum = self.add_leading_zeroes(re.search(r'(^[0-9]+)([\t])',
+				lineNum = self.add_leading_zeroes(re.search(r'(^[0-9]+)([\t]|[ ]+)',
 													line).group(1))
 			except:
 				pass
@@ -140,7 +139,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 		while len(str(linenum)) < 5:
 			linenum = '0' + str(linenum)
-			# print (linenum)
 		return linenum
 
 
@@ -158,16 +156,17 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 			self.view.insert(edit, self.view.line(self.view.sel()[0]).end(),'01000\t')
 
 		(row, col) = (int(rowandcol[0]) + 1, int(rowandcol[1])+1)
-		nextLine = self.view.substr(self.view.line(sublime.Region(self.view.text_point(row, 0))))
+		nextLine = self.view.substr(self.view.line(
+					sublime.Region(self.view.text_point(row, 0))))
 
 		try:
-			lineNum = self.add_leading_zeroes(re.search(r'(^[0-9]+)([\t])',
+			lineNum = self.add_leading_zeroes(re.search(r'(^[0-9]+)([\t]|[ ]+)',
 												currentLine).group(1))
 		except:
 			lineNum = None
 
 		try:
-			nextLineNum = re.search(r'(^[0-9]+)([\t])', nextLine).group(1)
+			nextLineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)', nextLine).group(1)
 			nextLineNum = self.add_leading_zeroes(nextLineNum)
 		except:
 			# why did i make this a space?
@@ -178,7 +177,8 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 		else:
 			newLineNum = ''
 
-		if (int(newLineNum) < int(nextLineNum)) or (self.view.rowcol(self.view.size())[0] == row-1):
+		if ((int(newLineNum) < int(nextLineNum)) or
+				(self.view.rowcol(self.view.size())[0] == row-1)):
 			self.view.insert(edit, self.view.line(self.view.sel()[0]).end(),
 							'\n'+str(newLineNum)+'\t')
 
@@ -203,120 +203,46 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 	the selected lines. 
 	'''
 	def run(self, edit):
-		# find a boolean array of rows with and without comments.
-		# if none are commented (all 0's), then comment them all
-		# if some are commented, add comments to them all
-		# if all are commented, remove one comment from them all
-		commented_rows = self.determine_toggle()
-		# this truefalse list is to switch the terms
-		# true_false = [False, True]
+		rows = set()
+		counter = 1
+
+		# determine all the rows in the selection
+		for region in self.view.sel():
+			lines_tuple = self.view.split_by_newlines(region)
+			for region in lines_tuple:
+				rows.add(int(self.view.rowcol(region.begin())[0]))
+
+		commented_rows = self.determine_toggle(rows)
 		if all(commented_rows[0] == item for item in commented_rows):
 			switch_all = True
+		else:
+			switch_all = False
 
-		print (commented_rows, switch_all)
-
-		for region in self.view.sel():
-			# Get the selected text 
-			if region.empty():
-				rows = set()
-				# this is the case where there is just a cursor on the screen,
-				# nothing selected, but there could be multiple cursors
-				for pos in self.view.sel():
-					rows.add(int(self.view.rowcol(pos.begin())[0]))
-
-				# check the three cases
-				# 	1) all are not commented
-				# 	2) all are commented
-				# 	3) some are commented
-				for row in rows:
-					if (switch_all==True) and (commented_rows[0]==False):
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cnone ', line, commented_rows[i])
-							print ("1")
-							commentedLine = self.toggle_on(line)
-							# self.view.replace(edit, self.view.line(
-							# 	sublime.Region(self.view.text_point(row, 0))),
-							# 					commentedLine)
-
-					elif (switch_all==True) and (commented_rows[0]==True):
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cfound ', line, commented_rows[i])
-							commentedLine = self.toggle_off(line)
-							# self.view.replace(edit, self.view.line(
-							# 		sublime.Region(self.view.text_point(row, 0))),
-							# 						commentedLine)
-
-					else:
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cfound ', line, commented_rows[i])
-							if commented_rows[i]:
-								commentedLine = self.toggle_off(line)
-							else:
-								commentedLine = self.toggle_on(line)
-							# self.view.replace(edit, self.view.line(
-							# 		sublime.Region(self.view.text_point(row, 0))),
-							# 						commentedLine)
-					self.view.replace(edit, self.view.line(
-							sublime.Region(self.view.text_point(row, 0))),
-											commentedLine)
-			else:
-				# this is the case where there is a region selected
-				# this might not have selected the total lines in the
-				# selected rows, so we have to iterate over each row in the selectoin.
-				row_begin = int(self.view.rowcol(self.view.sel()[0].begin())[0])
-				row_end = int(self.view.rowcol(self.view.sel()[0].end())[0])
-				# iterate over all the rows in the selection
-				for row in range(row_begin, row_end+1):
-					if (switch_all==True) and (commented_rows[0]==False):
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cnone ', line, commented_rows[i])
-							commentedLine = self.toggle_on(line)
-							self.view.replace(edit, self.view.line(
-								sublime.Region(self.view.text_point(row, 0))),
-												commentedLine)
-
-					elif (switch_all==True) and (commented_rows[0]==True):
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cfound ', line, commented_rows[i])
-							commentedLine = self.toggle_off(line)
-							self.view.replace(edit, self.view.line(
-									sublime.Region(self.view.text_point(row, 0))),
-													commentedLine)
-
-					else:
-						for i,row in enumerate(rows):
-							line = self.view.substr(self.view.line(
-									sublime.Region(self.view.text_point(row, 0))))
-							# print ('Cfound ', line, commented_rows[i])
-							if commented_rows[i]:
-								commentedLine = self.toggle_off(line)
-							else:
-								commentedLine = self.toggle_on(line)
-							self.view.replace(edit, self.view.line(
-									sublime.Region(self.view.text_point(row, 0))),
-													commentedLine)
+		for row in rows:
+			if (((switch_all==True) and (commented_rows[0]==False))
+				or switch_all==False):
+				line = self.view.substr(self.view.line(
+						sublime.Region(self.view.text_point(row, 0))))
+				commentedLine = self.toggle_on(line)
+				self.view.replace(edit, self.view.line(
+					sublime.Region(self.view.text_point(row, 0))),
+									commentedLine)
+			elif (switch_all==True) and (commented_rows[0]==True):
+				line = self.view.substr(self.view.line(
+						sublime.Region(self.view.text_point(row, 0))))
+				commentedLine = self.toggle_off(line)
+				self.view.replace(edit, self.view.line(
+						sublime.Region(self.view.text_point(row, 0))),
+										commentedLine)
 
 
-	def determine_toggle(self):
+	def determine_toggle(self, rows):
 		'''
 		make a boolean list to determine which lines need to have
 		comments added and/or removed.
 		'''
 		commented_rows = []
-		row_begin = int(self.view.rowcol(self.view.sel()[0].begin())[0])
-		row_end = int(self.view.rowcol(self.view.sel()[0].end())[0])
-		# iterate over all the rows in the selection
-		for row in range(row_begin, row_end+1):
+		for row in rows:
 			line = self.view.substr(self.view.line(
 					sublime.Region(self.view.text_point(row, 0))))
 			lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)(C ?)?', line)
@@ -324,7 +250,6 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 				commented_rows.append(1)
 			else:
 				commented_rows.append(0)
-		# print (commented_rows)
 		return commented_rows
 
 
@@ -337,8 +262,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 			return (line.replace(lineNum.groups()[0] + lineNum.groups()[1],
 						lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
 		except:
-			print ('error on line' + line)
-
+			pass
 
 	def toggle_off(self,line):
 		'''
@@ -349,62 +273,7 @@ class InsertCommentCommand(sublime_plugin.TextCommand):
 			tempstring = ''
 			for group in lineNum.groups():
 				tempstring += str(group)
-			return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
-		except:
-			print ('error on line' + line)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	def toggle_some(self, line):
-		'''
-		given a line, toggle the comment C at the beginning of the line.
-		This is going to look for (#####	C C ) first.  If it finds this, 
-		'''
-		try:
-			lineNum = re.search(r'(^[0-9]+)([\t])(C ?)?', line)
-			# print (lineNum.groups())
-			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
-				tempstring = ''
-				for group in lineNum.groups():
-					tempstring += str(group)
-				# print (tempstring.replace('C', ''))
-				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
-				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
-			else:
-				return (line.replace(lineNum.groups()[0] + lineNum.groups()[1],
-						lineNum.groups()[0] + lineNum.groups()[1] + 'C '))
-		except:
-			pass
-
-
-	def toggle_comment(self, line):
-		'''
-		given a line, toggle the comment C at the beginning of the line.
-		'''
-		try:
-			lineNum = re.search(r'(^[0-9]+)([\t])(C ?)?', line)
-			# print (lineNum.groups())
-			if (lineNum.groups()[-1] == 'C') or (lineNum.groups()[-1] == 'C '):
-				tempstring = ''
-				for group in lineNum.groups():
-					tempstring += str(group)
-				# print (tempstring.replace('C', ''))
-				return (line.replace(tempstring, tempstring.replace('C ', '').replace('C', '')))
-				# return line.strip(tempstring, 'C ').strip(tempstring, 'C')
-			else:
-				return (line.replace(lineNum.groups()[0] + '\t', lineNum.groups()[0] + '\tC '))
+			return (line.replace(tempstring, 
+					tempstring.replace('C ', '').replace('C', '')))
 		except:
 			pass
