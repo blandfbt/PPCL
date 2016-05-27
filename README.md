@@ -16,3 +16,4 @@ It can auto-renumber all the lines with ctrl+shift+l
 Known bugs
 1) the line numbering input works the following time, not immediately.  hard to describe, but annoying
 
+![alt tag](https://cloud.githubusercontent.com/assets/10290469/15620019/c507b5c4-2425-11e6-9e0f-a3697ecbd0c0.gif)
