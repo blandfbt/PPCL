@@ -11,8 +11,8 @@ It also has features specific to writing PPCL
 	- Click "Clone or Download" and  (for windows) unzip the package to the following, where user is your username
 		-C:\Users\ *user* \AppData\Roaming\Sublime Text 3\Packages\PPCL
 	- Otherwise drop the package wherever you have ST3 Packages
-			***or***
-	- In ST3, go to *Preferences* and *Broswe Packages*
+			-***or***
+	- In ST3, go to *Preferences* and *Browse Packages*
 	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
 ##Usage
@@ -28,8 +28,8 @@ It also has features specific to writing PPCL
 	- Pressing enter will increment lines automatically
 	- The default increment is 10
 	- if adding a line would increment => the following line, it won't progress
-- **other features, such as the big cursor, regex searching, etc. are natively supported by ST3
-- **incrementing numbers inside the code (not the line numbers) can be done with another extension [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
+- **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
+- **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
 
 ### Block Commenting for PPCL
 ![alt tag](https://cloud.githubusercontent.com/assets/10290469/15620019/c507b5c4-2425-11e6-9e0f-a3697ecbd0c0.gif)
