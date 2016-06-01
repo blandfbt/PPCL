@@ -5,7 +5,9 @@ It has a syntax highliting for .pcl files
 It also has features specific to writing PPCL 
 
 ##Installing
-- **via Package Control** *coming soon and preferred*
+- Ensure [Sublime Text 3](https://www.sublimetext.com/3) is installed
+	- You should really consider getting a license to support the awesomeness of ST3
+- **via Package Control** *coming soon (hopefully) and preferred*
 	- Download [Package Control](https://packagecontrol.io/) and use the *Package Control: Install Package* command from the command palette. Using Package Control ensures the PPCL Editor will stay up to date automatically
 - **Manual**
 	- Click "Clone or Download" and  (for windows) unzip the package to the following, where user is your username
@@ -17,11 +19,11 @@ It also has features specific to writing PPCL
 
 ##Usage
 - **Comment Toggling**
-	- To toggle comments, select any text and use *ctrl + /* like the Native ST3 command
+	- To toggle comments, select any text and use *ctrl + /*, like the Native ST3 command
 - **Line Number Increment**
 	- To increment all the line numbers use *ctrl + shift + l*
 	- This will prompt for the starting line number followed by the increment
-		- in the form of 1000:10
+		- in the form of *<1000:10>*
 	- This will automatically update any GOTO and GOSUB references
 	- There is a known bug for this where this will update on the second time commanding it
 - **Add Line Numbers**
