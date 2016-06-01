@@ -11,6 +11,9 @@ It also has features specific to writing PPCL
 	- Click "Clone or Download" and  (for windows) unzip the package to the following, where user is your username
 		-C:\Users\ *user* \AppData\Roaming\Sublime Text 3\Packages\PPCL
 	- Otherwise drop the package wherever you have ST3 Packages
+			***or***
+	- In ST3, go to *Preferences* and *Broswe Packages*
+	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
 ##Usage
 - **Comment Toggling**

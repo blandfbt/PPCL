@@ -57,9 +57,9 @@ patterns:
   end: \*/
 
 - name: comment.block.PPCL
-  begin: ([0-9]{5}\s{2,}(C|c))
+  begin: ([0-9]{5}([ ]{2,}|\t)(C|c))
   end: ($\n)
-  match: (\s(C|c) ?.*)
+  match: (([ ]{2,}|\t)(C|c) ?.*)
 
 - comment: capture the equipment status points and make them green
   begin: (\b)
