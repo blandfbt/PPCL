@@ -5,15 +5,15 @@ It has a syntax highliting for .pcl files
 It also has features specific to writing PPCL 
 
 ##Installing
-- Ensure [Sublime Text 3](https://www.sublimetext.com/3) is installed
+- **Ensure** [Sublime Text 3](https://www.sublimetext.com/3) is installed
 	- You should really consider getting a license to support the awesomeness of ST3
 - **via Package Control** *coming soon (hopefully) and preferred*
 	- Download [Package Control](https://packagecontrol.io/) and use the *Package Control: Install Package* command from the command palette. Using Package Control ensures the PPCL Editor will stay up to date automatically
 - **Manual**
-	- Click "Clone or Download" and  (for windows) unzip the package to the following, where user is your username
+	- Click "Clone or Download" and  (for windows) unzip the package to the following, where *user* is your username
 		-C:\Users\ *user* \AppData\Roaming\Sublime Text 3\Packages\PPCL
 	- Otherwise drop the package wherever you have ST3 Packages
-			-***or***
+		-***or***
 	- In ST3, go to *Preferences* and *Browse Packages*
 	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
