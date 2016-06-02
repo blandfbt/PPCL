@@ -23,7 +23,7 @@ It also has features specific to writing PPCL
 - **Line Number Increment**
 	- To increment all the line numbers use *ctrl + shift + l*
 	- This will prompt for the starting line number followed by the increment
-		- in the form of *<1000:10>*
+		- in the form of *1000:10*
 	- This will automatically update any GOTO and GOSUB references
 	- There is a known bug for this where this will update on the second time commanding it
 - **Add Line Numbers**
