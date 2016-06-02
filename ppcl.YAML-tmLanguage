@@ -25,7 +25,7 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 05
   name: variable.language.PPCL
-  match:  \b(ONPWRT|PDL|PDLDAT|PDLDPG|PDLMTR|PDLSET|RELEAS|RETURN|SAMPLE)\b
+  match:  \b(ONPWRT|PDL|PDLDAT|PDLDPG|PDLMTR|PDLSET|RELEAS|SAMPLE)\b
 
 - comment: capture reserved words in PPCL, list 06
   name: variable.language.PPCL
@@ -84,7 +84,7 @@ patterns:
 
 - comment: operators in the PPCL language, but not functions.  make them red
   name: keyword.control.PPCL
-  match: IF|THEN|ELSE|GOTO
+  match: IF|THEN|ELSE|GOTO|RETURN
 
 - comment: capture point names and make the orange and italic
   name: variable.parameter.PPCL
@@ -98,7 +98,7 @@ patterns:
 
 - comment: capture pre-APOGEE point names and make the orange and italic
   name: variable.parameter.PPCL
-  match: (@?[a-zA-Z0-9]{3,6})
+  match: (@?[a-zA-Z0-9]{2,})
 
 - comment: match the logical operators make them red
   name: keyword.operator.comparison.python
