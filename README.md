@@ -12,6 +12,7 @@ http://www.smith-eng.com/index.php
 
 
 *LineChanger.py is a PPCL plugin for the Sublime Text 3 text editor.*
+
 *Copyright (C) 2016  Brien Blandford (Smith Engineering, PLLC)*
 
 *This program is free software: you can redistribute it and/or modify*
