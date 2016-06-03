@@ -2,7 +2,30 @@
 
 This is a plugin and syntax for the PPCL langauge for Sublime Text 3.
 It has a syntax highliting for .pcl files
-It also has features specific to writing PPCL 
+It also has features specific to writing PPCL
+
+
+Written by Brien Blandford at Smith Engineering, PLLC.
+http://www.smith-eng.com/index.php
+
+
+*   LineChanger.py is a PPCL plugin for the Sublime Text 3 text editor.
+    Copyright (C) 2016  Brien Blandford (Smith Engineering, PLLC)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+
 
 ##Installing
 - **Ensure** [Sublime Text 3](https://www.sublimetext.com/3) is installed

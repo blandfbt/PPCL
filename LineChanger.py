@@ -1,3 +1,23 @@
+'''
+    LineChanger.py is a PPCL plugin for the Sublime Text 3 text editor.
+    Copyright (C) 2016  Brien Blandford (Smith Engineering, PLLC)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
+
+
+
 import sublime, sublime_plugin
 import re
 
@@ -19,8 +39,10 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		# get the entire content of the code
 		content = self.view.substr(sublime.Region(0, self.view.size()))
 		# get the list of any GOTO statements
-		GO_list = self.get_GOs(content)
-		newcontent = self.replace_line_nums(content, GO_list)
+		# the shoulds are where they should point
+		# the trues are where they actually point
+		GOs_true, GOs_should = self.get_GOs(content)
+		newcontent = self.replace_line_nums(content, GOs_true, GOs_should)
 
 		selections = sublime.Region(0, self.view.size())
 		self.view.replace(edit, selections, newcontent)
@@ -30,48 +52,59 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		'''
 		Get all the GOs numbers in the document,
 		to make sure those are changed appropriately.
+		Returns two lists, where the first is the actual line number
+		in the GO, and the second is where it should truly point.
 		'''
-		GOs = []
+		GOs_true = []
+		GOs_should = []
+		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
-			GO_nums = re.search(r'(GOTO )([0-9]+)', line)
+			GO_nums = re.search(r'(GO(TO|SUB) )([0-9]+)', line)
 			try:
-				GOs.append(self.add_leading_zeroes(GO_nums.group(2)))
+				go_num = int(GO_nums.group(3))
+				if go_num in lineNums:
+					GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
+					GOs_should.append(self.add_leading_zeroes(GO_nums.group(3)))
+				else:
+					# This min statement finds the value in the lineNums list
+					# just below the GO's number, then increments to the next index
+					# in the list. 
+					index = lineNums.index(min(lineNums, key=lambda y:abs(y-go_num))) + 1
+					GOs_should.append(self.add_leading_zeroes(str(lineNums[index])))
+					GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
 			except:
 				pass
-			GO_nums = re.search(r'(GOSUB )([0-9]+)', line)
-			try:
-				GOs.append(self.add_leading_zeroes(GO_nums.group(2)))
-			except:
-				pass
-		return GOs
+		return (GOs_true, GOs_should)
 
 
-	def get_GOSUB(self, content):
+	def get_LineNumbers(self, content):
 		'''
-		Get all the GOSUB numbers in the document,
-		to make sure those are changed appropriately.
+		get all the line numbers in the current document, convert to ints
+		and return them as a list.
 		'''
-		GOSUBs = []
+		lineNums = []
 		for i, line in enumerate(content.split('\n')):
-			GOSUB_nums = re.search(r'(GOSUB )([0-9]+)', line)
+			num = re.search(r'(^[0-9]+)([\t]|[ ]+)', line)
 			try:
-				GOSUBs.append(self.add_leading_zeroes(GOSUB_nums.group(2)))
+				lineNums.append(int(num.group(1)))
 			except:
 				pass
-		return GOSUBs
+		return lineNums
 
 
-	def replace_line_nums(self, content, GOs):
+	def replace_line_nums(self, content, GOs_true, GOs_should):
 		'''
 		Replace all the content with the new line numbers, and return the updated content
-		and GOTO and GOSBU replacements.
+		and GOTO and GOSUB replacements.
 		'''
 		newcontent = ''
+		GOs_should_new = []
 		GO_map = {}
+
 		for i, line in enumerate(content.split('\n')):
+
 			try:
-				lineNum = self.add_leading_zeroes(re.search(r'(^[0-9]+)([\t]|[ ]+)',
-													line).group(1))
+				lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)', line).group(1)
 			except:
 				pass
 			lineNumReplace = self.add_leading_zeroes(int(self.start) +
@@ -79,8 +112,9 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			if lineNum == None:
 				line = lineNumReplace + '\t' + line
 			else:
-				if lineNum in GOs:
-					GO_map[lineNum] = self.add_leading_zeroes(lineNumReplace)
+				if self.add_leading_zeroes(lineNum) in GOs_should:
+					index = GOs_should.index(self.add_leading_zeroes(lineNum))
+					GO_map[GOs_true[index]] = self.add_leading_zeroes(lineNumReplace)
 				if line.startswith('0'):
 					line = line.replace(str(lineNum), str(lineNumReplace))
 				else:
@@ -91,7 +125,15 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			else:
 				newcontent += line
 
+			GO_num = re.search(r'(GO(TO|SUB) )([0-9]+)', line)
+			try:
+				newcontent = newcontent.replace('GOTO ' + str(GO_num.group(3)),
+					'GOTO ' + self.add_leading_zeroes(GO_num.group(3)))
+			except:
+				pass
+
 		for key in GO_map.keys():
+			print (key, ':', GO_map[key])
 			newcontent = newcontent.replace('GOTO ' + str(key),
 											 'GOTO ' + str(GO_map[key]))
 			newcontent = newcontent.replace('GOTO ' + str(key).lstrip('0'),
@@ -130,10 +172,10 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 	def add_leading_zeroes(self, linenum):
 		'''
-		add the leading zeroes to match the PPCL syntax.
+		add the leading zeroes to match the PPCL syntax of 5 characters.
 		'''
 		try:
-			linenum = linenum.lstrip('0')
+			linenum = str(linenum).lstrip('0')
 		except:
 			pass
 
@@ -144,7 +186,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 class InsertLinesCommand(sublime_plugin.TextCommand):
 	'''
-	This command willinsert a line below the current line, in an increment defaulted
+	This command will insert a line below the current line, in an increment defaulted
 	to 10. I'm not sure yet if I want to spend the time to have it take into
 	consideration the count if it ends up being the same as the line below it.
 	'''
