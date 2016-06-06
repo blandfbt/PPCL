@@ -39,7 +39,13 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 04
   name: variable.language.PPCL
-  match:  \b(INITTO|LLIMIT|LOCAL|LOOP|MAX|MIN|NIGHT|NORMAL|OFF|OIP)\b
+  match:  \b(INITTO|LLIMIT|LOCAL|LOOP|MAX|MIN|NIGHT|NORMAL|OIP)\b
+
+- comment: capture reserved words in PPCL, list 04
+  name: variable.language.PPCL
+  match:  (OFF|ON)( ?\()
+  captures:
+    '1': {name: variable.language.PPCL}
 
 - comment: capture reserved words in PPCL, list 05
   name: variable.language.PPCL

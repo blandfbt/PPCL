@@ -133,7 +133,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				pass
 
 		for key in GO_map.keys():
-			print (key, ':', GO_map[key])
+			# print (key, ':', GO_map[key])
 			newcontent = newcontent.replace('GOTO ' + str(key),
 											 'GOTO ' + str(GO_map[key]))
 			newcontent = newcontent.replace('GOTO ' + str(key).lstrip('0'),
