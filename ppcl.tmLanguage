@@ -192,7 +192,7 @@
 			<key>comment</key>
 			<string>operators in the PPCL language, but not functions.  make them red</string>
 			<key>match</key>
-			<string>IF|THEN|ELSE|GOTO|RETURN</string>
+			<string>IF|THEN|ELSE|GOTO|RETURN|GOSUB</string>
 			<key>name</key>
 			<string>keyword.control.PPCL</string>
 		</dict>

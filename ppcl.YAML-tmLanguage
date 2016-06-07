@@ -108,7 +108,7 @@ patterns:
 
 - comment: operators in the PPCL language, but not functions.  make them red
   name: keyword.control.PPCL
-  match: IF|THEN|ELSE|GOTO|RETURN
+  match: IF|THEN|ELSE|GOTO|RETURN|GOSUB
 
 - comment: capture point names and make the orange and italic
   name: variable.parameter.PPCL
