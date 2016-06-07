@@ -61,7 +61,7 @@ http://www.smith-eng.com/index.php
 
 ##Native ST3 Commands / Properties
 - **Set Syntax**
-	- in menu toolbar select <View> -> <Syntax> -> <PPCL>
+	- in menu toolbar select "View" -> "Syntax" -> "PPCL"
 - **Toggle Case**
 	- Select the text you want to toggle, and press
 		- Ctrl+KU for upper case
