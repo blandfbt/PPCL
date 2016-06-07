@@ -59,6 +59,31 @@ http://www.smith-eng.com/index.php
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
 - **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
 
+##Native ST3 Commands / Properties
+- **Set Syntax**
+	- in menu toolbar select <View> -> <Syntax> -> <PPCL>
+- **Toggle Case**
+	- Select the text you want to toggle, and press
+		- Ctrl+KU for upper case
+		- Ctrl+LU for lower case
+- **Big Cursor**
+	- This can be done many ways
+	- Ctrl+F, and find all the text, select it all, and now move around with the arrow keys
+	- Highlight some text, press Alt+F3 to select all
+	- Using the scroll wheel of the mouse, hold it down and drag for constant row selecting
+	- Hold Ctrl and click the mouse in whatever locations
+- **Find Next**
+	- Select some text, press Ctrl+D to select the next occurence of that text
+	- Keep hitting Ctrl+D until all instances are selected
+	- Ctrl+U goes back one selection
+- **Find**
+	- Press Ctrl+F
+		- buttons on the left allow search specifics to be toggled
+- **Delete line, shift up**
+	- navigate to the line you want to delete, press Ctrl+Shift+Delete
+- **Shift entire line**
+	- Hold Ctrl+Shift and move with the arrows
+
 ### Block Commenting for PPCL
 ![alt tag](https://cloud.githubusercontent.com/assets/10290469/15620019/c507b5c4-2425-11e6-9e0f-a3697ecbd0c0.gif)
 
