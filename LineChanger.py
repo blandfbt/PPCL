@@ -92,8 +92,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
 			ON_nums = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
-			# if len(ON_nums)>0 is distributed in the hope that it will be useful,
-			# 	temp = ON_nums
 			try:
 				for found in ON_nums:
 					ON_num = int(found[1])
@@ -110,7 +108,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 						ONs_true.append(self.add_leading_zeroes(found[1]))
 			except:
 				pass
-		print (ONs_true, ONs_should)
 		return (ONs_true, ONs_should)
 
 
@@ -189,7 +186,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				pass
 
 		for key in GO_map.keys():
-			# print (key, ':', GO_map[key])
 			newcontent = newcontent.replace('GOTO ' + str(key),
 											 'GOTO ' + str(GO_map[key]))
 			newcontent = newcontent.replace('GOTO ' + str(key).lstrip('0'),
@@ -200,7 +196,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 											 'GOSUB ' + str(GO_map[key]))
 
 		for key in ON_map.keys():
-			# print (key, ':', ON_map[key])
 			newcontent = newcontent.replace('ONPWRT(' + str(key),
 											 'ONPWRT(' + str(ON_map[key]))
 			newcontent = newcontent.replace('ONPWRT(' + str(key).lstrip('0'),
@@ -215,7 +210,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		because I couldnt figure out how to do that in the show_input_panel
 		function.
 		'''
-		sublime.status_message("Brien Rules!")
+		sublime.status_message("brien.blandford@gmail.com")
 		self.start, self.increment = user_input.split(':')
 
 
@@ -225,7 +220,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		because I couldnt figure out how to do that in the show_input_panel
 		function.
 		'''
-		sublime.status_message("Brien Rules!")
+		sublime.status_message("brien.blandford@gmail.com")
 		self.start, self.increment = user_input.split(':')
 
 
