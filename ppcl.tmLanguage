@@ -102,7 +102,27 @@
 			<key>comment</key>
 			<string>capture reserved words in PPCL, list 10</string>
 			<key>match</key>
-			<string>\b(OK|DAYMOD|FAILED|FAST|HAND|NGTMOD|SLOW)\b</string>
+			<string>\b(OK|DAYMOD|FAST|HAND|NGTMOD|SLOW)\b</string>
+			<key>name</key>
+			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(LOCAL)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.parameters.ppcl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>capture local point definitions and don't change them</string>
+			<key>end</key>
+			<string>\)</string>
+			<key>match</key>
+			<string>(LOCAL\(.*\))</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
 		</dict>
@@ -155,7 +175,7 @@
 			<key>end</key>
 			<string>([ \)])</string>
 			<key>match</key>
-			<string>(ALARM|OFF|(PRF)?ON|START|STOP)([ \)])</string>
+			<string>(ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)])</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -192,9 +212,28 @@
 			<key>comment</key>
 			<string>operators in the PPCL language, but not functions.  make them red</string>
 			<key>match</key>
-			<string>IF|THEN|ELSE|GOTO|RETURN|GOSUB</string>
+			<string>THEN|ELSE|GOTO|RETURN|GOSUB</string>
 			<key>name</key>
 			<string>keyword.control.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>operators in the PPCL language.  IF is different in that it is always followed by a (</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.PPCL</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(IF)( ?\()</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -281,26 +320,6 @@
 			<string>([ ])</string>
 			<key>match</key>
 			<string>(\$([a-zA-Z_0-9]*) ?)</string>
-			<key>name</key>
-			<string>variable.language.PPCL</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(LOCAL)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.separator.parameters.ppcl</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>capture local point definitions and don't change them</string>
-			<key>end</key>
-			<string>\)</string>
-			<key>match</key>
-			<string>(LOCAL\(.*\))</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
 		</dict>

@@ -69,7 +69,15 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 10
   name: variable.language.PPCL
-  match:  \b(OK|DAYMOD|FAILED|FAST|HAND|NGTMOD|SLOW)\b
+  match:  \b(OK|DAYMOD|FAST|HAND|NGTMOD|SLOW)\b
+
+- comment: capture local point definitions and don't change them
+  name: variable.language.PPCL
+  begin: (LOCAL)
+  end: \)
+  match:  (LOCAL\(.*\))
+  captures:
+    '1': {name: punctuation.separator.parameters.ppcl}
 
 - comment: Find line numbers at start of code line
   name: constant.other.PPCL
@@ -88,7 +96,7 @@ patterns:
 - comment: capture the equipment status points and make them green
   begin: (\b)
   end: ([ \)])
-  match: (ALARM|OFF|(PRF)?ON|START|STOP)([ \)])
+  match: (ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)])
   captures:
     '1': {name: entity.name.function}
     '2': {name: entity.name.function}
@@ -103,12 +111,19 @@ patterns:
   name: constant.numeric.float.ppcl
   begin: (/b)
   end: ([ \)])
-  # match: ((\d+))(\.)?((\d+)?)|((\.)?((\d+)))
   match: \b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b
 
 - comment: operators in the PPCL language, but not functions.  make them red
   name: keyword.control.PPCL
-  match: IF|THEN|ELSE|GOTO|RETURN|GOSUB
+  match: THEN|ELSE|GOTO|RETURN|GOSUB
+
+- comment: operators in the PPCL language.  IF is different in that it is always followed by a (
+  patterns:
+  - match: (IF)( ?\()
+    captures:
+      '1': {name: keyword.control.PPCL}
+      # '2': {name: variable.language.PPCL}
+
 
 - comment: capture point names and make the orange and italic
   name: variable.parameter.PPCL
@@ -142,12 +157,5 @@ patterns:
     '1': {name: variable.parameter.function.ppcl}
     '2': {name: punctuation.separator.parameters.ppcl}
 
-- comment: capture local point definitions and don't change them
-  name: variable.language.PPCL
-  begin: (LOCAL)
-  end: \)
-  match:  (LOCAL\(.*\))
-  captures:
-    '1': {name: punctuation.separator.parameters.ppcl}
 
 ...
