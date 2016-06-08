@@ -74,15 +74,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 							self.add_leading_zeroes(str(lineNums[index]))
 										)
 						GOs_true.append(self.add_leading_zeroes(found[2]))
-
-				else:
-					# This min statement finds the value in the lineNums list
-					# just below the GO's number, then increments to the next index
-					# in the list. 
-					index = lineNums.index(
-						min(lineNums, key=lambda y:abs(y-go_num))) + 1
-					GOs_should.append(self.add_leading_zeroes(str(lineNums[index])))
-					GOs_true.append(self.add_leading_zeroes(found[2]))
 			except:
 				pass
 		print (GOs_true, GOs_should)		
