@@ -75,10 +75,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 										)
 						GOs_true.append(self.add_leading_zeroes(found[2]))
 
-				# go_num = int(GO_nums.group(3))
-				# if go_num in lineNums:
-				# 	GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
-				# 	GOs_should.append(self.add_leading_zeroes(GO_nums.group(3)))
 				else:
 					# This min statement finds the value in the lineNums list
 					# just below the GO's number, then increments to the next index
@@ -86,40 +82,12 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 					index = lineNums.index(
 						min(lineNums, key=lambda y:abs(y-go_num))) + 1
 					GOs_should.append(self.add_leading_zeroes(str(lineNums[index])))
-					GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
+					GOs_true.append(self.add_leading_zeroes(found[2]))
 			except:
 				pass
 		print (GOs_true, GOs_should)		
 		return (GOs_true, GOs_should)
 
-
-	def get_GOs_ORIGINAL(self, content):
-		'''
-		Get all the GOs numbers in the document,
-		to make sure those are changed appropriately.
-		Returns two lists, where the first is the actual line number
-		in the GO, and the second is where it should truly point.
-		'''
-		GOs_true = []
-		GOs_should = []
-		lineNums = self.get_LineNumbers(content)
-		for i, line in enumerate(content.split('\n')):
-			GO_nums = re.search(r'(GO(TO|SUB) )([0-9]+)', line)
-			try:
-				go_num = int(GO_nums.group(3))
-				if go_num in lineNums:
-					GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
-					GOs_should.append(self.add_leading_zeroes(GO_nums.group(3)))
-				else:
-					# This min statement finds the value in the lineNums list
-					# just below the GO's number, then increments to the next index
-					# in the list. 
-					index = lineNums.index(min(lineNums, key=lambda y:abs(y-go_num))) + 1
-					GOs_should.append(self.add_leading_zeroes(str(lineNums[index])))
-					GOs_true.append(self.add_leading_zeroes(GO_nums.group(3)))
-			except:
-				pass
-		return (GOs_true, GOs_should)
 
 	def get_LineNumbers(self, content):
 		'''
