@@ -42,7 +42,10 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		# the shoulds are where they should point
 		# the trues are where they actually point
 		GOs_true, GOs_should = self.get_GOs(content)
-		newcontent = self.replace_line_nums(content, GOs_true, GOs_should)
+		# get the list of any ONPWRT statements
+		ONs_true, ONs_should = self.get_ONPWRT(content)
+		newcontent = self.replace_line_nums(content, 
+					GOs_true, GOs_should, ONs_true, ONs_should)
 
 		selections = sublime.Region(0, self.view.size())
 		self.view.replace(edit, selections, newcontent)
@@ -76,8 +79,39 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 						GOs_true.append(self.add_leading_zeroes(found[2]))
 			except:
 				pass
-		print (GOs_true, GOs_should)		
 		return (GOs_true, GOs_should)
+
+
+	def get_ONPWRT(self, content):
+		'''
+		Similar to the get_GOs method, this looks for ONPWRT(#####) to
+		ensure its line numbers are appropriately changed.
+		'''
+		ONs_true = []
+		ONs_should = []
+		lineNums = self.get_LineNumbers(content)
+		for i, line in enumerate(content.split('\n')):
+			ON_nums = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
+			# if len(ON_nums)>0 is distributed in the hope that it will be useful,
+			# 	temp = ON_nums
+			try:
+				for found in ON_nums:
+					ON_num = int(found[1])
+					if ON_num in lineNums:
+						ONs_true.append(self.add_leading_zeroes(found[1]))
+						ONs_should.append(self.add_leading_zeroes(found[1]))
+					else:
+
+						index = lineNums.index(
+							min(lineNums, key=lambda y:abs(y-ON_num))) + 1
+						ONs_should.append(
+							self.add_leading_zeroes(str(lineNums[index]))
+										)
+						ONs_true.append(self.add_leading_zeroes(found[1]))
+			except:
+				pass
+		print (ONs_true, ONs_should)
+		return (ONs_true, ONs_should)
 
 
 	def get_LineNumbers(self, content):
@@ -95,14 +129,18 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		return lineNums
 
 
-	def replace_line_nums(self, content, GOs_true, GOs_should):
+	def replace_line_nums(self, content, GOs_true, GOs_should, ONs_true, ONs_should):
 		'''
 		Replace all the content with the new line numbers, and return the updated content
 		and GOTO and GOSUB replacements.
+		Also replace all ONPWRT statements in the same way.
+		There's probably a cleaner way to write this...
 		'''
 		newcontent = ''
 		GOs_should_new = []
 		GO_map = {}
+		ONs_should_new = []
+		ON_map = {}
 
 		for i, line in enumerate(content.split('\n')):
 
@@ -115,9 +153,15 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			if lineNum == None:
 				line = lineNumReplace + '\t' + line
 			else:
+				# check if line is a number associated with a GO, build a GO dict
 				if self.add_leading_zeroes(lineNum) in GOs_should:
 					index = GOs_should.index(self.add_leading_zeroes(lineNum))
 					GO_map[GOs_true[index]] = self.add_leading_zeroes(lineNumReplace)
+				# check if line is a number associated with a ONPWRT, build a ON dict
+				if self.add_leading_zeroes(lineNum) in ONs_should:
+					index = ONs_should.index(self.add_leading_zeroes(lineNum))
+					ON_map[ONs_true[index]] = self.add_leading_zeroes(lineNumReplace)
+				# proceed with the rest of the line
 				if line.startswith('0'):
 					line = line.replace(str(lineNum), str(lineNumReplace))
 				else:
@@ -128,10 +172,19 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			else:
 				newcontent += line
 
-			GO_num = re.search(r'(GO(TO|SUB) )([0-9]+)', line)
+			GO_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
+			ON_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
 			try:
-				newcontent = newcontent.replace('GOTO ' + str(GO_num.group(3)),
-					'GOTO ' + self.add_leading_zeroes(GO_num.group(3)))
+				for number in GO_num:
+					newcontent = newcontent.replace('GOTO ' + str(number[2]),
+						'GOTO ' + self.add_leading_zeroes(number[2]))
+			except:
+				pass
+
+			try:
+				for number in ON_num:
+					newcontent = newcontent.replace('GOTO ' + str(number[1]),
+						'GOTO ' + self.add_leading_zeroes(number[1]))
 			except:
 				pass
 
@@ -145,6 +198,14 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 											 'GOSUB ' + str(GO_map[key]))
 			newcontent = newcontent.replace('GOSUB ' + str(key).lstrip('0'),
 											 'GOSUB ' + str(GO_map[key]))
+
+		for key in ON_map.keys():
+			# print (key, ':', ON_map[key])
+			newcontent = newcontent.replace('ONPWRT(' + str(key),
+											 'ONPWRT(' + str(ON_map[key]))
+			newcontent = newcontent.replace('ONPWRT(' + str(key).lstrip('0'),
+											 'ONPWRT(' + str(ON_map[key]))
+		
 		return newcontent
 
 

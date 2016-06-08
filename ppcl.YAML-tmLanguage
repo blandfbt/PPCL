@@ -144,7 +144,7 @@ patterns:
   begin: (\.)
   end: (\.)
   patterns:
-  - match: (\.)(EQ|GT|LT|LE|GE)(\.)
+  - match: (\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)
     captures:
       '1': {name: variable.parameter.function.ppcl}
 

@@ -294,7 +294,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(\.)(EQ|GT|LT|LE|GE)(\.)</string>
+					<string>(\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)</string>
 				</dict>
 			</array>
 		</dict>
