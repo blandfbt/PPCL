@@ -95,8 +95,8 @@ patterns:
 
 - comment: capture the equipment status points and make them green
   begin: (\b)
-  end: ([ \)])
-  match: (ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)])
+  end: ([ \)]?)
+  match: (ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)]?)
   captures:
     '1': {name: entity.name.function}
     '2': {name: entity.name.function}
@@ -106,6 +106,10 @@ patterns:
   captures:
     '1': {name: entity.name.function}
     '2': {name: entity.name.function}
+
+- comment: match the logical operators make them red
+  name: keyword.operator.comparison.python
+  match: \.(EQ|GT|LT|LE|GE|NE|N?AND|X?OR)\.
 
 - comment: make the numbers purple
   name: constant.numeric.float.ppcl
@@ -139,14 +143,15 @@ patterns:
   name: variable.parameter.PPCL
   match: (@?[a-zA-Z0-9]{2,})
 
-- comment: match the logical operators make them red
-  name: keyword.operator.comparison.python
-  begin: (\.)
-  end: (\.)
-  patterns:
-  - match: (\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)
-    captures:
-      '1': {name: variable.parameter.function.ppcl}
+
+# - comment: match the logical operators make them red
+#   name: keyword.operator.comparison.python
+#   begin: (\.)
+#   end: (\.)
+#   patterns:
+#   - match: (\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)
+#     captures:
+#       '1': {name: variable.parameter.function.ppcl}
 
 - comment: capture local points and make them the same color as regular points
   name: variable.language.PPCL

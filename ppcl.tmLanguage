@@ -173,9 +173,9 @@
 			<key>comment</key>
 			<string>capture the equipment status points and make them green</string>
 			<key>end</key>
-			<string>([ \)])</string>
+			<string>([ \)]?)</string>
 			<key>match</key>
-			<string>(ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)])</string>
+			<string>(ALARM|OFF|(PRF)?ON|START|STOP|FAILED)([ \)]?)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -195,6 +195,14 @@
 			<string>capture the priority points and make them green</string>
 			<key>match</key>
 			<string>(@(NONE|OPER|EMER|PDL|SMOKE))</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>match the logical operators make them red</string>
+			<key>match</key>
+			<string>\.(EQ|GT|LT|LE|GE|NE|N?AND|X?OR)\.</string>
+			<key>name</key>
+			<string>keyword.operator.comparison.python</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -272,31 +280,6 @@
 			<string>(@?[a-zA-Z0-9]{2,})</string>
 			<key>name</key>
 			<string>variable.parameter.PPCL</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(\.)</string>
-			<key>comment</key>
-			<string>match the logical operators make them red</string>
-			<key>end</key>
-			<string>(\.)</string>
-			<key>name</key>
-			<string>keyword.operator.comparison.python</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>variable.parameter.function.ppcl</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)</string>
-				</dict>
-			</array>
 		</dict>
 		<dict>
 			<key>begin</key>

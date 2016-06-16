@@ -67,16 +67,15 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				for found in GO_nums:
 					go_num = int(found[2])
 					if go_num in lineNums:
-						GOs_true.append(self.add_leading_zeroes(found[2]))
-						GOs_should.append(self.add_leading_zeroes(found[2]))
+						# the case where the GO references an existing linenum
+						GOs_true.append(int(found[2]))
+						GOs_should.append(int(found[2]))
 					else:
-
+						# the case where the GO doesn't reference an exisitng linenum
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-go_num))) + 1
-						GOs_should.append(
-							self.add_leading_zeroes(str(lineNums[index]))
-										)
-						GOs_true.append(self.add_leading_zeroes(found[2]))
+						GOs_should.append(lineNums[index])
+						GOs_true.append(int(found[2]))
 			except:
 				pass
 		return (GOs_true, GOs_should)
@@ -96,16 +95,14 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				for found in ON_nums:
 					ON_num = int(found[1])
 					if ON_num in lineNums:
-						ONs_true.append(self.add_leading_zeroes(found[1]))
-						ONs_should.append(self.add_leading_zeroes(found[1]))
+						ONs_true.append(int(found[1]))
+						ONs_should.append(int(found[1]))
 					else:
 
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-ON_num))) + 1
-						ONs_should.append(
-							self.add_leading_zeroes(str(lineNums[index]))
-										)
-						ONs_true.append(self.add_leading_zeroes(found[1]))
+						ONs_should.append(lineNums[index])
+						ONs_true.append(int(found[1]))
 			except:
 				pass
 		return (ONs_true, ONs_should)
@@ -126,6 +123,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		return lineNums
 
 
+
 	def replace_line_nums(self, content, GOs_true, GOs_should, ONs_true, ONs_should):
 		'''
 		Replace all the content with the new line numbers, and return the updated content
@@ -133,73 +131,95 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		Also replace all ONPWRT statements in the same way.
 		There's probably a cleaner way to write this...
 		'''
+
+		# the new content is a string of all the content of code
+		# start with it empty, and we are going to append to it
 		newcontent = ''
+		# GOs_should_new is a list to store all the lineNums the GOs should reference
 		GOs_should_new = []
+		# Go_map is a dictionary holding the current text's GO nums as the keys
+		# for the lineNums they will end up refering to.
 		GO_map = {}
+		# ONs is the same, but for ONPWRT
 		ONs_should_new = []
 		ON_map = {}
 
 		for i, line in enumerate(content.split('\n')):
-
+			# try to find the lineNums in the start of each line of code
 			try:
 				lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)', line).group(1)
 			except:
 				pass
+			# the lineNumReplace is the new line number, based on the start and increment
 			lineNumReplace = self.add_leading_zeroes(int(self.start) +
 													 (i * int(self.increment)))
+			
+			# the case where there is no text / line number
+			# this could be a missing line number, or the start of a new document
 			if lineNum == None:
 				line = lineNumReplace + '\t' + line
 			else:
 				# check if line is a number associated with a GO, build a GO dict
-				if self.add_leading_zeroes(lineNum) in GOs_should:
-					index = GOs_should.index(self.add_leading_zeroes(lineNum))
-					GO_map[GOs_true[index]] = self.add_leading_zeroes(lineNumReplace)
+				if int(lineNum) in GOs_should:
+					index = GOs_should.index(int(lineNum))
+					GO_map[GOs_true[index]] = int(lineNumReplace)
 				# check if line is a number associated with a ONPWRT, build a ON dict
-				if self.add_leading_zeroes(lineNum) in ONs_should:
-					index = ONs_should.index(self.add_leading_zeroes(lineNum))
-					ON_map[ONs_true[index]] = self.add_leading_zeroes(lineNumReplace)
+				if int(lineNum) in ONs_should:
+					index = ONs_should.index(int(lineNum))
+					ON_map[ONs_true[index]] = int(lineNumReplace)
 				# proceed with the rest of the line
 				if line.startswith('0'):
 					line = line.replace(str(lineNum), str(lineNumReplace))
 				else:
 					line = line.replace(str(lineNum).lstrip('0'), str(lineNumReplace))
-			
+			# add the line to the newcontent, build it out
 			if i < len(content.split('\n')) - 1:
 				newcontent += line + '\n'
 			else:
 				newcontent += line
 
+			# find and replace all the GOs/ONs with the int equivalent
 			GO_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
-			ON_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
+			ON_num = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
 			try:
 				for number in GO_num:
 					newcontent = newcontent.replace('GOTO ' + str(number[2]),
-						'GOTO ' + self.add_leading_zeroes(number[2]))
+						'GOTO ' + str(int(number[2])))
 			except:
 				pass
 
 			try:
 				for number in ON_num:
-					newcontent = newcontent.replace('GOTO ' + str(number[1]),
-						'GOTO ' + self.add_leading_zeroes(number[1]))
+					newcontent = newcontent.replace('ONPWRT(' + str(number[1]),
+						'ONPWRT(' + str(int(number[2])))
 			except:
 				pass
 
-		for key in GO_map.keys():
-			newcontent = newcontent.replace('GOTO ' + str(key),
-											 'GOTO ' + str(GO_map[key]))
-			newcontent = newcontent.replace('GOTO ' + str(key).lstrip('0'),
-											 'GOTO ' + str(GO_map[key]))
-			newcontent = newcontent.replace('GOSUB ' + str(key),
-											 'GOSUB ' + str(GO_map[key]))
-			newcontent = newcontent.replace('GOSUB ' + str(key).lstrip('0'),
-											 'GOSUB ' + str(GO_map[key]))
-
-		for key in ON_map.keys():
-			newcontent = newcontent.replace('ONPWRT(' + str(key),
-											 'ONPWRT(' + str(ON_map[key]))
-			newcontent = newcontent.replace('ONPWRT(' + str(key).lstrip('0'),
-											 'ONPWRT(' + str(ON_map[key]))
+		# this gets messy
+		# for each line, search for all GOs and ONs
+		# when they are found, we have to replace them with the
+		# appropriate *new* line number reference
+		# however, and blind string.reaplce() will replace
+		# the 1000 in 10000 with its reference (say 8000),
+		# making the new reference 80000 instead of 8000
+		for line in content.split('\n'):
+			GO_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
+			ON_num = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
+			for number in GO_num:
+				if int(number[2]) in GO_map.keys():
+					# match the GO reference only if it is the same integer
+					# as the GO_map key
+					newcontent = newcontent.replace('GOTO ' + number[2],
+											 'GOTO ' + self.add_leading_zeroes(
+											 	str(GO_map[int(number[2])])))
+					newcontent = newcontent.replace('GOSUB ' + number[2],
+											 'GOSUB ' + self.add_leading_zeroes(
+											 	str(GO_map[int(number[2])])))
+			for number in ON_num:
+				if int(number[2]) in ON_map.keys():
+					newcontent = newcontent.replace('ONPWRT(' + number[2],
+									'ONPWRT(' + self.add_leading_zeroes(
+										str(ON_map[int(number[2])])))
 		
 		return newcontent
 
