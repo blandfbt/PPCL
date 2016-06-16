@@ -1,5 +1,5 @@
 
-    // LineChanger.py is a PPCL plugin for the Sublime Text 3 text editor.
+    // LineChanger.py and PPCLFunctions.py are PPCL plugins for the Sublime Text 3 text editor.
     // Copyright (C) 2016  Brien Blandford (Smith Engineering, PLLC)
 
     // This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,15 @@
 
 // with the appropriate stuff for .pcl files
 // when enter is hit, it puts adjusts the line numbers
+// 
+// ctrl+shift+l will adjust the line numbers and any branch statements
+// 
+// ctrl+/ has the same commenting functionality as is standard with ST3
+// 
+// ctrl+alt+d for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
+// 
+// ctrl+alt+u for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
+// 
 [
   { 
     "keys": ["ctrl+shift+l"],
@@ -42,4 +51,20 @@
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
   },
+ { 
+    "keys": ["ctrl+alt+d"],
+    "command": "toggle_define",
+    "args": {"toggle": "off"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },
+  { 
+    "keys": ["ctrl+alt+u"],
+    "command": "toggle_define",
+    "args": {"toggle": "on"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },  
 ]
