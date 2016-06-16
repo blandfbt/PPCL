@@ -57,8 +57,8 @@ http://www.smith-eng.com/index.php
 	- The default increment is 10
 	- if adding a line would increment => the following line, it won't progress
 - **Toggling DEFINE statements**
-	- ctrl+alt+d for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
-	- ctrl+alt+u for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
+	- *ctrl+alt+d* for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
+	- *ctrl+alt+u* for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
 - **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
 
