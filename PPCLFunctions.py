@@ -135,9 +135,8 @@ class ToggleDefineCommand(sublime_plugin.TextCommand):
 		with the %X% as the key, return the line numbers associated
 		'''
 		# compile for regex, find DEFINE lines, parameters, and associated strings
-		p = re.compile(r'(^[0-9]+)([\t]|[ ]+)(DEFINE\()([A-Z0-9]*)(\,")([A-Z0-9\. ]*)',
+		p = re.compile(r'(^[0-9]+)([\t]|[ ]+)(DEFINE\()([A-Z0-9]*)(\,")(.*)"',
 						re.MULTILINE)
-
 		define_terms = re.findall(p, content)
 		define_map = {}
 		define_lines = []
