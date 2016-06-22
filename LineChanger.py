@@ -30,8 +30,8 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 	def __init__(self, view):
 		self.view = view
-		self.increment = 100
-		self.start = 1000
+		self.increment = 10
+		self.start = 100
 
 	def run(self, edit, increment=100):
 		# get the start number and the increment, defined by the user
@@ -248,7 +248,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 	def get_line_start_and_increment(self):
 		inputView = sublime.Window.show_input_panel(sublime.active_window(),
-			'<Line Start>:<increment>', '1000:100', self.on_done, None, None)
+			'<Line Start>:<increment>', '{}:{}'.format(self.start, self.increment), self.on_done, None, None)
 
 
 	def add_leading_zeroes(self, linenum):
@@ -268,11 +268,11 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 class InsertLinesCommand(sublime_plugin.TextCommand):
 	'''
 	This command will insert a line below the current line, in an increment defaulted
-	to 10. I'm not sure yet if I want to spend the time to have it take into
+	to 1. I'm not sure yet if I want to spend the time to have it take into
 	consideration the count if it ends up being the same as the line below it.
 	'''
 	def run(self, edit):
-		increment = 10
+		increment = 1
 		currentLine = self.view.substr(self.view.line(self.view.sel()[0]))
 		rowandcol = self.view.rowcol(self.view.sel()[0].begin())
 		if (int(rowandcol[0]) == 0) and (currentLine == ''):
