@@ -74,10 +74,11 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 						# the case where the GO doesn't reference an exisitng linenum
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-go_num))) + 1
-						GOs_should.append(lineNums[index])
+						GOs_should.append(int(lineNums[index]))
 						GOs_true.append(int(found[2]))
 			except:
 				pass
+		print (GOs_true, GOs_should)
 		return (GOs_true, GOs_should)
 
 
@@ -101,7 +102,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-ON_num))) + 1
-						ONs_should.append(lineNums[index])
+						ONs_should.append(int(lineNums[index]))
 						ONs_true.append(int(found[1]))
 			except:
 				pass
@@ -184,14 +185,15 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			try:
 				for number in GO_num:
 					newcontent = newcontent.replace('GOTO ' + str(number[2]),
-						'GOTO ' + str(int(number[2])))
+						'GOTO ' + self.add_leading_zeroes(str(int(number[2]))))
+					print (str(number[2]))
 			except:
 				pass
 
 			try:
 				for number in ON_num:
 					newcontent = newcontent.replace('ONPWRT(' + str(number[1]),
-						'ONPWRT(' + str(int(number[2])))
+						'ONPWRT(' + self.add_leading_zeroes(str(int(number[2]))))
 			except:
 				pass
 
