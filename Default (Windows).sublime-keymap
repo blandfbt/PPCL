@@ -60,7 +60,7 @@
     ],
   },
   { 
-    "keys": ["ctrl+alt+u"],
+    "keys": ["ctrl+alt+r"],
     "command": "toggle_define",
     "args": {"toggle": "on"},
     "context": [
