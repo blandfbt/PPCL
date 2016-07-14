@@ -123,7 +123,6 @@ class ToggleDefineCommand(sublime_plugin.TextCommand):
 		if toggle == 'on':
 			newcontent = self.toggle_on(content, define_map, define_lines)
 
-		# print (newcontent)
 		# replace the existing text with the modified text
 		selections = sublime.Region(0, self.view.size())
 		self.view.replace(edit, selections, newcontent)
@@ -184,3 +183,68 @@ class ToggleDefineCommand(sublime_plugin.TextCommand):
 		for key in define_map.keys():
 			content = content.replace(key, define_map[key])
 		return content
+
+
+class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
+	'''
+	This function toggles the "." and the "_" in point names
+	for Desigo CC-friendly programming
+
+	If there are both underscores and periods in point names,
+	the default behavior will be to return all point names to 
+	period separation.
+	'''
+
+	def run(self, edit, toggle):
+		# print ("made it =", kwargs)
+		content = self.view.substr(sublime.Region(0, self.view.size()))
+		points = self.get_points(content)
+
+		if toggle == 'ptou':
+			newcontent = self.toggle_period_to_under(content, points)
+
+		if toggle == 'utop':
+			newcontent = self.toggle_under_to_period(content, points)
+
+		# replace the existing text with the modified text
+		selections = sublime.Region(0, self.view.size())
+		self.view.replace(edit, selections, newcontent)
+
+
+	def get_points(self, content):
+		'''
+		Get all the point names in the document, return the set
+		'''
+		points = set()
+		p = re.compile(r'"[A-Z0-9 :_\./-]+"')
+		for line in content.split('\n'):
+			PointsFoundInLine = re.findall(p, line)
+			for point in PointsFoundInLine:
+				points.add(point)
+		return list(points)
+
+
+	def toggle_under_to_period(self, content, points):
+		'''
+		Toggle from "_" to "."
+		Return the new content
+		'''
+		newcontent = content
+		new_points = [point.replace('_', '.') for point in points]
+		for point, newpoint in zip(points, new_points):
+			# print (point, newpoint)
+			newcontent = newcontent.replace(point, newpoint)
+		return newcontent
+
+
+	def toggle_period_to_under(self, content, points):
+		'''
+		Toggle from "_" to "."
+		Return the new content
+		'''
+		newcontent = content
+		new_points = [point.replace('.', '_') for point in points]
+		for point, newpoint in zip(points, new_points):
+			# print (point, newpoint)
+			newcontent = newcontent.replace(point, newpoint)
+		return newcontent

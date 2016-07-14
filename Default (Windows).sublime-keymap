@@ -66,5 +66,21 @@
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
+  },
+  { 
+    "keys": ["ctrl+alt+p"],
+    "command": "toggle_underscores_and_dots",
+    "args": {"toggle": "utop"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
   },  
+  { 
+    "keys": ["ctrl+alt+u"],
+    "command": "toggle_underscores_and_dots",
+    "args": {"toggle": "ptou"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  }, 
 ]
