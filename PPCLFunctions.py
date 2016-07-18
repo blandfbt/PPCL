@@ -22,6 +22,65 @@ import sublime, sublime_plugin
 import re
 
 
+class GetHelpCommand(sublime_plugin.WindowCommand):
+	help_dict = [
+		' ',
+		'Native Commands',
+		' ',
+		'Ctrl + X                Cut line',
+		'Ctrl + Enter            Insert line after',
+		'Ctrl + Shift + Enter    Insert line before',
+		'Ctrl + Shift + ↑        Move line/selection up',
+		'Ctrl + Shift + ↓        Move line/selection down',
+		'Ctrl + L                Select line - Repeat to select next lines',
+		'Ctrl + D                Select word - Repeat select others occurrences',
+		'Ctrl + M                Jump to closing parentheses Repeat to jump to opening parentheses',
+		'Ctrl + Shift + M        Select all contents of the current parentheses',
+		'Ctrl + Shift + K        Delete Line',
+		'Ctrl + KK               Delete from cursor to end of line',
+		'Ctrl + ]                Indent current line(s)',
+		'Ctrl + [                Un-indent current line(s)',
+		'Ctrl + Shift + D        Duplicate line(s)',
+		'Ctrl + J                Join line below to the end of the current line',
+		'Ctrl + /                Comment/un-comment current line',
+		'Ctrl + Y                Redo, or repeat last keyboard shortcut command',
+		'Ctrl + Shift + V        Paste and indent correctly',
+		'Ctrl + Space            Select next auto-complete suggestion',
+		'Ctrl + U                soft undo; jumps to your last change before undoing change when repeated',
+		'Shift + Del             delete current line, shift up',
+		'Ctrl + ;                Goto word in current file',
+		'Ctrl + F                Find',
+		'Ctrl + H                Replace',
+		'Ctrl + PgUp             Cycle up through tabs',
+		'Ctrl + PgDn             Cycle down through tabs',
+		'Ctrl + F2               Toggle bookmark',
+		'F2                      Next bookmark',
+		'Shift + F2              Previous bookmark',
+		'Ctrl + Shift + F2       Clear bookmarks',
+		'Ctrl + KU               Transform to Uppercase',
+		'Ctrl + KL               Transform to Lowercase',
+		' ',
+		'PPCL Commands',
+		' ',
+		'Enter                   Add line number',
+		'Ctrl + Shift + H        Open Help',
+		'Ctrl + Shift + L        Line number increment',
+		'Ctrl + Shift + D        Toggle off all DEFINE statements',
+		'Ctrl + Shift + R        Toggle on all DEFINE statements',
+		'Ctrl + Shift + U        Toggle point names with periods to underscores',
+		'Ctrl + Shift + U        Toggle point names with underscores to periods',
+					]
+
+	def run(self):
+		self.window.show_quick_panel(self.help_dict, self._on_select)
+
+	def _on_select(self, idx):
+		pass
+		# if idx > -1:
+		# 	selected = self.help_dict[idx]
+		# 	sublime.message_dialog(selected)
+
+
 class InsertCommentCommand(sublime_plugin.TextCommand):
 	'''
 	This command will insert a comment (01000 tab C ) when ctrl+/ is pressed over all
@@ -200,12 +259,7 @@ class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
 		content = self.view.substr(sublime.Region(0, self.view.size()))
 		points = self.get_points(content)
 
-		if toggle == 'ptou':
-			newcontent = self.toggle_period_to_under(content, points)
-
-		if toggle == 'utop':
-			newcontent = self.toggle_under_to_period(content, points)
-
+		newcontent = self.toggle_points(content, points, toggle)
 		# replace the existing text with the modified text
 		selections = sublime.Region(0, self.view.size())
 		self.view.replace(edit, selections, newcontent)
@@ -224,27 +278,19 @@ class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
 		return list(points)
 
 
-	def toggle_under_to_period(self, content, points):
+	def toggle_points(self, content, points, toggle):
 		'''
-		Toggle from "_" to "."
+		Toggle from "_" to "." or vice versa
+			ptou means periods to underscores
+			utop means underscores to periods
 		Return the new content
 		'''
 		newcontent = content
-		new_points = [point.replace('_', '.') for point in points]
+		if toggle == 'ptou':
+			new_points = [point.replace('.', '_') for point in points]
+		if toggle == 'utop':
+			new_points = [point.replace('_', '.') for point in points]
 		for point, newpoint in zip(points, new_points):
-			# print (point, newpoint)
 			newcontent = newcontent.replace(point, newpoint)
-		return newcontent
-
-
-	def toggle_period_to_under(self, content, points):
-		'''
-		Toggle from "_" to "."
-		Return the new content
-		'''
-		newcontent = content
-		new_points = [point.replace('.', '_') for point in points]
-		for point, newpoint in zip(points, new_points):
-			# print (point, newpoint)
-			newcontent = newcontent.replace(point, newpoint)
+		print (newcontent)
 		return newcontent

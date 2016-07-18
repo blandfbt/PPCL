@@ -44,6 +44,8 @@ http://www.smith-eng.com/index.php
 	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
 ##Usage
+- **Open Help Window**
+	- Press *ctrl + shift + h* to show some relevant native ST3 keyboard shortcuts and all the shortcuts for PPCL
 - **Comment Toggling**
 	- To toggle comments, select any text and use *ctrl + /*, like the Native ST3 command
 - **Line Number Increment**
@@ -54,7 +56,8 @@ http://www.smith-eng.com/index.php
 	- There is a known bug for this where this will update on the second time commanding it
 - **Add Line Numbers**
 	- Pressing enter will increment lines automatically
-	- The default increment is 10
+	- The default increment is 1
+	-*this is a work in progress to get a user-specified increment amount*
 	- if adding a line would increment => the following line, it won't progress
 - **Toggling DEFINE statements**
 	- *ctrl+alt+d* for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
