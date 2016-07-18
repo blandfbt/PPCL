@@ -270,10 +270,12 @@ class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
 		Get all the point names in the document, return the set
 		'''
 		points = set()
-		p = re.compile(r'"[A-Z0-9 :_\./-]+"')
+		p = re.compile(r'\"[A-Za-z0-9][A-Z0-9 :_\./-]+\"')
 		for line in content.split('\n'):
 			PointsFoundInLine = re.findall(p, line)
 			for point in PointsFoundInLine:
+				print (point)
+				# if not ('.AND.' in point) not ('.LT.' in point)
 				points.add(point)
 		return list(points)
 
@@ -292,5 +294,4 @@ class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
 			new_points = [point.replace('_', '.') for point in points]
 		for point, newpoint in zip(points, new_points):
 			newcontent = newcontent.replace(point, newpoint)
-		print (newcontent)
 		return newcontent
