@@ -1,0 +1,122 @@
+[
+    {
+        "caption": "Tools",
+        "mnemonic": "t",
+        "id": "tools",
+        "children":
+        [
+            {
+                "caption": "PPCL",
+                "mnemonic": "c",
+                "id": "ppcl",
+                "children":
+                [
+                    {
+                        "caption": "Line Increment Amount",
+                        "children":
+                        [
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "set_increment",
+                                "args": {
+                                   "increment": 1},
+                                "caption": "1"
+                            },
+                            {
+                                // "command": "perforce_select_graphical_diff_application",
+                                "command": "set_increment",
+                                "args": {
+                                   "increment": 2},
+                                "caption": "2"
+                            },
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "set_increment",
+                                "args": {
+                                   "increment": 3},
+                                "caption": "3"
+                            },
+                            {
+                                // "command": "perforce_select_graphical_diff_application",
+                                "command": "set_increment",
+                                "args": {
+                                   "increment": 4},
+                                "caption": "4"
+                            },
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "set_increment",
+                                "args": {
+                                   "increment": 5},
+                                "caption": "5"
+                            },
+                            {
+                                // "command": "perforce_select_graphical_diff_application",
+                                "command": "set_increment",
+                                "args": {
+                                    "increment": 10},
+                                "caption": "10"
+                            },
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "set_increment",
+                                "args": {
+                                    "increment": 20},
+                                "caption": "20"
+                            },
+                            {
+                                // "command": "perforce_select_graphical_diff_application",
+                                "command": "set_increment",
+                                "args": {
+                                    "increment": 50},
+                                "caption": "50"
+                            },
+                            {
+                                // "command": "perforce_select_graphical_diff_application",
+                                "command": "set_increment",
+                                "args": {
+                                    "increment": 100},
+                                "caption": "100"
+                            },
+                        ]
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "PPCL",
+                        "children":
+                        [
+                            {
+                                "caption": "Settings – Default",
+                                "command": "open_file",
+                                "args":
+                                {
+                                    "file": "${packages}/PPCL/ppcl.sublime-settings"
+                                }
+                            },
+                            {
+                                "caption": "Settings – User",
+                                "command": "open_file",
+                                "args":
+                                {
+                                    "file": "${packages}/User/ppcl.sublime-settings"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

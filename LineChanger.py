@@ -22,6 +22,15 @@ import sublime, sublime_plugin
 import re
 
 
+line_increment = 1
+
+class SetIncrementCommand(sublime_plugin.WindowCommand):
+	def run(self, increment):
+		global line_increment
+		line_increment = increment
+		print (line_increment)
+
+
 class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 	'''
 	This command is to readjust all the line numbers in the PPCL document.  It
@@ -272,7 +281,11 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 	consideration the count if it ends up being the same as the line below it.
 	'''
 	def run(self, edit):
-		increment = 1
+		# increment = 1
+		global line_increment
+		increment = line_increment
+		print (line_increment)
+
 		currentLine = self.view.substr(self.view.line(self.view.sel()[0]))
 		rowandcol = self.view.rowcol(self.view.sel()[0].begin())
 		if (int(rowandcol[0]) == 0) and (currentLine == ''):

@@ -71,7 +71,7 @@ class GetHelpCommand(sublime_plugin.WindowCommand):
 		'Ctrl + Shift + U        Toggle point names with underscores to periods',
 					]
 
-	def run(self):
+	def run(self,):
 		self.window.show_quick_panel(self.help_dict, self._on_select)
 
 	def _on_select(self, idx):
