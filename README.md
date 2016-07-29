@@ -45,26 +45,26 @@ http://www.smith-eng.com/index.php
 
 ##Usage
 - **Open Help Window**
-	- Press *ctrl + shift + h* to show some relevant native ST3 keyboard shortcuts and all the shortcuts for PPCL
+	- Press <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>h</kbd> to show some relevant native ST3 keyboard shortcuts and all the shortcuts for PPCL
 - **Comment Toggling**
-	- To toggle comments, select any text and use *ctrl + /*, like the Native ST3 command
+	- To toggle comments, select any text and use <kbd>ctrl</kbd> + <kbd>/</kbd>, like the Native ST3 command
 - **Line Number Increment**
-	- To increment all the line numbers use *ctrl + shift + l*
+	- To increment all the line numbers use <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>l</kbd>
 	- This will prompt for the starting line number followed by the increment
 		- in the form of *1000:10*
 	- This will automatically update any GOTO and GOSUB references
 	- There is a known bug for this where this will update on the second time commanding it
 - **Add Line Numbers**
-	- Pressing enter will increment lines automatically
+	- Pressing <kbd>enter</kbd> will increment lines automatically
 	- The default increment is 1
 	-*this is a work in progress to get a user-specified increment amount*
 	- if adding a line would increment => the following line, it won't progress
 - **Toggling DEFINE statements**
-	- *ctrl+alt+d* for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
-	- *ctrl+alt+r* for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
+	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>d</kbd> for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
+	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>r</kbd> for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
 - **Toggling Periods/Underscores in Point Names**
-	- *ctrl+alt+p* changes all underscores in point names to periods
-	- *ctrl+alt+u* changes all periods in point names to underscores
+	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>p</kbd> changes all underscores in point names to periods
+	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>u</kbd> changes all periods in point names to underscores
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
 - **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
 
@@ -73,25 +73,25 @@ http://www.smith-eng.com/index.php
 	- in menu toolbar select "View" -> "Syntax" -> "PPCL"
 - **Toggle Case**
 	- Select the text you want to toggle, and press
-		- Ctrl+KU for upper case
-		- Ctrl+LU for lower case
+		- <kbd>ctrl</kbd> + <kbd>KU</kbd> for upper case
+		- <kbd>ctrl</kbd> + <kbd>LU</kbd> for lower case
 - **Big Cursor**
 	- This can be done many ways
-	- Ctrl+F, and find all the text, select it all, and now move around with the arrow keys
-	- Highlight some text, press Alt+F3 to select all
+	- <kbd>ctrl</kbd> + <kbd>F</kbd>, and find all the text, select it all, and now move around with the arrow keys
+	- Highlight some text, press <kbd>alt</kbd> + <kbd>F3</kbd> to select all
 	- Using the scroll wheel of the mouse, hold it down and drag for constant row selecting
 	- Hold Ctrl and click the mouse in whatever locations
 - **Find Next**
-	- Select some text, press Ctrl+D to select the next occurence of that text
-	- Keep hitting Ctrl+D until all instances are selected
-	- Ctrl+U goes back one selection
+	- Select some text, press <kbd>ctrl</kbd> + <kbd>D</kbd> to select the next occurence of that text
+	- Keep hitting <kbd>ctrl</kbd> + <kbd>D</kbd> until all instances are selected
+	- <kbd>ctrl</kbd> + <kbd>U</kbd> goes back one selection
 - **Find**
-	- Press Ctrl+F
+	- Press <kbd>ctrl</kbd> + <kbd>F</kbd>
 		- buttons on the left allow search specifics to be toggled
 - **Delete line, shift up**
-	- navigate to the line you want to delete, press Ctrl+Shift+Delete
+	- navigate to the line you want to delete, press <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>del</kbd>
 - **Shift entire line**
-	- Hold Ctrl+Shift and move with the arrows
+	- Hold <kbd>ctrl</kbd> + <kbd>shift</kbd> and move with the arrows
 
 ### Block Commenting for PPCL
 ![alt tag](https://cloud.githubusercontent.com/assets/10290469/15620019/c507b5c4-2425-11e6-9e0f-a3697ecbd0c0.gif)

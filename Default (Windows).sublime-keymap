@@ -21,9 +21,16 @@
 // 
 
 [
+  // { 
+  //   "keys": ["ctrl+shift+l"],
+  //   "command": "adjust_line_nums",
+  //   "context": [
+  //     { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+  //   ],
+  // },
   { 
-    "keys": ["ctrl+shift+l"],
-    "command": "adjust_line_nums",
+    "keys": ["ctrl+shift+k"],
+    "command": "call_adjust",
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],

@@ -1,13 +1,11 @@
 [
     {
         "caption": "Tools",
-        "mnemonic": "t",
         "id": "tools",
         "children":
         [
             {
                 "caption": "PPCL",
-                "mnemonic": "c",
                 "id": "ppcl",
                 "children":
                 [
@@ -20,63 +18,72 @@
                                 "command": "set_increment",
                                 "args": {
                                    "increment": 1},
-                                "caption": "1"
+                                "caption": "1",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_select_graphical_diff_application",
                                 "command": "set_increment",
                                 "args": {
                                    "increment": 2},
-                                "caption": "2"
+                                "caption": "2",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_graphical_diff_with_depot",
                                 "command": "set_increment",
                                 "args": {
                                    "increment": 3},
-                                "caption": "3"
+                                "caption": "3",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_select_graphical_diff_application",
                                 "command": "set_increment",
                                 "args": {
                                    "increment": 4},
-                                "caption": "4"
+                                "caption": "4",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_graphical_diff_with_depot",
                                 "command": "set_increment",
                                 "args": {
                                    "increment": 5},
-                                "caption": "5"
+                                "caption": "5",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_select_graphical_diff_application",
                                 "command": "set_increment",
                                 "args": {
                                     "increment": 10},
-                                "caption": "10"
+                                "caption": "10",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_graphical_diff_with_depot",
                                 "command": "set_increment",
                                 "args": {
                                     "increment": 20},
-                                "caption": "20"
+                                "caption": "20",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_select_graphical_diff_application",
                                 "command": "set_increment",
                                 "args": {
                                     "increment": 50},
-                                "caption": "50"
+                                "caption": "50",
+                                "checkbox": true,
                             },
                             {
                                 // "command": "perforce_select_graphical_diff_application",
                                 "command": "set_increment",
                                 "args": {
                                     "increment": 100},
-                                "caption": "100"
+                                "caption": "100",
+                                "checkbox": true,
                             },
                         ]
                     },

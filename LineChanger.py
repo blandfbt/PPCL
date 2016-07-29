@@ -20,44 +20,166 @@
 
 import sublime, sublime_plugin
 import re
+from operator import itemgetter
 
+enter_line_increment = 1
 
-line_increment = 1
 
 class SetIncrementCommand(sublime_plugin.WindowCommand):
 	def run(self, increment):
-		global line_increment
-		line_increment = increment
-		print (line_increment)
+		global enter_line_increment
+		enter_line_increment = increment
 
 
-class AdjustLineNumsCommand(sublime_plugin.TextCommand):
+class LoadPpclFileCommand(sublime_plugin.TextCommand):
 	'''
-	This command is to readjust all the line numbers in the PPCL document.  It
-	gives a user promt
+	This class calls the user_input_window, gets the user response
+	then calls the adjust_line_numbers command as an external command.
 	'''
+	def run(self, edit):
+		newcontent = ''
+		full_content = self.view.substr(sublime.Region(0, self.view.size()))
+		line_regex = re.compile(r'(^[0-9]+)([\t]|[ ]+)', re.MULTILINE)
+		full_content = re.sub(line_regex, lambda x: self.add_leading_zeroes(x.group(1),
+														ending='\t'), full_content)
 
+		GO_regex = re.compile(r'(GO(TO|SUB) )([0-9]+)', re.MULTILINE)
+		full_content = re.sub(GO_regex, lambda x: self.add_leading_zeroes(x.group(3),
+														beginning=x.group(1), ending='\t'),
+														full_content)
+
+		ON_regex = re.compile(r'(ONPWRT\()([0-9]+)(\))', re.MULTILINE)
+		full_content = re.sub(ON_regex, lambda x: self.add_leading_zeroes(x.group(2),
+														beginning='ONPWRT(', ending=')'),
+														full_content)
+		selections = sublime.Region(0, self.view.size())
+		self.view.replace(edit, selections, full_content)
+
+
+	def add_leading_zeroes(self, linenum, ending='', beginning=''):
+		'''
+		add the leading zeroes to match the PPCL syntax of 5 characters.
+		'''
+		try:
+			linenum = str(linenum).lstrip('0')
+			while len(str(linenum)) < 5:
+				linenum = '0' + str(linenum)
+			return beginning + linenum + ending
+		except:
+			pass
+
+
+class CallAdjustCommand(sublime_plugin.TextCommand):
+	'''
+	This class calls the user_input_window, gets the user response
+	then calls the adjust_line_numbers command as an external command.
+	'''
 	def __init__(self, view):
 		self.view = view
-		self.increment = 10
-		self.start = 100
+		self.adjust_line_increment = None
+		self.adjust_line_start = None
+		self.selections = None
+		self.newcontent = None
 
-	def run(self, edit, increment=100):
-		# get the start number and the increment, defined by the user
+
+	def run(self, edit):
+		# get the start and end rows, even with multiple selections
+		# beginning_row, ending_row = self.get_rows()
+		# get the user input for the start and the increment
+		self.edit = edit
 		self.get_line_start_and_increment()
-		# get the entire content of the code
-		content = self.view.substr(sublime.Region(0, self.view.size()))
-		# get the list of any GOTO statements
-		# the shoulds are where they should point
-		# the trues are where they actually point
+		
+
+	def get_line_start_and_increment(self):
+		inputView = sublime.Window.show_input_panel(sublime.active_window(),
+			'<Line Start>:<increment>', '{}:{}'.format(self.adjust_line_start, self.adjust_line_increment),
+			self.on_done, self.on_done, None)
+
+
+	def on_done(self, text):
+		'''
+		this function just sets the start and increment selected by the user
+		because I couldnt figure out how to do that in the show_input_panel
+		function.
+		'''
+		try:
+			adjust_line_start, adjust_line_increment = text.split(':')
+			self.adjust_line_increment = int(adjust_line_increment)
+			self.adjust_line_start = int(adjust_line_start)
+		except:
+			self.adjust_line_increment = None
+			self.adjust_line_start = None
+		
+		if self.adjust_line_increment != None and self.adjust_line_start != None:
+			# self.main_functions()
+			self.view.run_command("adjust_some_line_nums", 
+									{'adjust_line_increment': self.adjust_line_increment,
+									'adjust_line_start': self.adjust_line_start})
+
+
+class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
+	'''
+	adjust the line numbers in the selection according to the user input
+	'''
+	def run(self, edit, adjust_line_increment,adjust_line_start):
+		'''
+		break out the main functions to be called from the 
+		get_line_start_and_increment() method, trying to see if this
+		works to allow the user input to update on queue
+		'''
+		self.adjust_line_increment = adjust_line_increment
+		self.adjust_line_start = adjust_line_start
+
+		start_pos, end_pos = self.get_region()
+		content = self.view.substr(sublime.Region(start_pos, end_pos))
+		full_content = self.view.substr(sublime.Region(0, self.view.size()))
+
+		# for renumbering gotos in the whole document, use the full_content
+		# argument. to renumber only those in the current selection, use content
+
 		GOs_true, GOs_should = self.get_GOs(content)
-		# get the list of any ONPWRT statements
 		ONs_true, ONs_should = self.get_ONPWRT(content)
 		newcontent = self.replace_line_nums(content, 
-					GOs_true, GOs_should, ONs_true, ONs_should)
-
-		selections = sublime.Region(0, self.view.size())
+						GOs_true, GOs_should, ONs_true, ONs_should)
+		selections = sublime.Region(start_pos, end_pos)
 		self.view.replace(edit, selections, newcontent)
+
+
+	def get_region(self):
+		'''
+		return the beginning and ending row numbers of the selection.
+		'''
+		start_pos = None
+		end_pos = 0
+		for region in self.view.sel():
+			selectedLines = self.view.lines(region)
+			if start_pos is None:
+				start_pos = selectedLines[0].begin()
+			else:
+				start_pos = min(start_pos, selectedLines[0].begin())
+			end_pos = max(end_pos, selectedLines[-1].end())	
+		return start_pos, end_pos
+
+	def get_rows(self):
+		'''
+		return the beginning and ending row numbers of the selection.
+		'''
+		beginning_row = None
+		ending_row = 0
+		rows = set()
+		selected_region = None
+		for area in self.view.sel():
+			lines_tuple = self.view.split_by_newlines(area)
+			for region in lines_tuple:
+				current_row = int(self.view.rowcol(region.begin())[0])
+				if current_row is not None:
+					if beginning_row is None:
+						beginning_row = current_row
+					elif current_row < beginning_row:
+						beginning_row = current_row
+					if current_row > ending_row:
+						ending_row = current_row
+		return beginning_row, ending_row
 
 
 	def get_GOs(self, content):
@@ -87,7 +209,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 						GOs_true.append(int(found[2]))
 			except:
 				pass
-		print (GOs_true, GOs_should)
 		return (GOs_true, GOs_should)
 
 
@@ -133,7 +254,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		return lineNums
 
 
-
 	def replace_line_nums(self, content, GOs_true, GOs_should, ONs_true, ONs_should):
 		'''
 		Replace all the content with the new line numbers, and return the updated content
@@ -153,6 +273,7 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		# ONs is the same, but for ONPWRT
 		ONs_should_new = []
 		ON_map = {}
+		lineNum = None
 
 		for i, line in enumerate(content.split('\n')):
 			# try to find the lineNums in the start of each line of code
@@ -161,8 +282,8 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 			except:
 				pass
 			# the lineNumReplace is the new line number, based on the start and increment
-			lineNumReplace = self.add_leading_zeroes(int(self.start) +
-													 (i * int(self.increment)))
+			lineNumReplace = self.add_leading_zeroes(int(self.adjust_line_start) +
+													 (i * int(self.adjust_line_increment)))
 			
 			# the case where there is no text / line number
 			# this could be a missing line number, or the start of a new document
@@ -195,7 +316,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 				for number in GO_num:
 					newcontent = newcontent.replace('GOTO ' + str(number[2]),
 						'GOTO ' + self.add_leading_zeroes(str(int(number[2]))))
-					print (str(number[2]))
 			except:
 				pass
 
@@ -234,32 +354,6 @@ class AdjustLineNumsCommand(sublime_plugin.TextCommand):
 		
 		return newcontent
 
-
-	def on_done(self, user_input):
-		'''
-		this function just sets the start and increment selected by the user
-		because I couldnt figure out how to do that in the show_input_panel
-		function.
-		'''
-		sublime.status_message("brien.blandford@gmail.com")
-		self.start, self.increment = user_input.split(':')
-
-
-	def on_change(self, user_input):
-		'''
-		this function just sets the start and increment selected by the user
-		because I couldnt figure out how to do that in the show_input_panel
-		function.
-		'''
-		sublime.status_message("brien.blandford@gmail.com")
-		self.start, self.increment = user_input.split(':')
-
-
-	def get_line_start_and_increment(self):
-		inputView = sublime.Window.show_input_panel(sublime.active_window(),
-			'<Line Start>:<increment>', '{}:{}'.format(self.start, self.increment), self.on_done, None, None)
-
-
 	def add_leading_zeroes(self, linenum):
 		'''
 		add the leading zeroes to match the PPCL syntax of 5 characters.
@@ -282,9 +376,8 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 	'''
 	def run(self, edit):
 		# increment = 1
-		global line_increment
-		increment = line_increment
-		print (line_increment)
+		global enter_line_increment
+		increment = enter_line_increment
 
 		currentLine = self.view.substr(self.view.line(self.view.sel()[0]))
 		rowandcol = self.view.rowcol(self.view.sel()[0].begin())
