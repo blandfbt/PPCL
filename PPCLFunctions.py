@@ -65,10 +65,10 @@ class GetHelpCommand(sublime_plugin.WindowCommand):
 		'Enter                   Add line number',
 		'Ctrl + Shift + H        Open Help',
 		'Ctrl + Shift + L        Line number increment',
-		'Ctrl + Shift + D        Toggle off all DEFINE statements',
-		'Ctrl + Shift + R        Toggle on all DEFINE statements',
-		'Ctrl + Shift + U        Toggle point names with periods to underscores',
-		'Ctrl + Shift + U        Toggle point names with underscores to periods',
+		'Ctrl + Alt + D        	 Toggle off all DEFINE statements',
+		'Ctrl + Alt + R        	 Toggle on all DEFINE statements',
+		'Ctrl + Alt + U          Toggle point names with periods to underscores',
+		'Ctrl + Alt + P          Toggle point names with underscores to periods',
 					]
 
 	def run(self,):

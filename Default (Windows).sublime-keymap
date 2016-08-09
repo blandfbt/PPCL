@@ -29,7 +29,7 @@
   //   ],
   // },
   { 
-    "keys": ["ctrl+shift+k"],
+    "keys": ["ctrl+shift+l"],
     "command": "call_adjust",
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
