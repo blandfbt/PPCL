@@ -65,6 +65,8 @@ http://www.smith-eng.com/index.php
 - **Toggling Periods/Underscores in Point Names**
 	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>p</kbd> changes all underscores in point names to periods
 	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>u</kbd> changes all periods in point names to underscores
+- **Copy a chunk of Code**
+	- <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>c</kbd> prompts you for how many times you want the selected code copied, and pastes in where you have selected.
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
 - **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
 
