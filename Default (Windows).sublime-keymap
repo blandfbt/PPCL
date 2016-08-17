@@ -90,5 +90,12 @@
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
   }, 
+  { 
+    "keys": ["ctrl+shift+c"],
+    "command": "call_copy_code",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  }, 
   
 ]

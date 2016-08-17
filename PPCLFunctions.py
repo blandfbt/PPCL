@@ -69,7 +69,8 @@ class GetHelpCommand(sublime_plugin.WindowCommand):
 		'Ctrl + Alt + R        	 Toggle on all DEFINE statements',
 		'Ctrl + Alt + U          Toggle point names with periods to underscores',
 		'Ctrl + Alt + P          Toggle point names with underscores to periods',
-					]
+		'Ctrl + Shift + C          Make a copy of the selected code a user-defined number of times',
+			]
 
 	def run(self,):
 		self.window.show_quick_panel(self.help_dict, self._on_select)
@@ -295,3 +296,94 @@ class ToggleUnderscoresAndDotsCommand(sublime_plugin.TextCommand):
 		for point, newpoint in zip(points, new_points):
 			newcontent = newcontent.replace(point, newpoint)
 		return newcontent
+
+
+
+
+class CallCopyCodeCommand(sublime_plugin.TextCommand):
+	'''
+	This class calls the user_input_window, gets the user response
+	then calls the adjust_line_numbers command as an external command.
+	'''
+	def __init__(self, view):
+		self.view = view
+		self.number_of_copies = 1
+
+
+	def run(self, edit):
+		# get the start and end rows, even with multiple selections
+		# beginning_row, ending_row = self.get_rows()
+		# get the user input for the start and the increment
+		self.edit = edit
+		self.get_number_of_copies()
+		
+
+	def get_number_of_copies(self):
+		inputView = sublime.Window.show_input_panel(sublime.active_window(),
+			'<Number of Copies>', '{}'.format(self.number_of_copies),
+			self.on_done, None, None)
+
+
+	def on_done(self, text):
+		'''
+		this function just sets the number of copies selected by the user
+		because I couldnt figure out how to do that in the show_input_panel
+		function.
+		'''
+		try:
+			number_of_copies = text
+			self.number_of_copies = int(number_of_copies)
+		except:
+			self.number_of_copies = None
+		
+		if self.number_of_copies != None:
+			# self.main_functions()
+			self.view.run_command("copy_code", {'number_of_copies': self.number_of_copies})
+
+
+
+class CopyCodeCommand(sublime_plugin.TextCommand):
+	'''
+	This function copies the selected code the number of specified times.
+	'''
+
+	def run(self, edit, number_of_copies):
+		# print ("made it =", kwargs)
+		start_pos, end_pos = self.get_region()
+		selected_content = self.view.substr(sublime.Region(start_pos, end_pos))
+		# print ('selected\n\n\n\n\n', selected_content)
+		new_content = self.make_new_content(selected_content, number_of_copies)
+		# print ('new\n\n\n\n\n', new_content)
+
+		total_content = self.view.substr(sublime.Region(0, self.view.size()))
+		replacement_content = total_content.replace(selected_content, new_content)
+		# print ('replacement\n\n\n\n\n', replacement_content)
+
+		# replace the existing text with the modified text
+		selections = sublime.Region(0, self.view.size())
+		self.view.replace(edit, selections, replacement_content)
+
+
+	def get_region(self):
+		'''
+		return the beginning and ending row numbers of the selection.
+		'''
+		start_pos = None
+		end_pos = 0
+		for region in self.view.sel():
+			selectedLines = self.view.lines(region)
+			if start_pos is None:
+				start_pos = selectedLines[0].begin()
+			else:
+				start_pos = min(start_pos, selectedLines[0].begin())
+			end_pos = max(end_pos, selectedLines[-1].end())	
+		return start_pos, end_pos
+
+
+	def make_new_content(self, content_to_copy, number_of_copies):
+		'''this returns the selection copied the number of times desired.'''
+		new_content = ''
+		for number in range(1, number_of_copies):
+			new_content += content_to_copy + '\n'
+
+		return new_content
