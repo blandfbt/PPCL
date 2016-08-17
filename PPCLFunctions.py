@@ -383,7 +383,7 @@ class CopyCodeCommand(sublime_plugin.TextCommand):
 	def make_new_content(self, content_to_copy, number_of_copies):
 		'''this returns the selection copied the number of times desired.'''
 		new_content = ''
-		for number in range(1, number_of_copies):
+		for number in range(0, number_of_copies):
 			new_content += content_to_copy + '\n'
 
 		return new_content
