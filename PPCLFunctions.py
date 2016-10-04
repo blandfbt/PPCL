@@ -194,9 +194,10 @@ class ToggleDefineCommand(sublime_plugin.TextCommand):
 		with the %X% as the key, return the line numbers associated
 		'''
 		# compile for regex, find DEFINE lines, parameters, and associated strings
-		p = re.compile(r'(^[0-9]+)([\t]|[ ]+)(DEFINE\()([A-Z0-9]*)(\,")(.*)"',
+		p = re.compile(r'(^[0-9]+)([\t]|[ ]+)(DEFINE[\t ]?\()([A-Z0-9]*)(\, ?")(.*)"',
 						re.MULTILINE)
 		define_terms = re.findall(p, content)
+		print (define_terms)
 		define_map = {}
 		define_lines = []
 		for item in define_terms:
@@ -240,6 +241,8 @@ class ToggleDefineCommand(sublime_plugin.TextCommand):
 		'''
 		toggle off the define statements, meaning replace %X%
 		'''
+		# define_map = self.get_defines()
+		print (define_map)
 		for key in define_map.keys():
 			content = content.replace(key, define_map[key])
 		return content
