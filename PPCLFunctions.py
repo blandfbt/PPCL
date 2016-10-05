@@ -451,16 +451,35 @@ class EnumerateCommand(sublime_plugin.TextCommand):
 
 		start_num = self.is_int(start)
 		interval_num = self.is_int(interval)
-		f_or_i = type(start_num)==type(interval_num)
+		i_not_f = type(start_num)==type(interval_num)
+		if not i_not_f:
+			round_amount = self.round_amount(start, interval)
 
 		for i, region in enumerate(self.view.sel()):
 			# nums_list.append(self.view.substr(region))
 			if leading_zero:
 				num = self.add_leading_zeroes(str(start_num + i * interval_num))
+				if not i_not_f:
+					num = str(round(float(num), round_amount))
 				self.view.replace(edit, region, num)
 			else:
 				num = str(start_num + i * interval_num)
+				if not i_not_f:
+					num = str(round(float(num), round_amount))
 				self.view.replace(edit, region, num)
+
+
+	def round_amount(self, start, interval):
+		try:
+			round_amount_i = len(interval.split('.'))
+		except AttributeError:
+			round_amount_i = 0
+		try:
+			round_amount_s = len(start.split('.'))
+		except AttributeError:
+			round_amount_s = 0
+
+		return max(round_amount_s, round_amount_i)
 
 
 	def is_int(self, num):
