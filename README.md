@@ -68,7 +68,9 @@ http://www.smith-eng.com/index.php
 - **Copy a chunk of Code**
 	- <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>c</kbd> prompts you for how many times you want the selected code copied, and pastes in where you have selected.
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
-- **incrementing numbers inside the code (not the line numbers) can be done with another extension** [InsertNums](https://packagecontrol.io/packages/Insert%20Nums)
+- *a similar funtion as [InsertNums](https://packagecontrol.io/packages/Insert%20Nums) has been added to the package*
+- **incrementing numbers inside the code (not the line numbers)**
+	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>n</kbd> prompts you for a start number and interval number.  The selected regions will be incremented by this amount.  If the start number has a leading 0, it will make all numbers 5 digits long, as in PPCL line numbers.
 
 ##Native ST3 Commands / Properties
 - **Set Syntax**
