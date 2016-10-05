@@ -70,6 +70,7 @@ class GetHelpCommand(sublime_plugin.WindowCommand):
 		'Ctrl + Alt + U          Toggle point names with periods to underscores',
 		'Ctrl + Alt + P          Toggle point names with underscores to periods',
 		'Ctrl + Shift + C          Make a copy of the selected code a user-defined number of times',
+		'Ctrl + Alt + N          Enumerate the selected text <Start>:<Interval>.  If start starts with a leading 0, it will make numbers leading with 0s',
 			]
 
 	def run(self,):
@@ -390,3 +391,104 @@ class CopyCodeCommand(sublime_plugin.TextCommand):
 			new_content += content_to_copy + '\n'
 
 		return new_content
+
+
+
+class CallEnumerateCommand(sublime_plugin.TextCommand):
+	'''
+	This class calls the user_input_window, gets the user response
+	then calls the Enumerate command as an external command.
+	'''
+	def __init__(self, view):
+		self.view = view
+		self.start = 1
+		self.interval = 1
+
+
+	def run(self, edit):
+		# get the start and interval for enumerating the selection
+		self.get_start_and_interval()
+		
+
+	def get_start_and_interval(self):
+		inputView = sublime.Window.show_input_panel(sublime.active_window(),
+			'<Start>:<Interval>', '{}:{}'.format(self.start, self.interval),
+			self.on_done, None, None)
+
+
+	def on_done(self, text):
+		'''
+		this function just sets the start and interval selected by the user
+		because I couldnt figure out how to do that in the show_input_panel
+		function.
+		'''
+		try:
+			self.start, self.interval = text.split(':')
+			# self.start = float(start)
+			# self.interval = float(interval)
+		except:
+			self.start = None
+			self.interval = None
+		
+		if self.start!= None and self.interval!=None:
+			self.view.run_command("enumerate", {'start': self.start, 'interval': self.interval})
+
+
+
+class EnumerateCommand(sublime_plugin.TextCommand):
+	'''
+	This function enumerates the selection from a starting point by an interval
+	'''
+
+	def run(self, edit, start, interval):
+		# print (start, interval)
+		# initial_nums_list = []
+
+		if start.startswith('0'):
+			leading_zero = True
+		else:
+			leading_zero = False
+
+		start_num = self.is_int(start)
+		interval_num = self.is_int(interval)
+		f_or_i = type(start_num)==type(interval_num)
+
+		for i, region in enumerate(self.view.sel()):
+			# nums_list.append(self.view.substr(region))
+			if leading_zero:
+				num = self.add_leading_zeroes(str(start_num + i * interval_num))
+				self.view.replace(edit, region, num)
+			else:
+				num = str(start_num + i * interval_num)
+				self.view.replace(edit, region, num)
+
+
+	def is_int(self, num):
+		'''determine if the number (string) is an int or float, return num'''
+		try:
+			i = int(num)
+		except ValueError:
+			i = 1
+		try:
+			f = float(num)
+		except ValueError:
+			f = None
+
+		if f == i:
+			return i
+		else:
+			return f
+
+
+	def add_leading_zeroes(self, num):
+		'''
+		add the leading zeroes to match the PPCL syntax of 5 characters.
+		'''
+		try:
+			num = str(num).lstrip('0')
+		except:
+			pass
+
+		while len(str(num)) < 5:
+			num = '0' + str(num)
+		return num
