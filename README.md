@@ -34,7 +34,12 @@ http://www.smith-eng.com/index.php
 - **Ensure** [Sublime Text 3](https://www.sublimetext.com/3) is installed
 	- You should really consider getting a license to support the awesomeness of ST3
 - **via Package Control** *coming soon (hopefully) and preferred*
-	- Download [Package Control](https://packagecontrol.io/) and use the *Package Control: Install Package* command from the command palette. Using Package Control ensures the PPCL Editor will stay up to date automatically
+	- Download [Package Control](https://packagecontrol.io/) and follow their instructions
+	- in ST3, access the console by typing <kbd>ctrl</kbd> + <kbd>`</kbd>
+	- from [Package Control](https://packagecontrol.io/), look for the install link, and paste their code into the console.  Hit <kbd>enter</kbd>
+	- to access the command palette, type  <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>p</kbd>
+	- type *Package Control: Install Package* in the command palette. Then type *PPCL* and click on the link 
+	- Using Package Control ensures the PPCL Editor will stay up to date automatically
 - **Manual**
 	- Click "Clone or Download" and  (for windows) unzip the package to the following, where *user* is your username
 		-C:\Users\ *user* \AppData\Roaming\Sublime Text 3\Packages\PPCL
