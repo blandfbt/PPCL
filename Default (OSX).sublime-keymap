@@ -19,18 +19,18 @@
 // with the appropriate stuff for .pcl files
 // when enter is hit, it puts adjusts the line numbers
 // 
-// ctrl+shift+l will adjust the line numbers and any branch statements
-// 
-// ctrl+/ has the same commenting functionality as is standard with ST3
-// 
-// ctrl+alt+d for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
-// 
-// ctrl+alt+u for toggling the on the DEFINE statements (i.e. "AH1.HHW." becomes %X%)
-// 
+
 [
+  // { 
+  //   "keys": ["ctrl+shift+l"],
+  //   "command": "adjust_line_nums",
+  //   "context": [
+  //     { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+  //   ],
+  // },
   { 
     "keys": ["ctrl+shift+l"],
-    "command": "adjust_line_nums",
+    "command": "call_adjust",
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
@@ -82,5 +82,27 @@
     "context": [
       { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
     ],
-  },  
+  }, 
+  { 
+    "keys": ["ctrl+shift+h"],
+    "command": "get_help",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  }, 
+  { 
+    "keys": ["ctrl+shift+c"],
+    "command": "call_copy_code",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  },   
+  { 
+    "keys": ["ctrl+alt+n"],
+    "command": "call_enumerate",
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.PPCL" },
+    ],
+  }, 
+  
 ]
