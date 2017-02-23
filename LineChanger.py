@@ -152,6 +152,8 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		start_pos = None
 		end_pos = 0
 		for region in self.view.sel():
+			if region.empty() is True: # if nothing is selected, renumber entire file
+				region = sublime.Region(0, self.view.size())			
 			selectedLines = self.view.lines(region)
 			if start_pos is None:
 				start_pos = selectedLines[0].begin()
