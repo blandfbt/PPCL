@@ -412,7 +412,14 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 				(self.view.rowcol(self.view.size())[0] == row-1)):
 			self.view.insert(edit, self.view.line(self.view.sel()[0]).end(),
 							'\n'+str(newLineNum)+'\t')
-
+		else:
+			# popup warning if auto-increment fails
+			self.view.show_popup('<h3>Auto-increment conflict!</h3> \
+				<p>Renumber lines or change line increment in <em><strong>Tools>PPCL>Line \
+				Increment Amount</strong></em>.</p>',
+				sublime.HIDE_ON_MOUSE_MOVE_AWAY,
+				max_width=1000,
+				max_height=500)
 
 	def add_leading_zeroes(self, linenum):
 		'''
