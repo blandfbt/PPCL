@@ -193,20 +193,20 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		GOs_should = []
 		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
-			GO_nums = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
+			GO_nums = re.findall(r'(?:GO(?:TO|SUB) )([0-9]+)', line) # Changed regex so only the number is captured
 			try:
 				for found in GO_nums:
-					go_num = int(found[2])
+					go_num = int(found)
 					if go_num in lineNums:
 						# the case where the GO references an existing linenum
-						GOs_true.append(int(found[2]))
-						GOs_should.append(int(found[2]))
+						GOs_true.append(int(found))
+						GOs_should.append(int(found))
 					else:
 						# the case where the GO doesn't reference an exisitng linenum
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-go_num))) + 1
 						GOs_should.append(int(lineNums[index]))
-						GOs_true.append(int(found[2]))
+						GOs_true.append(int(found))
 			except:
 				pass
 		return (GOs_true, GOs_should)
@@ -221,19 +221,19 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		ONs_should = []
 		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
-			ON_nums = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
+			ON_nums = re.findall(r'(?:ONPWRT\()([0-9]+)(?:\))', line) # Changed regex so only the number is captured
 			try:
 				for found in ON_nums:
-					ON_num = int(found[1])
+					ON_num = int(found)
 					if ON_num in lineNums:
-						ONs_true.append(int(found[1]))
-						ONs_should.append(int(found[1]))
+						ONs_true.append(int(found))
+						ONs_should.append(int(found))
 					else:
 
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-ON_num))) + 1
 						ONs_should.append(int(lineNums[index]))
-						ONs_true.append(int(found[1]))
+						ONs_true.append(int(found))
 			except:
 				pass
 		return (ONs_true, ONs_should)
