@@ -171,6 +171,6 @@ patterns:
 
 - comment: find imroperly formatted ONPWRTs
   name: invalid.illegal.PPCL
-  match: (?<=ONPWRT)\((.*\D+.*\)|\d+\)\[.*\])
+  match: (?<=ONPWRT)(\(\d+\)(?!\s*\n)|\(.*\D+.*\)).*$
 
 ...

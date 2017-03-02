@@ -326,7 +326,7 @@
 			<key>comment</key>
 			<string>find imroperly formatted ONPWRTs</string>
 			<key>match</key>
-			<string>(?&lt;=ONPWRT)\((.*\D+.*\)|\d+\)\[.*\])</string>
+			<string>(?&lt;=ONPWRT)(\(\d+\)(?!\s*\n)|\(.*\D+.*\)).*$</string>
 			<key>name</key>
 			<string>invalid.illegal.PPCL</string>
 		</dict>
