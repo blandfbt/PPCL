@@ -93,7 +93,7 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		start_pos, end_pos, lineCount = self.get_region()
 
 		# check whether requested renumbering values will exceed PPCL max
-		if (lineCount * adjust_line_increment + adjust_line_start - adjust_line_increment) < 100000:
+		if (lineCount * adjust_line_increment + adjust_line_start - adjust_line_increment) <= 32767:
 			selected_content = self.view.substr(sublime.Region(start_pos, end_pos))
 			full_content = self.view.substr(sublime.Region(0, self.view.size()))
 
