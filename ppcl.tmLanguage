@@ -218,6 +218,22 @@
 		</dict>
 		<dict>
 			<key>comment</key>
+			<string>find GOTOs not followed by a space,number,space,newline or space,number,space,ELSE</string>
+			<key>match</key>
+			<string>GOTO(?!\s\d+(?:\s*\n|\s+ELSE)).*$</string>
+			<key>name</key>
+			<string>invalid.illegal.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>find GOSUBs not followed by a space,number,space</string>
+			<key>match</key>
+			<string>GOSUB(?!\s\d+\s+)</string>
+			<key>name</key>
+			<string>invalid.illegal.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
 			<string>operators in the PPCL language, but not functions.  make them red</string>
 			<key>match</key>
 			<string>THEN|ELSE|GOTO|RETURN|GOSUB</string>
@@ -305,6 +321,14 @@
 			<string>(\$([a-zA-Z_0-9]*) ?)</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>find imroperly formatted ONPWRTs</string>
+			<key>match</key>
+			<string>(?&lt;=ONPWRT)\((.*\D+.*\)|\d+\)\[.*\])</string>
+			<key>name</key>
+			<string>invalid.illegal.PPCL</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
