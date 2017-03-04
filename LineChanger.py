@@ -111,7 +111,7 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 			# popup warning if requested renumbering parameters will exceed max
 			self.view.show_popup('<h3>Renumbering Error!</h3> \
 				<p>Renumbering Start:Increment puts lines out of range. \
-				The maximum allowed line number is <strong>99999</strong>.</p>',
+				The maximum allowed line number is <strong>32767</strong>.</p>',
 				sublime.HIDE_ON_MOUSE_MOVE_AWAY,
 				max_width=1000,
 				max_height=500)
