@@ -117,6 +117,14 @@ patterns:
   end: ([ \)])
   match: \b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b
 
+- comment: find GOTOs not followed by a space,number,space,newline or space,number,space,ELSE
+  name: invalid.illegal.PPCL
+  match: GOTO(?!\s\d+(?:\s*\n|\s+ELSE)).*$
+
+- comment: find GOSUBs not followed by a space,number,space
+  name: invalid.illegal.PPCL
+  match: GOSUB(?!\s\d+\s+)
+
 - comment: operators in the PPCL language, but not functions.  make them red
   name: keyword.control.PPCL
   match: THEN|ELSE|GOTO|RETURN|GOSUB
@@ -127,8 +135,7 @@ patterns:
     captures:
       '1': {name: keyword.control.PPCL}
       # '2': {name: variable.language.PPCL}
-
-
+    
 - comment: capture point names and make the orange and italic
   name: variable.parameter.PPCL
   begin: (\")
@@ -162,5 +169,8 @@ patterns:
     '1': {name: variable.parameter.function.ppcl}
     '2': {name: punctuation.separator.parameters.ppcl}
 
+- comment: find imroperly formatted ONPWRTs
+  name: invalid.illegal.PPCL
+  match: (?<=ONPWRT)(\(\d+\)(?!\s*\n)|\(.*\D+.*\)).*$
 
 ...
