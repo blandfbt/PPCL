@@ -54,7 +54,7 @@ class CallAdjustCommand(sublime_plugin.TextCommand):
 	def get_line_start_and_increment(self):
 		inputView = sublime.Window.show_input_panel(sublime.active_window(),
 			'<Line Start>:<increment>', '{}:{}'.format(self.adjust_line_start, self.adjust_line_increment),
-			self.on_done, self.on_done, None)
+			None, self.on_done, None) # Having an action triggered on both "done" and "change" unnecessarily double executes
 
 
 	def on_done(self, text):
@@ -90,19 +90,31 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		self.adjust_line_increment = adjust_line_increment
 		self.adjust_line_start = adjust_line_start
 
-		start_pos, end_pos = self.get_region()
-		content = self.view.substr(sublime.Region(start_pos, end_pos))
-		full_content = self.view.substr(sublime.Region(0, self.view.size()))
+		start_pos, end_pos, lineCount = self.get_region()
 
-		# for renumbering gotos in the whole document, use the full_content
-		# argument. to renumber only those in the current selection, use content
+		# check whether requested renumbering values will exceed PPCL max
+		if (lineCount * adjust_line_increment + adjust_line_start - adjust_line_increment) <= 32767:
+			selected_content = self.view.substr(sublime.Region(start_pos, end_pos))
+			full_content = self.view.substr(sublime.Region(0, self.view.size()))
 
-		GOs_true, GOs_should = self.get_GOs(content)
-		ONs_true, ONs_should = self.get_ONPWRT(content)
-		newcontent = self.replace_line_nums(content, 
-						GOs_true, GOs_should, ONs_true, ONs_should)
-		selections = sublime.Region(start_pos, end_pos)
-		self.view.replace(edit, selections, newcontent)
+			# all GOs/ONs that point to renumbered lines should also be renumbered  
+			# to avoid breaking PPCL code, whether in the selection or not.
+			GOs_true, GOs_should, GOs_skipped = self.get_GOs(full_content)
+			ONs_true, ONs_should, ONs_skipped = self.get_ONPWRT(full_content)
+			newcontent = self.replace_line_nums(selected_content, full_content,
+										GOs_true, GOs_should, GOs_skipped, 
+										ONs_true, ONs_should, ONs_skipped)
+			selections = sublime.Region(start_pos, end_pos)
+			select_all = sublime.Region(0, self.view.size())
+			self.view.replace(edit, select_all, newcontent)
+		else:
+			# popup warning if requested renumbering parameters will exceed max
+			self.view.show_popup('<h3>Renumbering Error!</h3> \
+				<p>Renumbering Start:Increment puts lines out of range. \
+				The maximum allowed line number is <strong>32767</strong>.</p>',
+				sublime.HIDE_ON_MOUSE_MOVE_AWAY,
+				max_width=1000,
+				max_height=500)
 
 
 	def get_region(self):
@@ -115,12 +127,14 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 			if region.empty() is True: # if nothing is selected, renumber entire file
 				region = sublime.Region(0, self.view.size())
 			selectedLines = self.view.lines(region)
+			lineCount = len(selectedLines)
 			if start_pos is None:
 				start_pos = selectedLines[0].begin()
 			else:
 				start_pos = min(start_pos, selectedLines[0].begin())
 			end_pos = max(end_pos, selectedLines[-1].end())	
-		return start_pos, end_pos
+		return start_pos, end_pos, lineCount
+
 
 	def get_GOs(self, content):
 		'''
@@ -131,6 +145,7 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		'''
 		GOs_true = []
 		GOs_should = []
+		GOs_skipped = []
 		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
 			GO_nums = re.findall(r'(?:GO(?:TO|SUB) )([0-9]+)', line) # Changed regex so only the number is captured
@@ -141,15 +156,22 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 						# the case where the GO references an existing linenum
 						GOs_true.append(int(found))
 						GOs_should.append(int(found))
+						GOs_skipped.append('')
 					else:
 						# the case where the GO doesn't reference an exisitng linenum
+							# This could be extremely problematic. Probably better to 
+							# note original number and *suggest* closest line number
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-go_num))) + 1
 						GOs_should.append(int(lineNums[index]))
 						GOs_true.append(int(found))
+						GOs_skipped.append('')
 			except:
+				GOs_should.append('')
+				GOs_true.append('')
+				GOs_skipped.append(int(found))
 				pass
-		return (GOs_true, GOs_should)
+		return (GOs_true, GOs_should, GOs_skipped)
 
 
 	def get_ONPWRT(self, content):
@@ -159,6 +181,7 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		'''
 		ONs_true = []
 		ONs_should = []
+		ONs_skipped = []
 		lineNums = self.get_LineNumbers(content)
 		for i, line in enumerate(content.split('\n')):
 			ON_nums = re.findall(r'(?:ONPWRT\()([0-9]+)(?:\))', line) # Changed regex so only the number is captured
@@ -168,15 +191,20 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 					if ON_num in lineNums:
 						ONs_true.append(int(found))
 						ONs_should.append(int(found))
+						ONs_skipped.append('')
 					else:
 
 						index = lineNums.index(
 							min(lineNums, key=lambda y:abs(y-ON_num))) + 1
 						ONs_should.append(int(lineNums[index]))
 						ONs_true.append(int(found))
+						ONs_skipped.append('')
 			except:
+				ONs_should.append('')
+				ONs_true.append('')
+				ONs_skipped.append(int(found))				
 				pass
-		return (ONs_true, ONs_should)
+		return (ONs_true, ONs_should, ONs_skipped)
 
 
 	def get_LineNumbers(self, content):
@@ -194,7 +222,9 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		return lineNums
 
 
-	def replace_line_nums(self, content, GOs_true, GOs_should, ONs_true, ONs_should):
+	def replace_line_nums(self, selected_content, full_content, 
+						GOs_true, GOs_should, GOs_skipped, 
+						ONs_true, ONs_should, ONs_skipped):
 		'''
 		Replace all the content with the new line numbers, and return the updated content
 		and GOTO and GOSUB replacements.
@@ -202,17 +232,27 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		There's probably a cleaner way to write this...
 		'''
 
-		# the new content is a string of all the content of code
+		# the newcontent is a string of all the content of code
 		# start with it empty, and we are going to append to it
-		newcontent = ''
-		# Go_map is a dictionary holding the current text's GO nums as the keys
+		original_content = ''
+		renumbered_lines = ''
+		# Go_true_map is a dictionary holding the current text's GO nums as the keys
 		# for the lineNums they will end up refering to.
-		GO_map = {}
+		GO_true_map = {}
+		GO_suggested_map = {}
 		# ONs is the same, but for ONPWRT
-		ON_map = {}
+		ON_true_map = {}
+		ON_suggested_map = {}
 		lineNum = None
 
-		for i, line in enumerate(content.split('\n')):
+		for i, line in enumerate(selected_content.split('\n')):
+			# record original contents of lines being modified. this will be 
+			# used as the content to search for to replace with the renumbered lines 
+			if i < len(selected_content.split('\n')) - 1:
+				original_content += line + '\n'
+			else:
+				original_content += line
+
 			# try to find the lineNums in the start of each line of code
 			try:
 				lineNum = re.search(r'(^[0-9]+)([\t]|[ ]+)', line).group(1)
@@ -220,32 +260,57 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 				pass
 			# the lineNumReplace is the new line number, based on the start and increment
 			lineNumReplace = self.add_leading_zeroes(int(self.adjust_line_start) +
-													 (i * int(self.adjust_line_increment)))
+													 (i * int(self.adjust_line_increment)))	
 			
 			# the case where there is no text / line number
 			# this could be a missing line number, or the start of a new document
 			if lineNum == None:
 				line = lineNumReplace + '\t' + line
 			else:
-				# check if line is a number associated with a GO, build a GO dict
-				if int(lineNum) in GOs_should:
+				# check if line is a number associated with a GO anywhere in the 
+				# program, build a GO dict
+				if int(lineNum) in GOs_true:
+					index = int(lineNum)
+					GO_true_map[index] = int(lineNumReplace)
+				if int(lineNum) in GOs_should: # Changed elif -> if because a suggested number may point to the same line as a true number, but it would be skipped using elif
 					index = GOs_should.index(int(lineNum))
-					GO_map[GOs_true[index]] = int(lineNumReplace)
-				# check if line is a number associated with a ONPWRT, build a ON dict
-				if int(lineNum) in ONs_should:
+					GO_suggested_map[GOs_true[index]] = int(lineNumReplace)				
+				# check if line is a number associated with a ONPWRT anywhere in the 
+				# program, build a ON dict
+				if int(lineNum) in ONs_true:
+					index = int(lineNum)
+					ON_true_map[index] = int(lineNumReplace)
+				if int(lineNum) in ONs_should: # Changed elif -> if because a suggested number may point to the same line as a true number, but it would be skipped using elif
 					index = ONs_should.index(int(lineNum))
-					ON_map[ONs_true[index]] = int(lineNumReplace)
+					ON_suggested_map[ONs_true[index]] = int(lineNumReplace)						
 				# proceed with the rest of the line
 				if line.startswith('0'):
 					line = line.replace(str(lineNum), str(lineNumReplace))
 				else:
-					line = line.replace(str(lineNum).lstrip('0'), str(lineNumReplace))
+					line = line.replace(str(lineNum).lstrip('0'), str(lineNumReplace)) # isn't the '.lstrip('0')' implicit in the else of the condition 'if line.startswith('0'):'?
 			# add the line to the newcontent, build it out
-			if i < len(content.split('\n')) - 1:
-				newcontent += line + '\n'
+			if i < len(selected_content.split('\n')) - 1:
+				renumbered_lines += line + '\n'
 			else:
-				newcontent += line
+				renumbered_lines += line
+		# replace the original lines in the full pgm with renumbered lines.  
+		newcontent = full_content.replace(original_content, renumbered_lines)
+		newcontent = self.replace_gos_ons(newcontent, GO_true_map, GO_suggested_map, GOs_skipped, ON_true_map, ON_suggested_map, ONs_skipped)
+		return newcontent
 
+
+	def replace_gos_ons(self, newcontent, GO_true_map, GO_suggested_map, GOs_skipped, ON_true_map, ON_suggested_map, ONs_skipped):
+		'''
+		Replace GOTO, GOSUB, and ONPWRT targets with updated line numbers.
+		'''
+
+		GO_num = [] 
+		ON_num = []
+		for line in newcontent.split('\n'):
+			for match in re.findall(r'(?:GO(?:TO|SUB) )([0-9]+)', line): # Changed regex so only the number is captured
+				GO_num.append(int(match)) 
+			for match in re.findall(r'(?:ONPWRT\()([0-9]+)(?:\))', line): # Changed regex so only the number is captured
+				ON_num.append(int(match))
 
 		# this gets messy
 		# for each line, search for all GOs and ONs
@@ -254,30 +319,47 @@ class AdjustSomeLineNumsCommand(sublime_plugin.TextCommand):
 		# however, and blind string.reaplce() will replace
 		# the 1000 in 10000 with its reference (say 8000),
 		# making the new reference 80000 instead of 8000
-		for line in content.split('\n'):
-			GO_num = re.findall(r'(GO(TO|SUB) )([0-9]+)', line)
-			ON_num = re.findall(r'(ONPWRT\()([0-9]+)(\))', line)
-			for number in GO_num:
-				if int(number[2]) in GO_map.keys():
-					# match the GO reference only if it is the same integer
-					# as the GO_map key
-					newcontent = newcontent.replace('GOTO ' + number[2],
-											 'GOTO ' + self.add_leading_zeroes(
-											 	str(GO_map[int(number[2])])))
-					newcontent = newcontent.replace('GOSUB ' + number[2],
-											 'GOSUB ' + self.add_leading_zeroes(
-											 	str(GO_map[int(number[2])])))
-			for number in ON_num:
-				if int(number[2]) in ON_map.keys():
-					newcontent = newcontent.replace('ONPWRT(' + number[2],
-									'ONPWRT(' + self.add_leading_zeroes(
-										str(ON_map[int(number[2])])))
-		
+			# By "uniquefying" the lists of GOs/ONs before iterating through them, 
+			# multiple replacements aren't made for the same value. So, repeated calls
+			# to the same subroutine only result in one list entry. -NPW
+
+		GO_num = list(set(GO_num))
+		ON_num = list(set(ON_num))		
+		for number in GO_num:
+			if number in GO_true_map.keys():
+				# match the GO reference only if it is the same integer as the GO_true_map key
+				newcontent = newcontent.replace('GOTO ' + str(number),
+										 'GOTO ' + str(GO_true_map[number]))
+				newcontent = newcontent.replace('GOSUB ' + str(number),
+										 'GOSUB ' + str(GO_true_map[number]))
+			elif number in GO_suggested_map.keys():
+				newcontent = newcontent.replace('GOTO ' + str(number),
+										 'GOTO ' + str(GO_suggested_map[number]) + '[suggested number]')
+				newcontent = newcontent.replace('GOSUB ' + str(number),
+										 'GOSUB ' + str(GO_suggested_map[number]) + '[suggested number]')
+			elif number in GOs_skipped:
+				# moving the line number inside the square brackets ensures it isn't later matched and changed if later renumbering coincides with it.
+				newcontent = newcontent.replace('GOTO ' + str(number),
+										 'GOTO ' + '[' + str(number) + ' Not Found]')
+				newcontent = newcontent.replace('GOSUB ' + str(number),
+										 'GOSUB ' + '[' + str(number) + ' Not Found]')
+
+		for number in ON_num:
+			if number in ON_true_map.keys():
+				newcontent = newcontent.replace('ONPWRT(' + str(number),
+								'ONPWRT(' + str(ON_true_map[number]))
+			elif number in ON_suggested_map.keys():
+				newcontent = newcontent.replace('ONPWRT(' + str(number) + ')',
+								'ONPWRT(' + str(ON_suggested_map[number]) + ')' + '[suggested number]')
+			elif number in ONs_skipped:
+				# moving the line number inside the square brackets ensures it isn't later matched and changed if later renumbering coincides with it.
+				newcontent = newcontent.replace('ONPWRT(' + str(number) + ')',
+								'ONPWRT(' + '[' + str(number) + ' Not Found]' + ')')												
 		return newcontent
 
 	def add_leading_zeroes(self, linenum):
 		'''
-		add the leading zeroes to match the PPCL syntax of 5 characters.
+		add the leading zeros to match the PPCL syntax of 5 characters.
 		'''
 		try:
 			linenum = str(linenum).lstrip('0')
