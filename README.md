@@ -9,6 +9,7 @@ It also has features specific to writing PPCL
 
 Written by Brien Blandford at Smith Engineering, PLLC.
 http://www.smith-eng.com/index.php
+Contributions from Nathan Watkins
 
 
 *LineChanger.py is a PPCL plugin for the Sublime Text 3 text editor.*
@@ -41,7 +42,7 @@ http://www.smith-eng.com/index.php
 	- type *Package Control: Install Package* in the command palette. Then type *PPCL* and click on the link 
 	- Using Package Control ensures the PPCL Editor will stay up to date automatically
 - **Manual**
-	- Click "Clone or Download" and  (for windows) unzip the package to the following, where *user* is your username
+	- Click "Clone or Download" and (for windows) unzip the package to the following, where *user* is your username
 		-C:\Users\ *user* \AppData\Roaming\Sublime Text 3\Packages\PPCL
 	- Otherwise drop the package wherever you have ST3 Packages
 		- ***or***
@@ -49,20 +50,22 @@ http://www.smith-eng.com/index.php
 	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
 ##Usage
+- **Note that some of these functions keymappings are different for Linux and Mac machines**
 - **Open Help Window**
 	- Press <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>h</kbd> to show some relevant native ST3 keyboard shortcuts and all the shortcuts for PPCL
 - **Comment Toggling**
 	- To toggle comments, select any text and use <kbd>ctrl</kbd> + <kbd>/</kbd>, like the Native ST3 command
 - **Line Number Increment**
-	- To increment all the line numbers use <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>l</kbd>
+	- To increment line numbers, make a seletion of text, and press <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>l</kbd>
+		- This will increment only the selected text, but will update all GOs and other branch statements in the whole document
+		- If no text is selected, the default change will be the whole document
 	- This will prompt for the starting line number followed by the increment
 		- in the form of *1000:10*
 	- This will automatically update any GOTO and GOSUB references
-	- There is a known bug for this where this will update on the second time commanding it
 - **Add Line Numbers**
 	- Pressing <kbd>enter</kbd> will increment lines automatically
 	- The default increment is 1
-	-*this is a work in progress to get a user-specified increment amount*
+	- In the *Tools*->*PPCL*->*Line Increment* menu, there is a user-selection for the line increment amount
 	- if adding a line would increment => the following line, it won't progress
 - **Toggling DEFINE statements**
 	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>d</kbd> for toggling the off the DEFINE statements (i.e. %X% becomes "AH1.HHW.")
@@ -73,9 +76,8 @@ http://www.smith-eng.com/index.php
 - **Copy a chunk of Code**
 	- <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>c</kbd> prompts you for how many times you want the selected code copied, and pastes in where you have selected.
 - **other features, such as the big cursor, regex searching, etc. are natively supported by ST3**
-- *a similar funtion as [InsertNums](https://packagecontrol.io/packages/Insert%20Nums) has been added to the package*
-- **incrementing numbers inside the code (not the line numbers)**
-	- <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>n</kbd> prompts you for a start number and interval number.  The selected regions will be incremented by this amount.  If the start number has a leading 0, it will make all numbers 5 digits long, as in PPCL line numbers.
+- *a similar funtion as [InsertNums](https://packagecontrol.io/packages/Insert%20Nums) has been added to the package.  Other packages cna work in tandem with the PPCL editor*
+
 
 ##Native ST3 Commands / Properties
 - **Set Syntax**

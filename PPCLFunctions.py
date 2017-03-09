@@ -25,6 +25,10 @@ import re
 class GetHelpCommand(sublime_plugin.WindowCommand):
 	help_dict = [
 		' ',
+		'**Note that these key mappings are for Windows machines.**',
+		'**Linux and Mac mappings are included, but might differ from this menu.**'
+		' ',
+		' ',
 		'Native Commands',
 		' ',
 		'Ctrl + X                Cut line',
