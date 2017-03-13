@@ -109,7 +109,7 @@
                                 "command": "open_file",
                                 "args":
                                 {
-                                    "file": "${packages}/PPCL/ppcl.sublime-settings"
+                                    "file": "${packages}/PPCL Language Syntax and Editor/ppcl.sublime-settings"
                                 }
                             },
                             {
@@ -117,7 +117,7 @@
                                 "command": "open_file",
                                 "args":
                                 {
-                                    "file": "${packages}/User/ppcl.sublime-settings"
+                                    "file": "${packages}/PPCL Language Syntax and Editor/ppcl.sublime-settings"
                                 }
                             }
                         ]
