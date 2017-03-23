@@ -1,0 +1,9 @@
+{
+   "scope": "source.PPCL - comment.block.PPCL",
+
+   "completions":
+   [
+      { "trigger": "GOSUB\tGOSUB line#", "contents": "GOSUB ${1:\\$line_number}" },
+      { "trigger": "GOTO\tGOTO line#", "contents": "GOTO ${1:\\$line_number}" }
+   ],
+}

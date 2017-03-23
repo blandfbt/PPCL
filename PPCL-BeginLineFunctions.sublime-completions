@@ -1,0 +1,13 @@
+{
+   "scope": "source.PPCL line.start.PPCL",
+
+   "completions":
+   [
+      { "trigger": "DBSWIT\tDBSWIT(type,input,low,high,pt1,...,pt12)", "contents": "DBSWIT(${1:\\$type_0DA_1RA},${2:\\$input},${3:\\$output},${4:\\$low},${5:\\$high},${6:\\$pt1},${7:\\$to_pt12})" },
+      { "trigger": "IF\tIF(exp) THEN x ELSE y", "contents": "IF($1) THEN $2 ELSE $3" },
+      { "trigger": "LOOP\tLOOP(type,pv,cv,sp,pg,ig,dg,st,bias,lo,hi,0)", "contents": "LOOP(${1:\\$type_0DA_128RA},${2:\\$pv},${3:\\$cv},${4:\\$sp},${5:\\$pg},${6:\\$ig},${7:\\$dg},${8:\\$st},${9:\\$bias},${10:\\$lo},${11:\\$hi},0)" },
+      { "trigger": "ONPWRT\tONPWRT(line#)", "contents": "ONPWRT(${1:\\$line_number})" },
+      { "trigger": "SAMPLE\tSAMPLE(line#)", "contents": "SAMPLE(${1:\\$line_number})" },
+      { "trigger": "TABLE\tTABLE(I,O,x1,y1...x7,y7)", "contents": "TABLE(${1:\\$input},${2:\\$output},${3:\\$x1},${4:\\$y1},${5:\\$x7},${6:\\$y7})" }
+   ],
+}

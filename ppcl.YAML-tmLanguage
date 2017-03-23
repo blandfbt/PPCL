@@ -79,6 +79,10 @@ patterns:
   captures:
     '1': {name: punctuation.separator.parameters.ppcl}
 
+- comment: Find start of code line
+  name: line.start.PPCL
+  match: (?<=^([0-9]{5})\t)\w+(?=\n)
+
 - comment: Find line numbers at start of code line
   name: constant.other.PPCL
   match: ^([0-9]{5})
@@ -108,7 +112,7 @@ patterns:
     '2': {name: entity.name.function}
 
 - comment: match the logical operators make them red
-  name: keyword.operator.comparison.python
+  name: keyword.operator.comparison.PPCL
   match: \.(EQ|GT|LT|LE|GE|NE|N?AND|X?OR)\.
 
 - comment: make the numbers purple
@@ -126,18 +130,28 @@ patterns:
   match: GOSUB(?!\s\d+\s+)
 
 - comment: operators in the PPCL language, but not functions.  make them red
-  name: keyword.control.PPCL
+  name: keyword.control.conditional.PPCL
   match: THEN|ELSE|GOTO|RETURN|GOSUB
 
 - comment: operators in the PPCL language.  IF is different in that it is always followed by a (
   patterns:
   - match: (IF)( ?\()
     captures:
-      '1': {name: keyword.control.PPCL}
+      '1': {name: keyword.control.conditional.PPCL}
       # '2': {name: variable.language.PPCL}
+
+- comment: capture local points and make them the same color as regular points
+  name: support.constant.PPCL
+  begin: (\$)
+  end: ([ ])
+  match: (\"?\$)(?:[-a-zA-Z_0-9]*)(\"? ?)
+  captures:
+    '1': {name: punctuation.separator.parameters.ppcl}
+    # '2': {name: support.constant.PPCL}
+    '2': {name: punctuation.separator.parameters.ppcl}
     
 - comment: capture point names and make the orange and italic
-  name: variable.parameter.PPCL
+  name: support.other.PPCL
   begin: (\")
   end: (\")
   patterns:
@@ -159,15 +173,6 @@ patterns:
 #   - match: (\.)(EQ|GT|LT|LE|GE|NE|AND|OR|NAND|XOR)(\.)
 #     captures:
 #       '1': {name: variable.parameter.function.ppcl}
-
-- comment: capture local points and make them the same color as regular points
-  name: variable.language.PPCL
-  begin: (\$)
-  end: ([ ])
-  match: (\$([a-zA-Z_0-9]*) ?)
-  captures:
-    '1': {name: variable.parameter.function.ppcl}
-    '2': {name: punctuation.separator.parameters.ppcl}
 
 - comment: find imroperly formatted ONPWRTs
   name: invalid.illegal.PPCL
