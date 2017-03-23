@@ -25,11 +25,11 @@ Contributions from Nathan Watkins
 *MIT license for more details.*
 
 *You should have received a copy of the license with this package,*
-*but one can be found at <https://opensource.org/licenses/MIT>*
+*but one can be found at <https://opensource.org/licenses/MIT>.*
 
 
 
-##Installing
+## Installing
 - **Ensure** [Sublime Text 3](https://www.sublimetext.com/3) is installed
 	- You should really consider getting a license to support the awesomeness of ST3
 - **via Package Control** *coming soon (hopefully) and preferred*
@@ -47,7 +47,7 @@ Contributions from Nathan Watkins
 	- In ST3, go to *Preferences* and *Browse Packages*
 	- This will open the directory containing the packages for ST3, and you can drop the unzipped contents there
 
-##Usage
+## Usage
 - **Note that some of these functions keymappings are different for Linux and Mac machines**
 - **Open Help Window**
 	- Press <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>h</kbd> to show some relevant native ST3 keyboard shortcuts and all the shortcuts for PPCL
