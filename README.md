@@ -25,7 +25,7 @@ Contributions from Nathan Watkins
 *MIT license for more details.*
 
 *You should have received a copy of the license with this package,*
-*but one can be found at https://opensource.org/licenses/MIT*
+*but one can be found at <https://opensource.org/licenses/MIT>*
 
 
 
