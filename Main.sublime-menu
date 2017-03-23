@@ -10,6 +10,51 @@
                 "children":
                 [
                     {
+                        "caption": "Show Help Popups",
+                        "children":
+                        [
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "enable_help",
+                                "args": {
+                                   "enable_help": true},
+                                "caption": "ON",
+                                "checkbox": true,
+                            },                            
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "enable_help",
+                                "args": {
+                                   "enable_help": false},
+                                "caption": "OFF",
+                                "checkbox": true,
+                            },
+                        ]
+                    },
+                    {
+                        "caption": "Show Increment Popups",
+                        "children":
+                        [
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "show_popups",
+                                "args": {
+                                   "popup_choice": true},
+                                "caption": "ON",
+                                "checkbox": true,
+                            },                            
+                            {
+                                // "command": "perforce_graphical_diff_with_depot",
+                                "command": "show_popups",
+                                "args": {
+                                   "popup_choice": false},
+                                "caption": "OFF",
+                                "checkbox": true,
+                            },
+                        ]
+                    },
+                     
+                    {
                         "caption": "Line Increment Amount",
                         "children":
                         [

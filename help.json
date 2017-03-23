@@ -1,0 +1,19 @@
+{
+	"EQ": {
+		"function": "value1.EQ.value2",
+		"description": "Return TRUE if 'value.1' equals 'value.2'",
+		"example": "self explanatory"
+	},
+	"TABLE": {
+		"function": "TABLE($IN, $OUT, $X1, $Y1, $X2, $Y2, ..., $X7, $Y7)",
+		"description": "A table statement makes a linear interpolation between the x points and y points, given the input variable, and maps to the ouptut variable.",
+		"example": "TABLE($LOC1, $LOC2, 0, 0, 10, 100) -> if $LOC1 is 0, $LOC2 would be 0.  If $LOC1 is 5, $LOC2 would be 50.  If $LOC1 is 10, $LOC2 would be 100.  Also,  if $LOC1 is -2, $LOC2 would be 0, and  if $LOC1 is 15, $LOC2 would be 100."
+	},
+
+	"": {
+		"function": "",
+		"description": "",
+		"example": ""
+	}
+
+}
