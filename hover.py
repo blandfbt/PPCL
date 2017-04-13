@@ -52,7 +52,8 @@ class HoverOverCommand(sublime_plugin.EventListener):
         '''
         read in the json file, return the appropriate function.
         '''
-        jsonfile = os.path.join(sublime.packages_path(), 'PPCL Language Syntax and Editor', filename)
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        jsonfile = os.path.join(dir_path, filename)
         try:
             with open(jsonfile, 'r') as helpjson:
                 data = json.loads(helpjson.read())
