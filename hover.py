@@ -4,19 +4,26 @@ import json
 import os
 
 
-
-help_on = True
-
-
 class EnableHelpCommand(sublime_plugin.WindowCommand):
-    def run(self, enable_help):
-        global help_on
-        help_on = enable_help
+
+    """Enables/Disables help popup setting"""
+
+    def run(self, setting):
+        s = sublime.load_settings('ppcl.sublime-settings')
+        s.set(setting, not s.get(setting, False))
+        sublime.save_settings('ppcl.sublime-settings')
+
+    def is_checked(self, setting):
+        s = sublime.load_settings('ppcl.sublime-settings')
+        return s.get(setting, False)
 
 
 class HoverOverCommand(sublime_plugin.EventListener):
+
     def on_hover(self, view, point, hover_zone):
-        print (help_on)
+        s = sublime.load_settings('ppcl.sublime-settings')
+        help_on = s.get('enable_help_popup')
+        # print (help_on)
         if not help_on:
             return
 

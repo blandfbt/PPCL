@@ -22,22 +22,37 @@ import sublime, sublime_plugin
 import re
 from operator import itemgetter
 
-enter_line_increment = 1
-show_popups = True
-
 
 class SetIncrementCommand(sublime_plugin.WindowCommand):
+    # def run(self, increment):
+    #     global enter_line_increment
+    #     enter_line_increment = increment
+
+    """Enables/Disables warning popups"""
+
     def run(self, increment):
-        global enter_line_increment
-        enter_line_increment = increment
+        s = sublime.load_settings('ppcl.sublime-settings')
+        s.set('enter_line_increment', increment)
+        sublime.save_settings('ppcl.sublime-settings')
 
-
+    def is_checked(self, increment):
+        s = sublime.load_settings('ppcl.sublime-settings')
+        # print('enter_line_increment = ', s.get('enter_line_increment', 10))
+        return s.get('enter_line_increment', 10) == increment
 
 class ShowPopupsCommand(sublime_plugin.WindowCommand):
-    def run(self, popup_choice):
-        global show_popups
-        show_popups = popup_choice
 
+    """Enables/Disables warning popups"""
+
+    def run(self, setting):
+        s = sublime.load_settings('ppcl.sublime-settings')
+        s.set(setting, not s.get(setting, False))
+        sublime.save_settings('ppcl.sublime-settings')
+
+    def is_checked(self, setting):
+        s = sublime.load_settings('ppcl.sublime-settings')
+        # print('show_popups = ', s.get(setting, False))
+        return s.get(setting, False)
 
 
 class CallAdjustCommand(sublime_plugin.TextCommand):
@@ -387,9 +402,10 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
     consideration the count if it ends up being the same as the line below it.
     '''
     def run(self, edit):
-        # increment = 1
-        global enter_line_increment
-        increment = enter_line_increment
+
+        s = sublime.load_settings('ppcl.sublime-settings')
+        increment = s.get('enter_line_increment', 10)
+        show_popups = s.get('enable_increment_popup', True)
 
         currentLine = self.view.substr(self.view.line(self.view.sel()[0]))
         rowandcol = self.view.rowcol(self.view.sel()[0].begin())
