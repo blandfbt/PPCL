@@ -24,9 +24,6 @@ from operator import itemgetter
 
 
 class SetIncrementCommand(sublime_plugin.WindowCommand):
-    # def run(self, increment):
-    #     global enter_line_increment
-    #     enter_line_increment = increment
 
     """Enables/Disables warning popups"""
 
