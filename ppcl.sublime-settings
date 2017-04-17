@@ -1,5 +1,8 @@
 {
-	"word_separators": "/\\()',;<>~!@#%^&*|+=[]{}`~?\"$",
-	"line_numbers": false,
 	"auto_find_in_selection": true,
+	"enable_help_popup": true,
+	"enable_increment_popup": true,
+	"enter_line_increment":10,
+	"line_numbers": false,
+	"word_separators": "/\\()',;<>~!@#%^&*|+=[]{}`~?\"$"
 }

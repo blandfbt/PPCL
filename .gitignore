@@ -4,3 +4,4 @@
 *.pdf
 *.pcl
 *.png
+.DS_Store
