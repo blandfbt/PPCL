@@ -35,7 +35,7 @@ class HoverOverCommand(sublime_plugin.EventListener):
     def on_hover(self, view, point, hover_zone):
         s = sublime.load_settings('ppcl.sublime-settings')
         help_on = s.get('enable_help_popup')
-        # print (help_on)
+        print (help_on)
         if not help_on:
             return
 
