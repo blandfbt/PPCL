@@ -1,99 +1,658 @@
 
 {
-	"DISALM": {
-		"function": "DISALM($Point1, ... ,$Point16)",
-		"description": "This function disables all alarm reporting from the points listed in the function",
-		"example": "DISALM($Point1, \"POINT.2\") -> This would disable alarm reporting on the local point $Point1 and the point \"Point.2\""
+	"COMMENT":{
+		"function": "Want to comment a JSON file?  Make a key that won't be used",
+		"description": "So, there are a bunch of NOT YET DEFINED entries in here.  I wanted to get them written down so there is a guide to work from.  The pop ups may inspire others to contribute.",
+		"example": "you can write in this file, and commit it to the repo.  Feel free to have fun!"
 	},
 
-	"EQ": {
-		"function": "value1.EQ.value2",
-		"description": "Return TRUE if 'value.1' equals 'value.2'",
-		"example": "self explanatory"
-	},
+	"ACT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ADAPTM": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ADAPTS": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
 	
-	"TABLE": {
-		"function": "TABLE($IN, $OUT, $X1, $Y1, $X2, $Y2, ..., $X7, $Y7)",
-		"description": "A table statement makes a linear interpolation between the x points and y points, given the input variable, and maps to the ouptut variable.",
-		"example": "TABLE($LOC1, $LOC2, 0, 0, 10, 100) -> if $LOC1 is 0, $LOC2 would be 0.  If $LOC1 is 5, $LOC2 would be 50.  If $LOC1 is 10, $LOC2 would be 100.  Also,  if $LOC1 is -2, $LOC2 would be 0, and  if $LOC1 is 15, $LOC2 would be 100."
-	},
-	
-	".AND.": {
+	"AND": {
 		"function": "IF(\"POINT.1\" .AND. \"POINT.2\") THEN ...",
 		"description": "If both points are TRUE or ON, then this will proceed to the then condition.  If either is FALSE, then the condition will not be met.",
 		"example": "IF(\"POINT.1\" .AND. \"POINT.2\") THEN GOTO 4300\" -> If and only if both points are true, then the condition will proceed.  Otherwise, the next line will execute and trace."
-	},
+		},
 	
-	".NAND.": {
-		"function": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN ...",
-		"description": "The NEITHER conditional. If neither one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, one is TRUE, or if both are True, then the condition will not be met",
-		"example": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN GOTO 4300\" -> Only if both of the points is FALSE, then the condition will proceed.  Otherwise, the next line will execute and trace."
-	},
-	
-	".OR.": {
-		"function": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN ...",
-		"description": "If either or both of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, then the condition will not be met",
-		"example": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN GOTO 4300\" -> If either or both of the points is TRUE, then the condition will proceed.  Otherwise, the next line will execute and trace."
-	},
+	"ALARM": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
 
-	".XOR.": {
-		"function": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN ...",
-		"description": "The exclusive OR.  If only one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE or both are TRUE, then the condition will not be met",
-		"example": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN GOTO 4300\" -> If either of the points is TRUE, but not both, then the condition will proceed.  Otherwise, the next line will execute and trace."
-	},
+	"AUTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
 
 	"COM": {
 		"function": "\"POINT.1\" = COM(\"POINT.2\")",
 		"description": "The complement function.  Hi, you're looking great! Actually, this produces the boolean opposite of a 0 or 1.  So, if \"POINT.2\" is equal to 1, this function would make \"POINT.1\" equal to 0.",
 		"example": "\"POINT.1\" = COM(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 0."
-	},
+		},
 
 	"COS": {
 		"function": "\"POINT.1\" = COS(\"POINT.2\")",
 		"description": "The COSINE function.  Like when you can't afford NYC rent and don't make 50 times the rent in annual salary, and your parents have to sign the lease too, so that the landlord actually gives you the place! Nah, it's the Pythagorus kind of cosine.",
 		"example": "\"POINT.1\" = COS(\"POINT.2\") -> If \"POINT.2\" = PI/2, then \"POINT.1\" will be set to 1."
-	},
+		},
 
-	"SIN": {
-		"function": "\"POINT.1\" = SIN(\"POINT.2\")",
-		"description": "The SINE function. The opposite over the hypotenus.",
-		"example": "\"POINT.1\" = SIN(\"POINT.2\") -> If \"POINT.2\" = PI, then \"POINT.1\" will be set to 1."
-	},
+	"DAY": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DBSWIT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DC": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DCR": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DEACT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DEFINE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DISABL": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DISALM": {
+		"function": "DISALM($Point1, ... ,$Point16)",
+		"description": "This function disables all alarm reporting from the points listed in the function",
+		"example": "DISALM($Point1, \"POINT.2\") -> This would disable alarm reporting on the local point $Point1 and the point \"Point.2\""
+		},
+
+	"DISCOV": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DPHONE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMAUTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMFAST": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMOFF": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMON": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMSET": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMSLOW": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ENABLE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ENALM": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ENCOV": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EPHONE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EQ": {
+		"function": "value1.EQ.value2",
+		"description": "Return TRUE if 'value.1' equals 'value.2'",
+		"example": "self explanatory"
+		},
 
 	"EXP": {
 		"function": "\"POINT.1\" = EXP(\"POINT.2\")",
 		"description": "The NATURAL ANTILOG function. The opposite of the LOG base e (Euler's number) function.",
 		"example": "\"POINT.1\" = EXP(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 2.718..."
-	},
+		},
+
+	"FAST": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"HLIMIT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"HOLIDA": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"INITTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"LLIMIT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"LOCAL": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
 
 	"LOG": {
 		"function": "\"POINT.1\" = LOG(\"POINT.2\")",
 		"description": "The NATURAL LOG function. The base e (Euler's number) LOG function.",
 		"example": "\"POINT.1\" = LOG(\"POINT.2\") -> If \"POINT.2\" = 2.718..., then \"POINT.1\" will be set to 1."
-	},
+		},
 
-	".ROOT.": {
+	"LOOP": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"MAX": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"MIN": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"NAND": {
+		"function": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN ...",
+		"description": "The NEITHER conditional. If neither one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, one is TRUE, or if both are True, then the condition will not be met",
+		"example": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN GOTO 4300\" -> Only if both of the points is FALSE, then the condition will proceed.  Otherwise, the next line will execute and trace."
+		},
+	
+	"NIGHT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"NORMAL": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"OIP": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ONPWRT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"OR": {
+		"function": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN ...",
+		"description": "If either or both of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, then the condition will not be met",
+		"example": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN GOTO 4300\" -> If either or both of the points is TRUE, then the condition will proceed.  Otherwise, the next line will execute and trace."
+		},
+
+	"PDL": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"PDLDAT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"PDLDPG": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"PDLMTR": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"PDLSET": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"RELEAS": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ROOT": {
 		"function": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\")",
 		"description": "The ROOT function. This takes the Nth root (\"POINT.2\") of a number (\"POINT.1\").  This takes decimal roots and numbers as well.",
 		"example": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 8, then \"POINT.3\" will be 3."
-	},
+		},
 
-	".SQRT.": {
+	"SAMPLE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SET": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SLOW": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SIN": {
+		"function": "\"POINT.1\" = SIN(\"POINT.2\")",
+		"description": "The SINE function. The opposite over the hypotenus.",
+		"example": "\"POINT.1\" = SIN(\"POINT.2\") -> If \"POINT.2\" = PI, then \"POINT.1\" will be set to 1."
+		},
+
+	"SQRT": {
 		"function": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\")",
 		"description": "The SQUARE ROOT function. This takes the 2th root (\"POINT.2\") of a number (\"POINT.1\").",
 		"example": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 4, then \"POINT.3\" will be 2."
-	},
+		},
+
+	"SSTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SSTOCO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"STATE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TABLE": {
+		"function": "TABLE($IN, $OUT, $X1, $Y1, $X2, $Y2, ..., $X7, $Y7)",
+		"description": "A table statement makes a linear interpolation between the x points and y points, given the input variable, and maps to the ouptut variable.",
+		"example": "TABLE($LOC1, $LOC2, 0, 0, 10, 100) -> if $LOC1 is 0, $LOC2 would be 0.  If $LOC1 is 5, $LOC2 would be 50.  If $LOC1 is 10, $LOC2 would be 100.  Also,  if $LOC1 is -2, $LOC2 would be 0, and  if $LOC1 is 15, $LOC2 would be 100."
+		},
 
 	"TAN": {
 		"function": "\"POINT.1\" = TAN(\"POINT.2\")",
 		"description": "The TAN function. It get's you bronzed.  The adjacent over the opposite.",
 		"example": "\"POINT.1\" = TAN(\"POINT.2\") -> If \"POINT.2\" = PI/4, then \"POINT.1\" will be set to 1."
-	},
+		},
 
-	"": {
-		"function": "",
-		"description": "",
-		"example": ""
+	"TIMAVG": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TOD": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TODMOD": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TODSET": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"WAIT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ATN": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ALMPRI": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TOTAL": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ALMCNT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ALMCT2": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"BATT": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"CRTIME": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DAY": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DAYOFM": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"LINK": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"MONTH": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"NODE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SECNDS": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SECND": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"TIME": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"XOR": {
+		"function": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN ...",
+		"description": "The exclusive OR.  If only one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE or both are TRUE, then the condition will not be met",
+		"example": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN GOTO 4300\" -> If either of the points is TRUE, but not both, then the condition will proceed.  Otherwise, the next line will execute and trace."
+		},
+
+	"ALMACK": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"AUTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+	
+	"DEAD": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"LOW": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"OK": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"DAYMOD": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"FAST": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"HAND": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"NGTMOD": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SLOW": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"OFF": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ON": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"PRFON": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"START": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"STOP": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"FAILED": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"OPER": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"EMER": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"SMOKE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"THEN": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"ELSE": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"GOTO": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"RETURN": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	"GOSUB": {
+			"function": "NOT YET DEFINED",
+			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
+			"example": "or email me at brien.blandford@gmail.com"
+		}
 	}
 
-}
+
