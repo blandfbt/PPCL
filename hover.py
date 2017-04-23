@@ -84,28 +84,27 @@ class HoverOverCommand(sublime_plugin.EventListener):
             print ('Error reading JSON')
 
 
-
     def create_popup(self, view, word, helps, location):
         '''
         make the pop up from helps, with appropriate html
         '''
-        # {0} = word
-        # 
+
 
         if view==None or word==None:
             return
 
-        try:
-            width = 3*max(255, max([len(item) for key, item in helps.items()]))
-        except AttributeError:
-            return
 
-        
-
-        popup_html = '''<h2>Help for {0}</h2>
-        <p><h3><u>Format</u></h3> {1}</p>
-        <h3><u>Description</u></h3> {2}
-        <h3><u>Example</u></h3> {3}
+        popup_html = '''
+        <h2>Help for {0}</h2>
+            <h3>
+            <u style="color:#538b01">Format</u>
+            </h3> {1}
+        <h3 >
+            <u style="color:#538b01">Description</u>
+        </h3><p style="word-wrap: break-word; width: 100px">{2}</p>
+        <h3 >
+            <u style="color:#538b01">Example</u>
+        </h3><p style="word-wrap: break-word; width: 100px">{3}</p>
         '''.format(
             word,
             helps['function'],
@@ -114,12 +113,12 @@ class HoverOverCommand(sublime_plugin.EventListener):
             )
 
 
-        print (width)
         view.show_popup(
                         popup_html,
                         flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY,
                         location=location, 
-                        max_width=width
+                        max_width=800,
+                        max_height = 10000
                         )
 
 
