@@ -14,6 +14,7 @@ import sublime
 import sublime_plugin
 import json 
 import os
+import re
 
 
 class EnableHelpCommand(sublime_plugin.WindowCommand):
@@ -34,9 +35,8 @@ class HoverOverCommand(sublime_plugin.EventListener):
 
     def on_hover(self, view, point, hover_zone):
         s = sublime.load_settings('ppcl.sublime-settings')
-        help_on = s.get('enable_help_popup')
-        print (help_on)
-        if not help_on:
+        word = s.get('enable_help_popup')
+        if not word:
             return
 
         if hover_zone == sublime.HOVER_TEXT:
@@ -44,13 +44,15 @@ class HoverOverCommand(sublime_plugin.EventListener):
             if syntax == 'source.PPCL':
                 region = sublime.Region(point)
                 word = self.get_user_selection(view, region)
+                # check for numbers that get brought into the string, like 9.ROOT.3
+                nums_at_the_end = re.findall(r'[0-9]+', word)
+                if nums_at_the_end is not None:
+                    for item in nums_at_the_end:
+                        word = word.replace(item, '')
                 print (word)
                 helps = self.read_json(word)
-                # print (helps)
-                # print ('function: {0}\ndescription: {1}\nexample: {2}'.format(
-                #                                             helps['function'],
-                #                                             helps['description'],
-                #                                             helps['example'],))
+                if helps == 'Not Defined':
+                    return
                 self.create_popup(view, word, helps, region.begin())
 
 
@@ -79,7 +81,7 @@ class HoverOverCommand(sublime_plugin.EventListener):
             try:
                 return data[func]
             except KeyError:
-                print ('Key not in map')
+                return 'Not Defined'
         except (OSError, IOError) as e:
             print ('Error reading JSON')
 
@@ -89,10 +91,8 @@ class HoverOverCommand(sublime_plugin.EventListener):
         make the pop up from helps, with appropriate html
         '''
 
-
         if view==None or word==None:
             return
-
 
         popup_html = '''
         <h2>Help for {0}</h2>

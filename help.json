@@ -151,9 +151,9 @@
 		},
 
 	"DISABL": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "DISABL(line1, ..., line16)",
+			"description": "Disable the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
+			"example": "DISABL(1, 5, 3200, 32767) would disable lines 1, 5, 3200, and 32767."
 		},
 
 	"DISALM": {
@@ -169,9 +169,9 @@
 		},
 
 	"DPHONE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "DPHONE(phonenumber1, ..., phonenumber16)",
+			"description": "Disable the telephone ID number of phonenumber1 through phonenumber16 that are defined in the device.  Wow, PPCL is old-school. Now using modems!",
+			"example": "DPHONE(1, 3, 5) would disable those phone numbers in a device."
 		},
 
 	"ELSE": {
@@ -181,81 +181,81 @@
 		},
 
 	"EMAUTO": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMAUTO(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of ON/OFF/AUTO to AUTO in emergency priority.",
+			"example": "EMAUTO(\"CHW.PUMP.1\") will put that point in auto."
 		},
 
 	"EMER": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "@EMER",
+			"description": "A state used for comparison.  It means the point is in emergency.",
+			"example": "IF(\"PUMP.1.SS\" .EQ. @ENER) THEN GOTO 3200"
 		},
 
 	"EMFAST": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMFAST(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of FAST/SLOW/STOP to FAST in emergency priority.",
+			"example": "EMFAST(\"CHW.PUMP.1\") will put that point in FAST and @EMER."
 		},
 
 	"EMOFF": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMOFF(pt1,...,pt16) or EMOFF(priority, pt1)",
+			"description": "Changes the point to OFF in emergency priority.  The other option sets pt1 to the priority given, which can be 501 (OFF in emergency priority) or 32523 (OFF in NONE priority).  Weird...",
+			"example": "EMOFF(\"CHW.PUMP.1\") will put that point in OFF and @EMER.  EMOFF(32523, \"CHW.PUMP.1\") will put that point in OFF with @NONE priority."
 		},
 
 	"EMON": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMON(pt1,...,pt16) or EMON(priority, pt1)",
+			"description": "Changes the point to ON in emergency priority.  The other option sets pt1 to the priority given, which can be 501 (ON in emergency priority) or 32523 (ON in NONE priority).  Weird...",
+			"example": "EMON(\"CHW.PUMP.1\") will put that point in ON and @EMER.  EMON(32523, \"CHW.PUMP.1\") will put that point in ON with @NONE priority."
 		},
 
 	"EMSET": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMSET(value, pt1,...,pt15)",
+			"description": "Changes the analog points to a value and puts them in emergency priority.",
+			"example": "EMAUTO(100, \"CHW.PUMP.1.SPEED\") will put that point to 100% speed and in @EMER priority."
 		},
 
 	"EMSLOW": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EMSLOW(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of SLOW/SLOW/STOP to SLOW in emergency priority.",
+			"example": "EMSLOW(\"CHW.PUMP.1\") will put that point in SLOW and @EMER."
 		},
 
 	"ENABLE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ENABL(line1, ..., line16)",
+			"description": "Enable the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
+			"example": "ENABL(1, 5, 3200, 32767) would enable lines 1, 5, 3200, and 32767."
 		},
 
 	"ENALM": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ENALM(pt1, ..., pt16)",
+			"description": "Enable the alarming of pt1 through pt16 ",
+			"example": "ENALM(\"TRUMPS.AT.MAR.A.LOGA.AGAIN\") would enable the alarm for that point."
 		},
 
 	"ENCOV": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ENCOV(pt1, ..., pt16)",
+			"description": "Enable the COV reporting of pt1 through pt16.",
+			"example": "ENCOV(\"TRUMPS.AT.MAR.A.LOGA.AGAIN\") would enable the COV reporting for that point.  Watch out, tons of COVs can eat a lot of memory and communication bandwidth."
 		},
 
 	"EPHONE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "EPHONE(phonenumber1, ..., phonenumber16)",
+			"description": "Enable the telephone ID number of phonenumber1 through phonenumber16 that are defined in the device.  Wow, PPCL is old-school. Now using modems!",
+			"example": "EPHONE(1, 3, 5) would enable those phone numbers in a device."
 		},
 
-	"EQ": {
-		"function": "value1.EQ.value2",
-		"description": "Return TRUE if 'value.1' equals 'value.2'",
-		"example": "self explanatory"
+	".EQ.": {
+			"function": "value1.EQ.value2",
+			"description": "Return TRUE if 'value.1' equals 'value.2'",
+			"example": "self explanatory"
 		},
 
 	"EXP": {
-		"function": "\"POINT.1\" = EXP(\"POINT.2\")",
-		"description": "The NATURAL ANTILOG function. The opposite of the LOG base e (Euler's number) function.",
-		"example": "\"POINT.1\" = EXP(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 2.718..."
+			"function": "\"POINT.1\" = EXP(\"POINT.2\")",
+			"description": "The NATURAL ANTILOG function. The opposite of the LOG base e (Euler's number) function.",
+			"example": "\"POINT.1\" = EXP(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 2.718..."
 		},
 
 	"FAILED": {
@@ -265,9 +265,9 @@
 		},
 
 	"FAST": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "FAST(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of FAST/SLOW/STOP to FAST",
+			"example": "FAST(\"CHW.PUMP.1\") will put that point in FAST."
 		},
 
 	"GOTO": {
@@ -280,6 +280,12 @@
 			"function": "GOSUB linenumber pt1, ..., pt15",
 			"description": "This is a subroutine, called inside the current PPCL program.  This called (not a function call, notice there are no parantheses) cedes control to the linenumber, and feeds as arguments the points pt1 through pt15.  These points are referenced by their plaement in the call, not by their names explicitly.  The subroutine can span any number of lines within the program, but must RETURN at the end.  The subroutine performs its execution, modifying the parameters inside it, and returns to the line number that originally called it.",
 			"example": "At line 3200, GOSUB 5000 OATEMP, OARH, OAWBT is called.  This is kind of typical for these parameters.  The code control is released to line 5000, passing OATEMP, OARH, and OAWBT to the suroutine as $ARG1, $ARG2, and $ARG3 (based on their positions, respectively).  Once the code under the subroutine executes, and the last line of the sub is reached (given by the RETURN command), the control is released back to the line that called the sub, line 3200."
+		},
+
+	".G.": {
+			"function": "something .GT. something.else",
+			"description": "Greater than comparision operator",
+			"example": "IF(5 .GT. 3) THEN GOTO 3200 ELSE crash"
 		},
 
 	"HAND": {
@@ -304,6 +310,12 @@
 			"function": "INITTO(value, pt1, ..., pt16)",
 			"description": "This function reintializes the totalization of all the points, starting them with the value given.  This is typical for something like a daily sum of kWh, where it is reintialized to 0 every morning at 12AM.",
 			"example": "INITTO(0, \"DAILY.KWH\")"
+		},
+
+	"IF": {
+			"function": "IF(SOMETHING compared to SOMETHING.ELSE AND/OR ...) THEN x ELSE y",
+			"description": "Pretty self-explanatory. If some value compared to some other value, then proceed to condition x, else do y.  The compared piece is one of the operators (like .EQ. or .NE.) and the SOMETHINGs can be points, values, booleans, all sorts of stuff.  There can also be cinjuctions (.AND. or .OR.) and their precedence can be tested.",
+			"example": "IF(\"OA.ENTHALPY\" .GE. 30 .AND. \"COOLING.MODE\" .EQ. ON) THEN GOTO 3200 ELSE \"CHW.VALVE\" = 0"
 		},
 
 	"LINK": {
@@ -340,6 +352,12 @@
 			"function": "NOT YET DEFINED",
 			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
 			"example": "or email me at brien.blandford@gmail.com"
+		},
+
+	".LT.": {
+			"function": "something .LT. something.else",
+			"description": "Less than comparision operator",
+			"example": "IF(3 .LT. 5) THEN GOTO 3200 ELSE crash"
 		},
 
 	"MAX": {
@@ -391,9 +409,9 @@
 		},
 
 	"OFF": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "OFF(pt1,...,pt16).  Can also be the state OFF",
+			"description": "Changes the point with possiblilities of being set to OFF to OFF.  Note FAST/SLOW/STOP points are changed to STOP.  At sOFF is a value for comparion of assignment.",
+			"example": "OFF(\"CHW.PUMP.1\") will put that point in OFF."
 		},
 
 	"OIP": {
@@ -409,15 +427,15 @@
 		},
 
 	"ON": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ON(pt1,...,pt16). Can also be the state ON",
+			"description": "Changes the point with possiblilities of being set to ON to ON.  Note FAST/SLOW/STOP points are changed to FAST.  The ON alone is a value for comparion of assignment.",
+			"example": "ON(\"CHW.PUMP.1\") will put that point in ON."
 		},
 
 	"ONPWRT": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ONPWRT(linenumber)",
+			"description": "On power return, goto linenumber. When field panel dies because of a power event, and the battery doesn't kick on, this this goes to a specific line number to resume control.  After the first cycle through the program, this line is ignored.",
+			"example": "ONPWRT(3200) would skip all lines before 3200 and go to 3200 when the power flicks back on."
 		},
 
 	"OPER": {
@@ -426,7 +444,7 @@
 			"example": "or email me at brien.blandford@gmail.com"
 		},
 
-	"OR": {
+	".OR.": {
 		"function": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN ...",
 		"description": "If either or both of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, then the condition will not be met",
 		"example": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN GOTO 4300\" -> If either or both of the points is TRUE, then the condition will proceed.  Otherwise, the next line will execute and trace."
@@ -480,34 +498,34 @@
 			"example": "A subroutine is called on line 3200, and gives control to that subroutine (say on line 5000).  The subroutine executes, and RETURN is hit, which sends control back to line 3200."
 		},
 
-	"ROOT": {
-		"function": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\")",
+	".ROOT.": {
+		"function": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\"",
 		"description": "The ROOT function. This takes the Nth root (\"POINT.2\") of a number (\"POINT.1\").  This takes decimal roots and numbers as well.",
 		"example": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 8, then \"POINT.3\" will be 3."
 		},
 
 	"SAMPLE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "SAMPLE(time) ... rest of line code",
+			"description": "With the internal clock, execute this line every time seconds, otherwise skip it.  Note that it has to have code follow it.  If there should be a lot of code, use a GOTO right after it, skipping the following line, and a GOTO on the following line, skipping all the code you want executed every time it hits.  Confusing, but that's branch statements for ya.",
+			"example": "SAMPLE(10) GOTO 3200 would go to line 3200 every 10 seconds."
 		},
 
 	"SECND": {
+			"function": "SECND1 through SECND7",
+			"description": "These are built in timers for PPCL code.  They automatically increment each second (up to 9999 seconds), and need to be (re)set in PPCL to a starting value",
+			"example": "IF(\"SOMETHING.IS.ON\") the SECND1 = 0, and so the timer would be constantly reset to 0 is the something is on.  When the something is off, the timer would begin counting."
+		},
+
+	"SECNDS": {
 			"function": "SECNDS = 0",
 			"description": "This is a built in timer for PPCL code.  It automatically increments each second (up to 9999 seconds), and needs to be (re)set in PPCL to a starting value",
 			"example": "IF(\"SOMETHING.IS.ON\") the SECNDS = 0, and so the timer would be constantly reset to 0 is the something is on.  When the something is off, the timer would begin counting."
 		},
 
-	"SECNDS": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
-		},
-
 	"SET": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "SET(value, pt1,...,pt15)",
+			"description": "Sets the points 1 through 15 to the value given",
+			"example": "SET(0, SECND1, SECND2, SECND3) would set all those seconds timers to 0."
 		},
 
 	"SIN": {
@@ -517,9 +535,9 @@
 		},
 
 	"SLOW": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "SLOW(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of SLOW/SLOW/STOP to SLOW",
+			"example": "SLOW(\"CHW.PUMP.1\") will put that point in SLOW."
 		},
 
 	"SMOKE": {
@@ -528,7 +546,7 @@
 			"example": "or email me at brien.blandford@gmail.com"
 		},
 
-	"SQRT": {
+	".SQRT.": {
 		"function": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\")",
 		"description": "The SQUARE ROOT function. This takes the 2th root (\"POINT.2\") of a number (\"POINT.1\").",
 		"example": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 4, then \"POINT.3\" will be 2."
@@ -595,27 +613,27 @@
 		},
 
 	"TOD": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TOD(mode, recommand, time1, time2, pt1,...,pt12)",
+			"description": "Time Of Day function.  This function cycles digital points (ON/OFF) based on the time of day.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.  The recommand point (0 for no, 1 for yes) will recommand the points back to wherever they shoiuld be after a power failure.  time1 is the time to send an ON command to all the points (can be military time, decimal time, a point or a $LOC), and time2 is the time to send an OFF command to all the points.",
+			"example": "TOD(1, 1, 7:00, 19:00, \"AHU1.OCC.MODE\", \"AHU2.OCC.MODE\", \"AHU3.OCC.MODE\") would follow a normal schedule (like weekday schedule), send ON commands to the three occupancy mode points is the time is 7AM, and turn them all OFF when it's 7PM.  If the power goes out in the middle of the day, it will send ON when power comes back on.  If the power goes out at night, it will send OFF when the power comes back on, because the mode point is set to 1."
 		},
 
 	"TODMOD": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TODMOD(MondayMode,TuesdayMode,WednesdayMode,ThursdayMode,FridayMode,SaturdayMode,SundayMode,",
+			"description": "This function only works for days of the week that end in DAY.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.",
+			"example": "TODMOD(1, 2, 4, 8, 16, 1, 2) would make the mode normal for Monday, Extended for Tuesday, Shortened for Wednesday, Weekend for Thursday, Holiday for Friday, Normal for Saturday, and Extended for Sunday.  I don't know why you would do this, but you can."
 		},
 
 	"TODSET": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TODSET(mode, recommand, time1, value1, time2, value2, pt1,...,pt12)",
+			"description": "Time Of Day Set function.  This function cycles analog points based on the time of day, setting them to the analog values specified.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.  The recommand point (0 for no, 1 for yes) will recommand the points back to wherever they shoiuld be after a power failure.  time1 is the time to send value1 command to all the points (can be military time, decimal time, a point or a $LOC), and time2 is the time to send value2 to all the points.",
+			"example": "TOD(1, 1, 7:00, 55, 19:00, 60, \"AHU1.SAT\", \"AHU2.SAT\", \"AHU3.SAT\") would follow a normal schedule (like weekday schedule), send supply air temperature setpoints of 55.0 to the three Supply Air Temperature Setpoints if the time is 7AM, and send supply air temperature setpoints of 60.0 to the three Supply Air Temperature Setpoints when it's 7PM.  If the power goes out in the middle of the day, it will send ON when power comes back on.  If the power goes out at night, it will send OFF when the power comes back on, because the mode point is set to 1."
 		},
 
 	"TOTAL": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TOTAL(pt)",
+			"description": "This totalizes (sums up) the given point, based on its settings for totalization.  It could be summing up the run hours, or summing up the kWh, or anything like that that needs to be aggregted",
+			"example": "\"TOTAL.FAN.RH\" = TOTAL(\"AHU.FAN.1.START\")"
 		},
 
 	"XOR": {
@@ -625,9 +643,9 @@
 		},
 
 	"WAIT": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "WAIT(time, pt1, pt2, mode)",
+			"description": "This funtion waits the specified period of time (in seconds), then performs an action specified by mode.  MODE 11: When pt1 turns ON, wait *time* then turn ON pt2.  MODE 10: When pt1 turns ON, wait *time* then turn OFF pt2.  MODE 01: When pt1 turns OFF, wait *time* then turn ON pt2.  MODE 00: When pt1 turns OFF, wait *time* then turn OFF pt2.  ",
+			"example": "WAIT(300, \"CH1.SS\", \"CH1.CHWV\", 00) would wait 5 minutes from turning off Chiller 1 to close its chilled water valve."
 		}
 
 	}
