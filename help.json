@@ -122,7 +122,7 @@
 
 	"DC": {
 			"function": "DC(pt1, pattern1, ..., pt8, pattern8)",
-			"description": "Duty (eww!) Cycle command.  This duty cycles a point ON/OFF.  The pat1-8 arguments are for the hourly pattern of cycling.  Valid options are 0-7, where each represents different 5-minute interval behavior inside 15minute buckets.  Therefore, there should be four codes for each point, to represent the entire hour. The codes are described by the following.<br />5min buckets<br />--> 1st - 2nd - 3rd<br />0 -> OFF, OFF, OFF<br />1 -> ON , OFF, OFF<br />2 -> OFF, ON , OFF<br />3 -> ON , ON , OFF<br />4 -> OFF, OFF, ON<br />5 -> ON , OFF, ON <br />6 -> OFF, ON , ON <br />7 -> ON , ON , ON ",
+			"description": "Duty (eww!) Cycle command.  This duty cycles a point ON/OFF.  The pat1-8 arguments are for the hourly pattern of cycling.  Valid options are 0-7, where each represents different 5-minute interval behavior inside 15minute buckets.  Therefore, there should be four codes for each point, to represent the entire hour. The codes are described by the following.<br /><br />5min buckets<br />--> 1st - 2nd - 3rd<br />0 -> OFF, OFF, OFF<br />1 -> ON , OFF, OFF<br />2 -> OFF, ON , OFF<br />3 -> ON , ON , OFF<br />4 -> OFF, OFF, ON<br />5 -> ON , OFF, ON <br />6 -> OFF, ON , ON <br />7 -> ON , ON , ON ",
 			"example": "DC(\"CHW.PUMP.1\", 1241, \"CHW.PUMP.2\", 2412, \"CHW.PUMP.3\", 4124) would have one of these three pumps on at any given time, for 5 minutes each, switching them out every five minutes."
 		},
 
@@ -175,7 +175,7 @@
 		},
 
 	"ELSE": {
-			"function": "IF(...) THEN <action 1> ELSE <action 2>",
+			"function": "IF(...) THEN 'action 1' ELSE 'action 2'",
 			"description": "This prompts the action for the case where a conditional returns false.  Note this is not required after a conditional statement, but is inferred as 'do nothing'.",
 			"example": "IF(4 .EQ. 2) THEN GOTO 3200 ELSE GOTO 3210"
 		},
@@ -282,6 +282,12 @@
 			"example": "At line 3200, GOSUB 5000 OATEMP, OARH, OAWBT is called.  This is kind of typical for these parameters.  The code control is released to line 5000, passing OATEMP, OARH, and OAWBT to the suroutine as $ARG1, $ARG2, and $ARG3 (based on their positions, respectively).  Once the code under the subroutine executes, and the last line of the sub is reached (given by the RETURN command), the control is released back to the line that called the sub, line 3200."
 		},
 
+	".GE.": {
+			"function": "IF(something .GE. something.else) THEN ... ELSE ...",
+			"description": "Greater than or equal to comparision operator",
+			"example": "IF(5 .GE. 3) THEN GOTO 3200 ELSE crash"
+		},
+
 	".GT.": {
 			"function": "IF(something .GT. something.else) THEN ... ELSE ...",
 			"description": "Greater than comparision operator",
@@ -303,7 +309,7 @@
 	"HOLIDA": {
 			"function": "HOLIDA(month1, day1, ..., month8, day8)",
 			"description": "This sets the given month/day to a holiday for scheduling.  Why can't the command be HOLIDAY?  Weird PPCL won't allow function names over 6 characters.  Lots of things weren't well thought out.",
-			"example": "HOLIDA(1,1,2,14,12,25,12,31) would set New Years Day, Valentine's Day, Christmas, and New Years Eve to holidays.	"
+			"example": "HOLIDA(1,1,2,14,12,25,12,31) would set New Years Day, Valentine's Day, Christmas, and New Years Eve to holidays."
 		},
 
 	"INITTO": {
@@ -349,9 +355,15 @@
 		},
 
 	"LOW": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "@LOW",
+			"description": "A state used for comparison.  It means the battery is LOW.",
+			"example": "IF($BATT .EQ. @LOW) THEN GOTO 3200"
+		},
+
+	".LE.": {
+			"function": "something .LE. something.else",
+			"description": "Less than or equal to comparision operator",
+			"example": "IF(3 .LE. 5) THEN GOTO 3200 ELSE crash"
 		},
 
 	".LT.": {
@@ -397,15 +409,15 @@
 		},
 
 	"NODE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "NODE0 through NODE99",
+			"description": "These are resident points in the panel.  Each CPU or device occupy a node on the system and can be referenced by their node point.",
+			"example": "IF(NODE22 .EQ. FAILED) THEN ON(\"ALARM.NODE22\""
 		},
 
 	"NORMAL": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "NORMAL(pt1,...,pt16)",
+			"description": "This sets the points from alarm state to their normal states.",
+			"example": "NORMAL(\"CT.1.FAN\")"
 		},
 
 	"OFF": {
@@ -415,15 +427,15 @@
 		},
 
 	"OIP": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "OIP(trigger, \"sequence\")",
+			"description": "This function repolicates the terminal operator access.  Given a trigger, it executes the sequence.  There is documentation somewhere else, and probably very hard to find, for this terminal access.",
+			"example": "OIP(RPT7AM,\"P/D/P/Y/V/A/N/*\")"
 		},
 
 	"OK": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "@OK",
+			"description": "A state used for comparison.  It means the battery is OK.",
+			"example": "IF($BATT .EQ. @OK) THEN GOTO 3200"
 		},
 
 	"ON": {
@@ -439,9 +451,9 @@
 		},
 
 	"OPER": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "@OPER",
+			"description": "A state used for comparison.  It means the point is in operator (or Hand).",
+			"example": "IF(\"CT.1.FAN\" .EQ. @OPER) THEN RELEAS(\"CT.1.FAN\")"
 		},
 
 	".OR.": {
@@ -451,45 +463,45 @@
 		},
 
 	"PDL": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PDL(area, totalkW, targetkW, g1s,g1e,sh1,...,g4s,g4e,sh4) or the local point $PDL",
+			"description": "The Peak Demand Limiting function is one that tries to predict how to shed specific equipment at a specific time to acheive a target kW.  This is helpful for large sites that are incentivized by the utility company to reduce demand in extremely high demand cases or days, and the customer gets paid a LOT of money to reduce their demand.  Sometimes just signing up for the program provides monetary incentives.  However, just shedding equipment is extremely difficult to do wisely, and I doubt this function will do it well. <br /><br />'Area' is the area where the electric meter is, and it is a number.<br />'Total kW' is a point of the total kW of the equipment that is being monitored by the PDL command. A load is considered to be a power consuming load if it is defined in a PDLDAT command<br />'TargetkW' point is what the PDL command tries to acheive, by shedding associated PDLDAT-defined equipment. <br />'g#s' parameter is is the start line number for the first group od PDLDAT commands<br />'g#e' is the ending line number.<br />'sh#' parameter is the method of shedding, where 0 is all on/off, and 1 is round-robin of the associated equipmet<br /><br />The $PDL is a resident point (local point) for a panel that is set by the PDLMTR function.  It takes on the current value of the demand prediciton",
+			"example": "PDL(1,\"TOTAL.KW\",\"TARGET.KW\",100,199,0,200,299,1, 300,399,0,400,499,0)<br /><br />\"SITE.KWH\" = $PDL"
 		},
 
 	"PDLDAT": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PDLDAT(pointname,min_on,min_off,max_off,kW)",
+			"description": "This is basically the association of a specific piece of equipment to a Peak Demand Limiting group. The equipment (say it's a pump) is defined by this statement as being part of a PDL strategy, but can only be used with a PDL statement in the same panel and program.  Group the related equipment together in neighboring lines to assiciate them in a PDL statement.<br /><br />'pointname' is the name of the point that is going to be included in PDL<br />'min_on' is the minimum amount of time (minutes) a piece of equipment has to stay on once enabled.<br />'min_off' is the minimum amount of time (minutes) a piece of equipment must remain off.<br />'max_off' is the maximum amount of time (minutes) a piece of equipment can remain off<br />'kW' is the kW of the device",
+			"example": "PDLDAT(\"PUMP.1.SS\",10,5,180,10)"
 		},
 
 	"PDLDPG": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PDLDPG(area,kwtot1,target1,...,kwtot7,target7)",
+			"description": "This sets the targets for the kW total groups for a specific area.  The are must correspond to the are set in PDLMTR.",
+			"example": "PDLDPG(1,TOTKW1,TGT1,TOTKW2,TGT2)"
 		},
 
 	"PDLMTR": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PDLMTR(area,hist,calc,window,plot,warning,mt1, def1,...,mt5,def5)",
+			"description": "If you aren't already thoroughly confused by the PDL stuff (and hence probably won't ever use it), here is another one.  This kind of does the math for all the PDL stuff.  It associates a meter number to its history, a sliding calculation window, warnings, and all the other things.  Who knows what they mean?<br /><br />'Area' is the meter number (1 - 32,767)<br />'hist' is the historical forecasting weight factor (should be less than 50%, usually 30% is good)<br />'calc' is the calculation interval (1 min minimum)<br />'window' is the sliding window interval in minutes, where there are 30 samepls stored in a window<br />'plot' is the max value for a time plot for the PDL Activity Reports (should be higher than the max value in PDLSET)<br />'Warning' 1-yes, 0-no for messages<br />'mt1 through mt5' the point names for the demand consumption meters<br />'def1 through def5' are the default values to give the meters in the event of communication loss (default -1, which is use the most current value).",
+			"example": "PDLMTR(1,30,1,15,500,1,METER1,100,METER2,50)"
 		},
 
 	"PDLSET": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PDLSET(area,exceed,set1,time1,...,set7,time7)",
+			"description": "Why do we have yet another PDL function?  Maybe it's because this is actually a really complicated thing the calculate, and PPCL (or the backend of it) isn't a great place to try to do this.  PDLSET sets the PDL levels and ensuring they are not exceeded.<br />'area' is the meter number<br />'exceed' turns ON if the value from the last window exceeded the limit, and OFF otherwise<br />'set1 through set7' kW set points not to be exceeded<br />'time1 through time7' is the time (military, integer are deimal) at which the set point ends.",
+			"example": "PDLSET(1,PEAKEX,PDLST1,11:00,PDLST2,16:30)"
 		},
 
 	"PRFON": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "PRFON",
+			"description": "PRFON (Proof ON) is a resident point for comaprison, that a device's feedback has proved the device is ON when commanded ON.",
+			"example": "IF(\"CT.1.FAN\" .EQ. PRFON) THEN ON(\"COOL\")"
 		},
 
 	"RELEAS": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "RELEAS(pt1,...,pt16) or RELEAS(@prior, pt1,...,pt15)",
+			"description": "Release from any priority to NONE priority for the given points.  In 9.2 firmware, a priority can be set, instead of only NONE.",
+			"example": "RELEAS(\"YO.MAMA\")"
 		},
 
 	"RETURN": {
@@ -517,7 +529,7 @@
 		},
 
 	"SECNDS": {
-			"function": "SECNDS = 0",
+			"function": "SECNDS",
 			"description": "This is a built in timer for PPCL code.  It automatically increments each second (up to 9999 seconds), and needs to be (re)set in PPCL to a starting value",
 			"example": "IF(\"SOMETHING.IS.ON\") the SECNDS = 0, and so the timer would be constantly reset to 0 is the something is on.  When the something is off, the timer would begin counting."
 		},
@@ -541,9 +553,9 @@
 		},
 
 	"SMOKE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "@SMOKE",
+			"description": "A state used for comparison.  It means the point is in SMOKE.",
+			"example": "IF(\"CT.1.FAN\" .EQ. @SMOKE) THEN ON(\"RUN\")"
 		},
 
 	".SQRT.": {
@@ -553,33 +565,33 @@
 		},
 
 	"SSTO": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "SSTO(zone,mode,cst,csp,est,lst,ost,esp,lsp, osp,ast,asp)",
+			"description": "Like PDL, this can get tricky fast.  This is the Start-Stop Time Optimization, but what goes on behind the scences is unknown.  You define a 'zone' (1 - 5 are valid), and hope for the best!<br /><br />For the 'mode' point:<br />1 Normal Schedule<br />2 Extended Schedule<br />4 Shortened Schedule 8 Weekend Schedule<br />16 Holiday Schedule<br /><br />'cst' is the point name for the calculated start time<br /><br />'csp' is the point name for the calculated stop time<br /><br />'est' is the earliest start time<br /><br />'lst' is the latest start time<br /><br />'ost' is the occupancy start time<br /><br />'esp' is the earliest stop time<br /><br />'lsp' is the latest stop time<br /><br />'osp' is the occupancy stop time<br /><br />'ast' is the adjustment to the start time.  this can be changed day to day (I guess to dial it in...)<br /><br />'asp' is the adjustment to the calculated stop time.",
+			"example": "SSTO(1,1,ONTIM,OFTIM,6:30,7:45,8:00,15:30,16:45,17:00,0.0,0.0)"
 		},
 
 	"SSTOCO": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "SSTOCO(zone,season,intemp,outemp,ctemp, ccoef1,ccoef2,ccoef3,ccoef4,htemp,hcoef1, hcoef2,hcoef3,hcoef4)",
+			"description": "This calculates the thermal characteristics of a zone, based on lots of information that is likely always going to be unknown. It 'supposedly' self-tunes, but I don't know how far I would trust that.<br /><br />'zone' is the referenced zone (1 - 5)<br /><br />'season' is the current season<br />heat = 2, cool = 1, disable=0<br /><br />'intemp' is the average indoor temp for the space concerned<br /><br />'outtemp' is the outdoor air temperature<br /><br />'ctemp' is the desired cooling temperature space temp in cooling season<br /><br />'ccoef1' is kind of a cooling coefficient in hours, basically a guess as to how long it takes to cool the space 1 degree<br /><br />'ccoef2' is the cooling retention coefficient, or how long it would take the space to rise 1 degree<br /><br />'ccoef3' is the time it would take to lower the space temp 1 degree if the OAT is 10 degrees higher, and the OA dampers are shut (seriously????)<br /><br />''ccoef4' is the cooling autotune coefficient, in hours, added or subtracted from the optimzal start time (kind of gradient descent, maybe?)<br /><br />'htemp' is the desired heating temperature space temp in heating season<br /><br />'hcoef1' is kind of a heating coefficient in hours, basically a guess as to how long it takes to heat the space 1 degree<br /><br />'hcoef2' is the heating retention coefficient, or how long it would take the space to fall 1 degree<br /><br />'hcoef3' is the time it would take to raise the space temp 1 degree if the OAT is 25 degrees colder, and the OA dampers are shut (seriously????)<br /><br />hcoef4' is the heating autotune coefficient, in hours, added or subtracted from the optimzal start time (kind of gradient descent, maybe?)",
+			"example": "SSTOCO(1,1,\"ROOM10\",\"OATEMP\",75.0, 0.01,0.3, 0.05,0.083,72.0,0.1,0.1,0.2,0.083)"
 		},
 
 	"STATE": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "STATE(@pri,statetext,pt1...pt14)",
+			"description": "This sets the states of points 1-14 to the desired statetext (see state text tables in Point Editor, or LENUMs), with an optional @priority point",
+			"example": "STATE(NIGHT,TEC1,TEC2,TEC3,TEC4)"
 		},
 
 	"START": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "START(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of START/STOP to START",
+			"example": "START(\"CHW.PUMP.1\") will put that point in START."
 		},
 
 	"STOP": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "STOP(pt1,...,pt16)",
+			"description": "Changes the point with possiblilities of START/STOP to STOP",
+			"example": "STOP(\"CHW.PUMP.1\") will put that point in STOP."
 		},
 
 	"TABLE": {
@@ -589,27 +601,27 @@
 		},
 
 	"TAN": {
-		"function": "\"POINT.1\" = TAN(\"POINT.2\")",
-		"description": "The TAN function. It get's you bronzed.  The adjacent over the opposite.",
-		"example": "\"POINT.1\" = TAN(\"POINT.2\") -> If \"POINT.2\" = PI/4, then \"POINT.1\" will be set to 1."
+			"function": "\"POINT.1\" = TAN(\"POINT.2\")",
+			"description": "The TAN function. It get's you bronzed.  The adjacent over the opposite.",
+			"example": "\"POINT.1\" = TAN(\"POINT.2\") -> If \"POINT.2\" = PI/4, then \"POINT.1\" will be set to 1."
 		},
 
 	"THEN": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "IF(CONDITION) THEN ... ELSE ...",
+			"description": "The response to a TRUE return from a conditional.",
+			"example": "IF(3 .GT. 2) THEN GOTO 3200 ELSE ON(\"RUH.ROH\")"
 		},
 
 	"TIMAVG": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TIMAVG(result,st,samples,input)",
+			"description": "THis function sets the 'result' parameter to the average of the 'input' point over the specific number of 'sanples', with each sample occuring 'st' seconds apart.",
+			"example": "TIMAVG(RMAVG,600,6,RMTEMP)"
 		},
 
 	"TIME": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "TIME",
+			"description": "A resident point reprsenting the current time",
+			"example": "IF(TIME .EQ. 16:30) THEN ON(\"BEER.TIME\")"
 		},
 
 	"TOD": {
