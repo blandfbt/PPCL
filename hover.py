@@ -98,13 +98,13 @@ class HoverOverCommand(sublime_plugin.EventListener):
         <h2>Help for {0}</h2>
             <h3>
             <u style="color:#538b01">Format</u>
-            </h3> {1}
+            </h3><p style="font-family: Courier New">{1}</p>
         <h3 >
             <u style="color:#538b01">Description</u>
-        </h3><p style="word-wrap: break-word; width: 100px">{2}</p>
+        </h3><p style="word-wrap: break-word; width: 450px; padding: 25px">{2}</p>
         <h3 >
             <u style="color:#538b01">Example</u>
-        </h3><p style="word-wrap: break-word; width: 100px">{3}</p>
+        </h3><p style="white-space: pre-line; width: 450px; padding: 25px; font-family: Courier New">{3}</p>
         '''.format(
             word,
             helps['function'],
@@ -118,7 +118,7 @@ class HoverOverCommand(sublime_plugin.EventListener):
                         flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY,
                         location=location, 
                         max_width=800,
-                        max_height = 10000
+                        max_height = 500
                         )
 
 
