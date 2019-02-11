@@ -1,7 +1,20 @@
+'''
+// Copyright 2017 Brieb Blandford
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'''
+
+
 import sublime
 import sublime_plugin
 import json 
 import os
+import re
 
 
 class EnableHelpCommand(sublime_plugin.WindowCommand):
@@ -22,9 +35,8 @@ class HoverOverCommand(sublime_plugin.EventListener):
 
     def on_hover(self, view, point, hover_zone):
         s = sublime.load_settings('ppcl.sublime-settings')
-        help_on = s.get('enable_help_popup')
-        # print (help_on)
-        if not help_on:
+        word = s.get('enable_help_popup')
+        if not word:
             return
 
         if hover_zone == sublime.HOVER_TEXT:
@@ -32,13 +44,15 @@ class HoverOverCommand(sublime_plugin.EventListener):
             if syntax == 'source.PPCL':
                 region = sublime.Region(point)
                 word = self.get_user_selection(view, region)
+                # check for numbers that get brought into the string, like 9.ROOT.3
+                nums_at_the_end = re.findall(r'[0-9]+', word)
+                if nums_at_the_end is not None:
+                    for item in nums_at_the_end:
+                        word = word.replace(item, '')
                 print (word)
                 helps = self.read_json(word)
-                # print (helps)
-                # print ('function: {0}\ndescription: {1}\nexample: {2}'.format(
-                #                                             helps['function'],
-                #                                             helps['description'],
-                #                                             helps['example'],))
+                if helps == 'Not Defined':
+                    return
                 self.create_popup(view, word, helps, region.begin())
 
 
@@ -67,33 +81,30 @@ class HoverOverCommand(sublime_plugin.EventListener):
             try:
                 return data[func]
             except KeyError:
-                print ('Key not in map')
+                return 'Not Defined'
         except (OSError, IOError) as e:
             print ('Error reading JSON')
-
 
 
     def create_popup(self, view, word, helps, location):
         '''
         make the pop up from helps, with appropriate html
         '''
-        # {0} = word
-        # 
 
         if view==None or word==None:
             return
 
-        try:
-            width = 3*max(255, max([len(item) for key, item in helps.items()]))
-        except AttributeError:
-            return
-
-        
-
-        popup_html = '''<h2>Help for {0}</h2>
-        <p><h3><u>Format</u></h3> {1}</p>
-        <h3><u>Description</u></h3> {2}
-        <h3><u>Example</u></h3> {3}
+        popup_html = '''
+        <h2>Help for {0}</h2>
+            <h3>
+            <u style="color:#538b01">Format</u>
+            </h3> {1}
+        <h3 >
+            <u style="color:#538b01">Description</u>
+        </h3><p style="word-wrap: break-word; width: 100px">{2}</p>
+        <h3 >
+            <u style="color:#538b01">Example</u>
+        </h3><p style="word-wrap: break-word; width: 100px">{3}</p>
         '''.format(
             word,
             helps['function'],
@@ -102,12 +113,12 @@ class HoverOverCommand(sublime_plugin.EventListener):
             )
 
 
-        print (width)
         view.show_popup(
                         popup_html,
                         flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY,
                         location=location, 
-                        max_width=width
+                        max_width=800,
+                        max_height = 10000
                         )
 
 
