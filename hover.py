@@ -44,11 +44,15 @@ class HoverOverCommand(sublime_plugin.EventListener):
             if syntax == 'source.PPCL':
                 region = sublime.Region(point)
                 word = self.get_user_selection(view, region)
-                # check for numbers that get brought into the string, like 9.ROOT.3
-                nums_at_the_end = re.findall(r'[0-9]+', word)
-                if nums_at_the_end is not None:
-                    for item in nums_at_the_end:
-                        word = word.replace(item, '')
+                # find reserved words surrounded by dots (e.g. .AND. .OR. .ROOT. .GT. .EQ.).
+                dot_word = re.search(r"\.(.+?)\.", word)
+                if dot_word:
+                    word = dot_word.group(1)
+                # find reserved words and strip trailing digits (e.g. SECND7, LOC2)
+                # this works but will also match incorrect syntax (e.g. SECND8, LOC16) 
+                # num_word = re.search(r"([a-zA-Z]+)", word)
+                # if num_word:
+                #     word = num_word.group(1)
                 print (word)
                 helps = self.read_json(word)
                 if helps == 'Not Defined':
