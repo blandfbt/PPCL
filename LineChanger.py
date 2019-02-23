@@ -67,7 +67,7 @@ class CallAdjustCommand(sublime_plugin.TextCommand):
     def get_line_start_and_increment(self):
         inputView = sublime.Window.show_input_panel(sublime.active_window(),
             '<Line Start>:<increment>', '{}:{}'.format(self.adjust_line_start, self.adjust_line_increment),
-            None, self.on_done, None) # Having an action triggered on both "done" and "change" unnecessarily double executes
+            self.on_done, None, None) # Having an action triggered on both "done" and "change" unnecessarily double executes
 
 
     def on_done(self, text):
