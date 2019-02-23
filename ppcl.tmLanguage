@@ -54,7 +54,7 @@
 			<key>comment</key>
 			<string>capture reserved words in PPCL, list 04</string>
 			<key>match</key>
-			<string>(OFF|ON)( ?\()</string>
+			<string>(OFF|ON)(?= ?\()</string>
 			<key>name</key>
 			<string>variable.language.PPCL</string>
 		</dict>
@@ -220,7 +220,19 @@
 			<key>end</key>
 			<string>([ \)])</string>
 			<key>match</key>
-			<string>\b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b</string>
+			<string>(\d+)</string>
+			<key>name</key>
+			<string>constant.numeric.float.ppcl</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(/b)</string>
+			<key>comment</key>
+			<string>make dots between numbers purple</string>
+			<key>end</key>
+			<string>([ \)])</string>
+			<key>match</key>
+			<string>(?&lt;=\d)(\.)(?=\d)</string>
 			<key>name</key>
 			<string>constant.numeric.float.ppcl</string>
 		</dict>
@@ -332,7 +344,7 @@
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>find imroperly formatted ONPWRTs</string>
+			<string>find improperly formatted ONPWRTs</string>
 			<key>match</key>
 			<string>(?&lt;=ONPWRT)(\(\d+\)(?!\s*\n)|\(.*\D+.*\)).*$</string>
 			<key>name</key>
