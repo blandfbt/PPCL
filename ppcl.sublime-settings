@@ -5,9 +5,8 @@
 	"enter_line_increment":10,
 	"line_numbers": false,
 	"word_separators": "/\\()',;<>~!@#%^&*|+=[]{}`~?\"$",
-
 	// auto-complete settings necessary to avoid conflicting with the PPCL package
-	// behavior of capturing [enter] in the "insert_lines" command.	
+	// behavior of capturing [enter] in the "insert_lines" command.
 	"auto_complete_commit_on_tab": true,
 	"auto_complete_with_fields": true,
 	"auto_complete_cycle": true,
