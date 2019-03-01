@@ -5,3 +5,4 @@
 *.pcl
 *.png
 .DS_Store
+package-metadata.json
