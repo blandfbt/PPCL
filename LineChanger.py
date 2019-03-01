@@ -425,7 +425,7 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 
         if ((int(newLineNum) < int(nextLineNum)) or
                 (self.view.rowcol(self.view.size())[0] == row-1)):
-            self.view.insert(edit, self.view.line(self.view.sel()[0]).end(),
+            self.view.insert(edit, self.view.sel()[0].begin(),
                             '\n'+str(newLineNum)+'\t')
         else:
             # popup warning if auto-increment fails
