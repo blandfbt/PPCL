@@ -1,4 +1,4 @@
-# Copyright 2017 Brieb Blandford
+# Copyright 2017 Brien Blandford
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -84,6 +84,16 @@ patterns:
   begin: /\*
   end: \*/
 
+- comment: PPCL Report - find failed or unresolved lines
+  name: invalid.illegal.PPCL
+  begin: (^(E|D).{,2}(U|F))
+  end: (?=^E)
+
+- comment: PPCL Report - Make untraced or disabled lines, including line numbers, comments.
+  name: comment.block.PPCL
+  begin: (^(E|D)\s{5})
+  end: (?=^ET)
+
 - name: comment.block.PPCL
   begin: ([0-9]{5}([ ]{2,}|\t)(C|c))
   end: ($\n)
@@ -142,7 +152,7 @@ patterns:
     # '2': {name: support.constant.PPCL}
     '2': {name: punctuation.separator.parameters.ppcl}
     
-- comment: capture point names and make the orange and italic
+- comment: capture point names and make them orange and italic
   name: support.other.PPCL
   begin: (\")
   end: (\")
