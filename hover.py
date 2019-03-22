@@ -44,11 +44,15 @@ class HoverOverCommand(sublime_plugin.EventListener):
             if syntax == 'source.PPCL':
                 region = sublime.Region(point)
                 word = self.get_user_selection(view, region)
-                # check for numbers that get brought into the string, like 9.ROOT.3
-                nums_at_the_end = re.findall(r'[0-9]+', word)
-                if nums_at_the_end is not None:
-                    for item in nums_at_the_end:
-                        word = word.replace(item, '')
+                # find reserved words surrounded by dots (e.g. .AND. .OR. .ROOT. .GT. .EQ.).
+                dot_word = re.search(r"\.(.+?)\.", word)
+                if dot_word:
+                    word = dot_word.group(1)
+                # find reserved words and strip trailing digits (e.g. SECND7, LOC2)
+                # this works but will also match incorrect syntax (e.g. SECND8, LOC16) 
+                # num_word = re.search(r"([a-zA-Z]+)", word)
+                # if num_word:
+                #     word = num_word.group(1)
                 print (word)
                 helps = self.read_json(word)
                 if helps == 'Not Defined':
@@ -98,13 +102,13 @@ class HoverOverCommand(sublime_plugin.EventListener):
         <h2>Help for {0}</h2>
             <h3>
             <u style="color:#538b01">Format</u>
-            </h3> {1}
+            </h3><p style="font-family: Courier New">{1}</p>
         <h3 >
             <u style="color:#538b01">Description</u>
-        </h3><p style="word-wrap: break-word; width: 100px">{2}</p>
+        </h3><p style="word-wrap: break-word; width: 450px; padding: 25px">{2}</p>
         <h3 >
             <u style="color:#538b01">Example</u>
-        </h3><p style="word-wrap: break-word; width: 100px">{3}</p>
+        </h3><p style="white-space: pre-line; width: 450px; padding: 25px; font-family: Courier New">{3}</p>
         '''.format(
             word,
             helps['function'],
@@ -118,7 +122,7 @@ class HoverOverCommand(sublime_plugin.EventListener):
                         flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY,
                         location=location, 
                         max_width=800,
-                        max_height = 10000
+                        max_height = 500
                         )
 
 

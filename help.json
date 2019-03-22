@@ -1,27 +1,27 @@
 
 {
 	"COMMENT":{
-		"function": "Want to comment a JSON file?  Make a key that won't be used",
-		"description": "So, there are a bunch of NOT YET DEFINED entries in here.  I wanted to get them written down so there is a guide to work from.  The pop ups may inspire others to contribute.",
-		"example": "you can write in this file, and commit it to the repo.  Feel free to have fun!"
-	},
+			"function": "Want to comment a JSON file?  Make a key that won't be used",
+			"description": "So, there are a bunch of NOT YET DEFINED entries in here.  I wanted to get them written down so there is a guide to work from.  The pop ups may inspire others to contribute.",
+			"example": "you can write in this file, and commit it to the repo.  Feel free to have fun!"
+		},
 
 	"ACT": {
-			"function": "ACT(line1, ..., line16)",
-			"description": "Activte the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
-			"example": "ACT(1, 5, 3200, 32767) would activate lines 1, 5, 3200, and 32767."
+			"function": "ACT(Line 1,...,Line 16)",
+			"description": "Enables from 1 to 16 lines of PPCL code so they can be examined and executed.",
+			"example": "100 IF (TIME.GT.8:00.AND.TIME.LT.17:00) THEN ACT(120) ELSE DEACT(120)"
 		},
 
 	"ADAPTM": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ADAPTM(pv,cv,sp,matctl,mam,st,kc,tcd,tch,tcc,her,dbr,der,err)",
+			"description": "The ADAPTM statement performs an adaptive closed-loop control and is specifically designed for use with supply air temperature control, in which two or three output devices, such as heating and cooling coils and dampers are controlled in sequence without overlap.",
+			"example": "2000 C ADAPTM CONTROL LOOP STATISTICS (LOGICAL<br />2002 C FIRMWARE)<br />2004 C DIRECT CONTROL LOOP<br />2006 C INPUT = %X%SAT<br />2008 C Output = %X%VRT<br />2010 C SETPOINT = %X%SAS<br />2012 C  MA TEMP CNTRL OUTPUT = $MATCTL<br />2014 C MA MIN POSITION = %X%MAM<br />2016 C SAMPLE TIME = 5 SECONDS<br />2018 C GAIN = %X%KC1<br />2020 C DAMPER TIME CONSTANT = %X%TD1<br />2022 C HEATING TIME CONSTANT = %X%TH1<br />2024 C COOLING TIME CONSTANT = %X%TC1<br />2026 C HEATING END OF RANGE = 45.0<br />2028 C DAMPER BEGIN RANGE = 50.0<br />2030 C DAMPER END RANGE = 65.0<br />2032 C ERROR REPORT POINT = %X%ER1<br />2034ADAPTM (%X%SAT, %X%VRT,%X%SAS,$MATCTL,%X%MAM, 5, %X%KC1, %X%TD1, %X%TH1, %X%TCI, 45.0, 50.0, 65.0, %X%ER1)<br />2036 C  HEATING COIL SIGNAL<br />2038 TABLE (%X%VRT, %X%HCO, 0, 100, 45, 0)<br />2040 C DAMPER RAMP<br />2042 TABLE ($MADRMP, $MADRCT, 0,0,10,%X%MAM,180,100)<br />2044 C  DAMPER CONTROL SIGNAL<br />2046 TABLE (%X%VRT, $MADCTL, 50,%X%MAM, 65,100)<br />2048 C  MIXED AIR TEMPERATURE CONTROL LOOP<br />2050 IF ($MADRCT.LT.$MATCTL)THEN GOTO 2056<br />2052 ADAPTS (%X%MAT, $MATCTL, %X%MLS, 10, %X%KC2, %X%TM2, 0, 30.0, 130.0, 0.0, 100.0, 0.0, 0.0, %X%ER2)<br />2054 C ECONOMIZER CONTROL<br />2056&nbspIF (%X%ECM .EQ. OFF) THEN GOTO 2072<br />2058 C COOLING COIL SIGNAL (ECON=ON)<br />2060 TABLE (%X%VRT, %X%CCO, 65, 0, 100, 100)<br />2062 C FINAL DAMPER SIGNAL<br />2064 MIN (%X%MAO, $MADRCT, $MADCTL, $MATCTL)<br />2068 GOTO 2074<br />2070 C COOLING COIL SIGNAL<br />2072 TABLE (%X%VRT, %X%CCO, 55, 0, 100, 100)<br />2074 ..."
 		},
 
 	"ADAPTS": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "ADAPTS(pv,cv,sp,st,kc,tc,ra,llpv,hlpv,llcv,hlcv,edb,npv,err)",
+			"description": "The ADAPTS statement performs adaptive closed loop control. ADAPTS is a general purpose, single input, single output controller for both linear and non-linear processes. Example applications for ADAPTS statements are mixed air temperature, static pressure, return air flow, and humidity control.",
+			"example": "2000 C ADAPTS CONTROL LOOP STATISTICS (LOGICAL<br />2002 C FIRMWARE) STATIC PRESSURE CONTROL<br />2004 C DIRECT CONTROL LOOP<br />2006 C INPUT = %X%SSP<br />2008 C Output = %X%LP1<br />2010 C SETPOINT = %X%SSS<br />2012 C  SAMPLE TIME = 1 SECOND<br />2014 C GAIN = %X%KC<br />2016 C TIME CONSTANT = %X%TC<br />2018 C REVERSE ACTING FLAG = 1<br />2020 C LOW LIMIT OF INPUT = -0.1<br />2022 C HIGH LIMIT OF INPUT = 5.0<br />2024 C LOW LIMIT OF OUTPUT = 0.0<br />2026 C HIGH LIMIT OF OUTPUT = 100.0<br />2028 C ERROR DEADBAND = %X%DB1<br />2030 C NOISY PROCESS VARIABLE = %X%NP1<br />2034 C ERROR REPORT POINT = %X%ERR<br />2036 IF (%X%RP1.LT.%X%LP1) THEN GOTO 2042<br />2038 ADAPTS (%X%SSP, %X%LP1, %X%SSS, 1, %X%KC, %X%TC, 1, -0.1, 5.0,  0.0, 100.0, %X%DB1, %X%NP1, %X%ERR)<br />2040 C SUPPLY FAN RAMP<br />2042 TABLE ($SPFRMP %X%RP1, 0, 0, 180, 100)<br />2044 C SUPPLY FAN VFD SIGNAL<br />2046 MIN (%X%SVO, %X%LP1, %X%LP1)<br />2048 ..."
 		},
 
 	"ALMACK": {
@@ -29,137 +29,233 @@
 			"description": "Alarm acknowledge.  This is a state point to show if a point that was in alarm has been acknowledged.",
 			"example": "IF(\"ALARM.1\" .EQ. ALMACK) THEN ON(\"ALL.CLEAR\")"
 		},
-
+	
 	"ALARM": {
-			"function": "ALARM($Point1, ... ,$Point16)",
-			"description": "This function enables all alarm reporting from the points listed in the function.  The opposite of DISALM.",
-			"example": "ALARM($Point1, \"POINT.2\") -> This would enable alarm reporting on the local point $Point1 and the point \"Point.2\""
+			"function": "if (pt1.eq.ALARM) then...",
+			"description": "This status indicator is used to determine if the status of point (pt1) is in the ALARM state. This comparison will be true if the point is in the ALARM state.",
+			"example": "200 IF (TEMP02.EQ.ALARM) THEN ON(FAN)"
 		},
 
 	"ALMCNT": {
 			"function": "ALMCNT",
-			"description": "This is a local (or resident) point for a program representing the number of points in that program's panel that are in alarm.  The points must be alarmable to be counter. I don't really know how this is different than ALMCT2.",
-			"example": "IF(ALMCNT .GT. 5) THEN ON(\"RAISE.THE.ALARM\")"
+			"description": "A resident point that keeps track of the total number of points in the field panel that are in alarm. A point automatically adds one to the value of ALMCNT whenever the point enters an alarm state. When a point returns to the normal state, one is subtracted from the value of ALMCNT.",
+			"example": "340 IF (ALMCNT.GT.0) THEN ON(ALARM7)"
 		},
 
 	"ALMCT2": {
 			"function": "ALMCT2",
-			"description": "This is a local (or resident) point for a program representing the number of points in that program's panel that are in alarm.  The points must be alarmable to be counter. I don't really know how this is different than ALMCNT.",
-			"example": "IF(ALMCT2 .GT. 5) THEN ON(\"RAISE.THE.ALARM\")"
+			"description": "A resident point that you can use to maintain an alarm count for a specific type of point. When a point enters an alarm state, the point adds one to both the value of ALMCNT and ALMCT2. When a point returns to the normal state, one is subtracted from ALMCNT and ALMCT2.",
+			"example": "300 C IF THE SECOND LEVEL ALARM COUNTER<br />310 C BECOMES GREATER THAN 5, COMMAND ON<br />320 C ALARM8<br />330 C<br />340 IF (ALMCT2.GT.5) THEN ON(ALARM8)"
 		},
 
 	"ALMPRI": {
-			"function": "ALMPRI(pt)",
-			"description": "This function returns the alarm priority (integer values 1 through 6) of a point.",
-			"example": "\"ALARM.PRIORITY\" = ALMPRI(\"ALARMED.POINT.1\" or you could do IF(ALMPRI(\"ALARMED.POINT.1\" .EQ. 1) THEN GOTO 3200"
+			"function": "ALMPRI(pt1)",
+			"description": "This function accesses the alarm priority level of a point defined in an enhanced alarming control strategy. The value of ALMPRI can range from 1 through 6. Besides testing ALMPRI for a specific value, you can also assign the value of ALMPRI to another point.",
+			"example": "Example 1:<br />230 C<br />232 C THIS LINE TESTS IF THE POINT CALLED<br />234 C RMTEMP IS AT ALARM PRIORITY LEVEL 1.<br />236 C<br />240 IF (ALMPRI(RMTEMP).EQ.1) THEN ON (OPBELL)<br />Example 2:<br />330 C<br />332 C THIS LINE ASSIGNS THE ALARM<br />334 C PRIORITY LEVEL OF RMTEMP TO THE<br />336 C POINT CALLED TMPPRI.<br />338 C<br />340 TMPPRI = ALMPRI(RMTEMP)"
 		},
-	
-	".AND.": {
-			"function": "IF(\"POINT.1\" .AND. \"POINT.2\") THEN ...",
-			"description": "If both points are TRUE or ON, then this will proceed to the then condition.  If either is FALSE, then the condition will not be met.",
-			"example": "IF(\"POINT.1\" .AND. \"POINT.2\") THEN GOTO 4300\" -> If and only if both points are true, then the condition will proceed.  Otherwise, the next line will execute and trace."
+
+	"ARG1": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG2": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG3": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG4": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG5": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG6": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG7": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG8": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG9": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG10": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG11": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG12": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG13": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG14": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARG15": {
+			"function": "$ARG1 through $ARG15",
+			"description": "A $ARGn variable represents an actual point name used in a subroutine. Instead of defining actual point names inside of subroutines, values are transferred to $ARGn variables. The $ARGn variables represent their corresponding points as functions and calculations are performed in the subroutine. When the value of a $ARGn variable changes, the value of the corresponding point is also updated.",
+			"example": "1000 GOSUB 2000 OATEMP, RMTEMP, SETPT<br />The program branches to line number 2000. When the computer encounters $ARG1 in the program, the computer assigns the available point name's (OATEMP) value to $ARG1. When the computer encounters $ARG2, it assigns the next available point as defined in the GOSUB command. In this example, the values would be assigned accordingly:<br />The value of OATEMP = $ARG1<br />The value of RMTEMP = $ARG2<br />The value of SETPT = $ARG3"
+		},
+
+	"ARITHMETIC": {
+			"function": "None",
+			"description": "Arithmetic operators are mathematically related functions that are performed on two or more operands (numbers). When used in PPCL, the value of the calculation is determined and assigned to a point name or local variable for future reference.",
+			"example": "None"
+		},
+
+	"ASSIGNMENT": {
+			"function": "Point = Expression",
+			"description": "Assigns the value of an Expression to the value of a Point.",
+			"example": "560 COUNT = COUNT + 1.0"
 		},
 
 	"ATN": {
-			"function": "\"POINT.1\" = ATN(\"POINT.2\")",
-			"description": "The Arctan function.  Does anyone really know what this does in math?",
-			"example": "\"POINT.1\" = ATN(\"POINT.2\") Who knows what that will equal?"
+			"function": "Point 1 = ATN(Value 1)",
+			"description": "A trigonometric function that calculates the arc-tangent of a value (Value 1). That value is then stored in a defined location (Point 1). All values used with this function are expressed in degrees.",
+			"example": "500 THETA = ATN(VALUE1)"
 		},
 
 	"AUTO": {
-			"function": "AUTO",
-			"description": "A state used for comparison.  It means the point is in manual mode, also called auto (of Hand-Off-Auto).",
-			"example": "IF(\"PUMP.1.SS\" .EQ. AUTO) THEN GOTO 3200"
+			"function": "if (pt1.eq.AUTO) then...",
+			"description": "This status indicator is used to compare the operational status of a point to the AUTO status indicator. This comparison will be true if the point is in the AUTO state.",
+			"example": "200 IF (HOAFAN.EQ.AUTO) THEN ON(LIGHT3)"
 		},
 
 	"BATT": {
 			"function": "$BATT",
-			"description": "This is a local or resident point representing the battery in the field panel.  It can be used to determine if the battery is dead.",
-			"example": "IF($BATT .EQ. DEAD) THEN ALARM(\"BATTERY.DEAD.ALARM\")"
+			"description": "For field panels that have the ability to monitor the strength of their backup battery, this resident point allows you to access that status. The status of $BATT can be tested for a numeric value. The status can also be tested with the use of the backup battery status indicators. Testing can be implemented accordingly:",
+			"example": "Example 1:<br />200 IF ($BATT.EQ.100) THEN ALARM(P26BAT)<br />210 IF ($BATT.EQ.DEAD) THEN ALARM(P26BAT)"
 		},
 
 	"COM": {
-			"function": "\"POINT.1\" = COM(\"POINT.2\")",
-			"description": "The complement function.  Hi, you're looking great! Actually, this produces the boolean opposite of a 0 or 1.  So, if \"POINT.2\" is equal to 1, this function would make \"POINT.1\" equal to 0.",
-			"example": "\"POINT.1\" = COM(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 0."
+			"function": "Point 1 = COM(Value 1)",
+			"description": "A function that calculates a one's complement value for a point (Value 1). The one's complement function converts digital values (0 or 1) to their opposite values. That value is then stored in a defined location (Point 1).",
+			"example": "500 LLSTAT = COM(PROF01)"
 		},
 
 	"COS": {
-			"function": "\"POINT.1\" = COS(\"POINT.2\")",
-			"description": "The COSINE function.  Like when you can't afford NYC rent and don't make 50 times the rent in annual salary, and your parents have to sign the lease too, so that the landlord actually gives you the place! Nah, it's the Pythagorus kind of cosine.",
-			"example": "\"POINT.1\" = COS(\"POINT.2\") -> If \"POINT.2\" = PI/2, then \"POINT.1\" will be set to 1."
+			"function": "Point 1 = COS(Value1)",
+			"description": "A trigonometric function that calculates the cosine of a value (Value 1). That value is then stored in a defined location (Point 1). All values used with this function are expressed in degrees.",
+			"example": "700 C<br />701 C THIS FORMULA COMPUTES REAL POWER<br />702 C WHEN VOLTS, AMPS, AND PHASE ANGLE<br />703 C ARE KNOWN.<br />704 C<br />706 PWR = V * I * COS(THETA)"
 		},
 
 	"CRTIME": {
 			"function": "CRTIME",
-			"description": "This is the resident point (local) that maintains the deimal time.  So, for a day, the time ranges from 0.0 to 23.999721 .  7:15AM = 7.25 in CRTIME",
-			"example": "IF(CRTIME .EQ. 6.5) THEN ON(\"BREAKFAST.IS.SERVED\")"
+			"description": "This point maintains the current time and stores the value in a decimal format. The values for this point can range from 0.00 to 23.98. For example, 7:30 p.m. = 19.50.",
+			"example": "500 C<br />501 C THIS CODE DEFINES A TIME PERIOD<br />502 C FROM 6:45 A.M. TO 5:30 P.M. FOR<br />503 C SFAN TO OPERATE.<br />504 C<br />510 IF (CRTIME.GE.6.75.AND.CRTIME.LE.17.50) THEN ON(SFAN)ELSE OFF(SFAN)"
 		},
 
 	"DAY": {
-			"function": "DAY(pt1,...,pt16)",
-			"description": "This changes Logical Controller Points to DAY mode (which is also sometimes called Occupied Mode).  It is the opposite of NIGHT.",
-			"example": "IF(TIME .GT. 7:00 .AND. TIME .LT. 18:00) THEN DAY(LCTRL2) ELSE NIGHT(LCTR2)"
+			"function": "DAY",
+			"description": "This point specifies the current day of the week. The values used for the DAY point are as follows:",
+			"example": "300 IF (DAY.EQ.1) THEN TOTRAN = 0"
 		},
 
 	"DAYMOD": {
-			"function": "DAYMOD",
-			"description": "Point for comparison to see if something is in Day Mode.  SImilar to NGTMOD.",
-			"example": "IF(\"AHU.1.OCC\" .EQ. DAYMOD) THEN \"AHU.1.SAT.STPT\" = 72 ELSE \"AHU.1.SAT.STPT\" = 68"
+			"function": "if (pt1.eq.DAYMOD) then...",
+			"description": "This status indicator determines if an equipment controller is in DAY mode. For some equipment controllers, DAY mode is also referred to as OCC (occupied) mode. If an equipment controller is in occupied mode, PPCL recognizes this status as DAYMOD.",
+			"example": "200 IF (CTLR1.EQ.DAYMOD) THEN DAYSP = 75.0"
 		},
 
 	"DAYOFM": {
 			"function": "DAYOFM",
-			"description": "This is a resident (local) point for the day of the month.  So DAYOFM on Feb 2nd is 2, and DAYOFM on March 2nd is 2.",
-			"example": "IF(DAYOFM .EQ. 2) THEN ON(\"ITS.THE.SECOND.DAY\")"
+			"description": "This point specifies a particular day of any month. The value for this point corresponds to the numerical representation of a specific day in a month. Allowable values for the DAYOFM point are 1 through 31.",
+			"example": "160 C THIS SECTION OF CODE DETERMINES IF<br />162 C IT IS THE FIRST DAY OF THE MONTH.<br />164 C IF SO, SET TOTMON TO 0.<br />166 C<br />180 IF (DAYOFM.EQ.1) THEN TOTMON = 0"
 		},
 
 	"DBSWIT": {
-			"function": "DBSWIT(type,input,low,high,pt1,...,pt12)",
-			"description": "The deadband switch takes an input point, and decides whether to turn ON or OFF the points 1 through 12.  If the input rises above the high, it turns them all ON.  If it falls below the low, it turns them all OFF.  If it's in the middle of the high and low, it does nothing.  The type sets the action.  0 makes the previous statement happen.  1 reverses it, turning them all ON if the input falls below the low, and turning the all OFF if it goes above the high.",
-			"example": "DBSWIT(0,\"OUTDOOR.AIR.TEMP\",50,55,\"COOLING.MODE\") would turn cooling ON if the OAT rises above 55, and off once it falls below 50. DBSWIT(1,\"OUTDOOR.AIR.TEMP\",45,50,\"HEATING.MODE\") would turn heating OFF if the OAT rises above 50, and ON once it falls below 45."
+			"function": "DBSWIT(Type,Input,Low,High,Point1,...,Point12)",
+			"description": "This command is used to obtain an ON/OFF switching action of an output point. The operational status of the point is regulated by an analog point using a predefined deadband. This is the software equivalent of a thermostat.",
+			"example": "Example 1<br />200 DBSWIT(1,RMTEMP,LDBAND,HDBAND,SFAN, RFAN)<br />Example 2<br />200 DBSWIT(1,RMTEMP,55,58,SFAN,RFAN)"
 		},
 
 	"DC": {
-			"function": "DC(pt1, pattern1, ..., pt8, pattern8)",
-			"description": "Duty (eww!) Cycle command.  This duty cycles a point ON/OFF.  The pat1-8 arguments are for the hourly pattern of cycling.  Valid options are 0-7, where each represents different 5-minute interval behavior inside 15minute buckets.  Therefore, there should be four codes for each point, to represent the entire hour. The codes are described by the following.<br /><br />5min buckets<br />--> 1st - 2nd - 3rd<br />0 -> OFF, OFF, OFF<br />1 -> ON , OFF, OFF<br />2 -> OFF, ON , OFF<br />3 -> ON , ON , OFF<br />4 -> OFF, OFF, ON<br />5 -> ON , OFF, ON <br />6 -> OFF, ON , ON <br />7 -> ON , ON , ON ",
-			"example": "DC(\"CHW.PUMP.1\", 1241, \"CHW.PUMP.2\", 2412, \"CHW.PUMP.3\", 4124) would have one of these three pumps on at any given time, for 5 minutes each, switching them out every five minutes."
+			"function": "DC(Point 1,Pattern 1,...,Point 8,Pattern 8)",
+			"description": "This command is used to duty cycle motors and save energy by reducing the run time of oversized equipment. A one hour interval of time is broken down into four 15 minute segments. Each segment is then broken into three 5 minute patterns. The ON and OFF commands defined in the patterns are represented by numeric codes.",
+			"example": "1000 C THIS DC COMMAND DUTY CYCLES EFAN1<br />1010 C ACCORDING TO THE FOLLOWING SCHEDULE:<br />1020 C<br />1030 C FIRST 15 MINUTES - OFF, OFF, OFF (0)<br />1040 C SECOND 15 MINUTES - ON, OFF, ON (5)<br />1050 C THIRD 15 MINUTES - OFF, ON, ON (3)<br />1060 C FOURTH 15 MINUTES - OFF, OFF, ON (1)<br />1070 DC(EFAN1,1350)<br />The code numbers and patterns are evaluated by reading the time in 5 minute intervals from right to left. The first 15 minute pattern is determined by the right-most code digit.  The last 15 minute pattern is determined by the left-most code number."
 		},
 
 	"DCR": {
-			"function": "DCR(pt1, temp1, high1, low1, ..., pt4, temp4, high4, low4)",
-			"description": "This is a duty-cycle command, similar to the DC() command.  However, the difference is that it cycles a point based on a temperature.  It cycles the pointt ON whenever the temperature is either above the high or below the low.",
-			"example": "DCR(\"FCU.1.SS\", \"ROOM.15.SPACE.TEMP\", 78.0, 65.0)"
+			"function": "DCR(Point 1,Temp 1,High 1,Low 1,...,Point 4,Temp 4,High 4,Low 4)",
+			"description": "This command duty cycles an output point to keep a corresponding temperature within a dead band defined with low and high values. This function allows you to define up to four points. For each point, you must define a temperature and high and low parameter. An ON/OFF decision is made every 5 minutes according to the value of the parameters. The output point is ON when the temperature point is above the high limit or below the low limit.",
+			"example": "200 C THIS COMMAND WILL TURN ON IF<br />210 C SFAN'S VALUE FALLS BELOW 68 OR<br />220 C RISES ABOVE 78. THE POINT SFAN01<br />230 C WILL REMAIN ON/OFF FOR AT LEAST 5<br />240 C MINUTES ON EACH CYCLE.<br />230 DCR(SFAN01,RM109,78.0,68.0)"
 		},
 
 	"DEACT": {
-			"function": "DEACT(line1, ..., line16)",
-			"description": "Deactivte the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
-			"example": "DEACT(1, 5, 3200, 32767) would deactivate lines 1, 5, 3200, and 32767."
+			"function": "DEACT(Line 1,..., Line 16)",
+			"description": "Disables 1 to 16 lines of PPCL so that they are not examined or executed.",
+			"example": "100 IF (TIME.GT.8:00.AND.TIME.LE.17:00) THEN ACT(120,130) ELSE DEACT(120,130)"
 		},
-	
+
 	"DEAD": {
-			"function": "@DEAD",
-			"description": "A state used for comparison.  It means the battery is dead.",
-			"example": "IF($BATT .EQ. @DEAD) THEN GOTO 3200"
+			"function": "if ($BATT.eq.DEAD) then...",
+			"description": "This indicator is used to compare the value of the $BATT resident point to determine if the backup battery is discharged. The result of the comparison will be true if the battery is discharged. This function can only be used in field panels that have the ability to monitor the strength of their backup battery.",
+			"example": "600 IF ($BATT.EQ.DEAD) THEN ALARM(P26BAT)"
 		},
 
 	"DEFINE": {
-			"function": "DEFINE(Abbreviation, String)",
-			"description": "I personally can't stand this one.  You can replace all strings with an abbreviation in your code, making the lines shorter, but much more difficult to read.  Code is written once, read many times, so deference should be given to the reader.  There is some logic to this, in that it makes code modules more reusable, and prevents line lengths from surpassing the limit.  This editor has a keymapped function to toggle DEFINES in the code, making it easier to read",
-			"example": "DEFINE(X, \"CAMPUS.BLDG1.AHU1.\")  Now, everywhere you would have had to write that out, you can replace with %X%.  So, \"%X%SPEED\" and \"%X%POWER\" mean \"CAMPUS.BLDG1.AHU1.SPEED\" and \"CAMPUS.BLDG1.AHU1.POWER\", respectively."
+			"function": "DEFINE(Label,\"String\")",
+			"description": "This command assigns a string value to an identifying label that is delimited with the percentage character (%). The % delimiter allows the user to concatenate prefix or suffix strings with a partial point name to form a long name.",
+			"example": "Example of defining abbreviations<br /><br />10 DEFINE(B, \"MAIN BUILDING\")<br />20 DEFINE(F, \"FLOOR\")<br />30 DEFINE(TEC orBACnet FLN Device, \"MYTEC orBACnet FLN DEVICE\")<br />40 DEFINE(SP, \"SET POINT\")<br /><br />Example of using abbreviations<br />10 ON( \"%B%.%F%  1.HEATER\")<br />20 C equivalent to ON( \"MAIN  BUILDING.FLOOR  1.HEATER\")<br />30 C<br />40 OFF( \"FIFTH  %F%.LIGHTS\")<br />50 C equivalent to OFF( \"FIFTH  FLOOR.LIGHTS\")<br />60 C<br />70 SET( 0.8, \"%TEC orBACnet FLN Device%:DAMPER\")<br />80 C equivalent to SET( 0.8, \"MYTEC orBACnet FLN Device DEVICE:DAMPER\" )<br />90 C<br />100 %SP% = 72.5<br />110 C equivalent to \"SET  POINT\" = 72.5<br />120 C<br />130 IF ( \"%B%.TEMP\"  .LT.  %SP% ) THEN ON ( %B%.HEATER )"
 		},
 
 	"DISABL": {
-			"function": "DISABL(line1, ..., line16)",
-			"description": "Disable the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
-			"example": "DISABL(1, 5, 3200, 32767) would disable lines 1, 5, 3200, and 32767."
+			"function": "DISABL(Line 1,..., Line 16)",
+			"description": "Disables 1 to 16 lines of PPCL so that they are not examined or executed. The DEACT and DISABL commands can be used interchangeably.",
+			"example": "100 IF (TIME.GT.8:00.AND.TIME.LE.17:00) THEN ENABLE(120,130) ELSE DISABL (120,130)"
 		},
 
 	"DISALM": {
-			"function": "DISALM($Point1, ... ,$Point16)",
-			"description": "This function disables all alarm reporting from the points listed in the function.  The opposite of ALARM.",
-			"example": "DISALM($Point1, \"POINT.2\") -> This would disable alarm reporting on the local point $Point1 and the point \"Point.2\""
+			"function": "DISALM(Point 1,...,Point 16)",
+			"description": "This command disables the alarm reporting capabilities for specified points. Up to 16 points can be disabled for alarm reporting by one command.",
+			"example": "50  IF (SFAN.EQ.OFF) THEN DISALM(ROOM1) ELSE ENALM(ROOM1)"
 		},
 
 	"DISCOV": {
@@ -169,497 +265,1202 @@
 		},
 
 	"DPHONE": {
-			"function": "DPHONE(phonenumber1, ..., phonenumber16)",
-			"description": "Disable the telephone ID number of phonenumber1 through phonenumber16 that are defined in the device.  Wow, PPCL is old-school. Now using modems!",
-			"example": "DPHONE(1, 3, 5) would disable those phone numbers in a device."
+			"function": "DPHONE(Phone 1,..., Phone 16)",
+			"description": "Disables 1 to 16 telephone number IDs which represents the numeric codes given to the actual telephone numbers defined in the device. The DPHONE command cannot be used over a network.",
+			"example": "532 DPHONE(1,2,3,5,6)"
 		},
 
 	"ELSE": {
-			"function": "IF(...) THEN 'action 1' ELSE 'action 2'",
-			"description": "This prompts the action for the case where a conditional returns false.  Note this is not required after a conditional statement, but is inferred as 'do nothing'.",
-			"example": "IF(4 .EQ. 2) THEN GOTO 3200 ELSE GOTO 3210"
+			"function": "IF(exp) THEN x ELSE y",
+			"description": "This conditional logic command is used to provide customized decision logic. When the IF expression is true, the THEN command is executed. If the condition is false, the ELSE command (if defined) is executed.",
+			"example": "110 IF (OATEMP.GT.70.0) THEN OADPR = 80.0<br />Example of IF THEN ELSE<br />310  IF (TIME.GT.8:00.AND.TIME.LT.16:00) THEN ON(@NONE,SFAN) ELSE ON(@OPER, SFAN)"
 		},
 
 	"EMAUTO": {
-			"function": "EMAUTO(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of ON/OFF/AUTO to AUTO in emergency priority.",
-			"example": "EMAUTO(\"CHW.PUMP.1\") will put that point in auto."
+			"function": "EMAUTO(Point 1,...,Point 16)",
+			"description": "This command is used to change LOOAP or LOOAL points to the AUTO (local control) state with emergency priority. You can command up to 16 points with this command.",
+			"example": "None"
 		},
 
 	"EMER": {
 			"function": "@EMER",
-			"description": "A state used for comparison.  It means the point is in emergency.",
-			"example": "IF(\"PUMP.1.SS\" .EQ. @EMER) THEN GOTO 3200"
+			"description": "Identifies the emergency priority level indicator.",
+			"example": "The @EMER command is typically used in one of the following situations:<br />Using the @priority indicator in this manner will not release the point if it has a higher priority (SMOKE or OPER)."
 		},
 
 	"EMFAST": {
-			"function": "EMFAST(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of FAST/SLOW/STOP to FAST in emergency priority.",
-			"example": "EMFAST(\"CHW.PUMP.1\") will put that point in FAST and @EMER."
+			"function": "EMFAST(Point 1,...,Point 16)",
+			"description": "This command is used to change LFSSL, LFSSP, LFMSSL, or LFMSSP points to the FAST state with emergency priority. You can command up to 16 points with this command.",
+			"example": "None"
 		},
 
 	"EMOFF": {
-			"function": "EMOFF(pt1,...,pt16) or EMOFF(priority, pt1)",
-			"description": "Changes the point to OFF in emergency priority.  The other option sets pt1 to the priority given, which can be 501 (OFF in emergency priority) or 32523 (OFF in NONE priority).  Weird...",
-			"example": "EMOFF(\"CHW.PUMP.1\") will put that point in OFF and @EMER.  EMOFF(32523, \"CHW.PUMP.1\") will put that point in OFF with @NONE priority."
+			"function": "EMOFF(Point 1,...,Point 16)",
+			"description": "When this command is executed, the defined points are commanded OFF. Depending on the type of firmware you have and how you define the parameters, the priority of the point can also be changed. You can command up to 16 points with this command.",
+			"example": "None"
 		},
 
 	"EMON": {
-			"function": "EMON(pt1,...,pt16) or EMON(priority, pt1)",
-			"description": "Changes the point to ON in emergency priority.  The other option sets pt1 to the priority given, which can be 501 (ON in emergency priority) or 32523 (ON in NONE priority).  Weird...",
-			"example": "EMON(\"CHW.PUMP.1\") will put that point in ON and @EMER.  EMON(32523, \"CHW.PUMP.1\") will put that point in ON with @NONE priority."
+			"function": "EMON(Point 1,...,Point 16)",
+			"description": "When this command is executed, the defined points are commanded ON. Depending on the type of firmware you have and how you define the parameters,  the priority of the point can also be changed. You can command up to 16 points with this command.",
+			"example": "None"
 		},
 
 	"EMSET": {
-			"function": "EMSET(value, pt1,...,pt15)",
-			"description": "Changes the analog points to a value and puts them in emergency priority.",
-			"example": "EMAUTO(100, \"CHW.PUMP.1.SPEED\") will put that point to 100% speed and in @EMER priority."
+			"function": "EMSET(Value,Point 1,...,Point 15)",
+			"description": "This command is used to set the value of analog points with emergency priority. You can define a total of 15 points with a single command.",
+			"example": "None"
 		},
 
 	"EMSLOW": {
-			"function": "EMSLOW(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of SLOW/SLOW/STOP to SLOW in emergency priority.",
-			"example": "EMSLOW(\"CHW.PUMP.1\") will put that point in SLOW and @EMER."
+			"function": "EMSLOW(Point 1,...,Point 16)",
+			"description": "Description",
+			"example": "None"
 		},
 
 	"ENABLE": {
-			"function": "ENABL(line1, ..., line16)",
-			"description": "Enable the line number (1 through 32,767) for up to 16 different lines in the current PPCL code.",
-			"example": "ENABL(1, 5, 3200, 32767) would enable lines 1, 5, 3200, and 32767."
+			"function": "ENABLE(Line 1,..., Line 16)",
+			"description": "Enables 1 to 16 lines of PPCL so that they can be examined and executed. The ACT and ENABLE commands can be used interchangeably.",
+			"example": "100 IF (TIME.GT.8:00.AND.TIME.LT.17:00) THEN ENABLE(120) ELSE DISABL(120)"
 		},
 
 	"ENALM": {
-			"function": "ENALM(pt1, ..., pt16)",
-			"description": "Enable the alarming of pt1 through pt16 ",
-			"example": "ENALM(\"TRUMPS.AT.MAR.A.LOGA.AGAIN\") would enable the alarm for that point."
+			"function": "ENALM(Point 1,...,Point 16)",
+			"description": "This command enables the alarm reporting capabilities for the specified points. Up to 16 pointscanbe enabled for alarm reporting by one command.",
+			"example": "50  IF (SFAN.EQ.ON) THEN ENALM(ROOM1) ELSE DISALM(ROOM1)"
 		},
 
 	"ENCOV": {
 			"function": "ENCOV(pt1, ..., pt16)",
 			"description": "Enable the COV reporting of pt1 through pt16.  Opposite of DISCOV()",
 			"example": "ENCOV(\"TRUMPS.AT.MAR.A.LOGA.AGAIN\") would enable the COV reporting for that point.  Watch out, tons of COVs can eat a lot of memory and communication bandwidth."
-		},
+			},
 
 	"EPHONE": {
-			"function": "EPHONE(phonenumber1, ..., phonenumber16)",
-			"description": "Enable the telephone ID number of phonenumber1 through phonenumber16 that are defined in the device.  Wow, PPCL is old-school. Now using modems!",
-			"example": "EPHONE(1, 3, 5) would enable those phone numbers in a device."
+			"function": "EPHONE(Phone 1,..., Phone 16)",
+			"description": "Enables 1 to 16 telephone number IDs which represents the numeric codes given to the actual telephone numbers defined in the device. The EPHONE command cannot be used over a network.",
+			"example": "532 EPHONE(1,2,3,5,6)"
 		},
 
-	".EQ.": {
-			"function": "value1.EQ.value2",
-			"description": "Return TRUE if 'value.1' equals 'value.2'",
-			"example": "self explanatory"
+	"EQ": {
+			"function": "if (value1.EQ.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is equal to the second value (value2). The comparison between the two values is true if value1 is equal to value2.",
+			"example": "500 C IF THE ROOM TEMP IS EQUAL TO 80,<br />510 C THEN SET THE SET POINT TO 70.<br />520 C<br />530 IF (RMTEMP.EQ.80.0) THEN RMSET = 70.0"
 		},
 
 	"EXP": {
-			"function": "\"POINT.1\" = EXP(\"POINT.2\")",
-			"description": "The NATURAL ANTILOG function. The opposite of the LOG base e (Euler's number) function.",
-			"example": "\"POINT.1\" = EXP(\"POINT.2\") -> If \"POINT.2\" = 1, then \"POINT.1\" will be set to 2.718..."
+			"function": "Point 1 = EXP(Value 1)",
+			"description": "This function calculates the natural antilog of a point (Value 1) and stores that value in a defined location (Point 1).",
+			"example": "860 NATANT = EXP(VALUE1)"
 		},
 
 	"FAILED": {
-			"function": "FAILED",
-			"description": "A state used for comparison.  It means the item is failed.",
-			"example": "IF(\"NODE.1.\" .EQ. FAILED) THEN GOTO 3200"
+			"function": "if (pt1.eq.FAILED) then...",
+			"description": "This status indicator is used to compare the operational status of a point to the FAILED status indicator. This comparison will be true if the point is in the FAILED state.",
+			"example": "200 IF (AHU2.EQ.FAILED) THEN ON(HORN)"
 		},
 
 	"FAST": {
-			"function": "FAST(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of FAST/SLOW/STOP to FAST",
-			"example": "FAST(\"CHW.PUMP.1\") will put that point in FAST."
+			"function": "if (pt1.eq.FAST) then...",
+			"description": "This indicator is used to compare the operational status of a point name to the FAST status indicator. This comparison will be true if the point is in the FAST state.",
+			"example": "200 IF (FAN.EQ.FAST) THEN DAMPER = 8.0"
+		},
+
+	"GE": {
+			"function": "if (value1.GE.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is greater than or equal to the second value (value2). The comparison between the two values is true if value1 is greater than or equal to value2.",
+			"example": "700 C IF THE ROOM TEMP IS GREATER THAN<br />710 C OR EQUAL TO 80, THEN SET THE SET<br />720 C POINT TO 70<br />730 C<br />740 IF (RMTEMP.GE.80.0) THEN RMSET = 70.0"
+		},
+
+	"GOSUB": {
+			"function": "GOSUB line# (pt1,...,pt15)",
+			"description": "GOSUB transfers control to a subroutine. Variable arguments can be passed to the subroutine from the mainline code by using $ARG local variables. When program reaches a RETURN statement at the end of the subroutine, the program control is transferred back to the GOSUB statement. The values in the $ARG points replace their respective point values. The computer then continues processing at the next sequential line number.",
+			"example": "The following example demonstrates how a number of PPCL commands are used in subroutines. The main subroutine commands, GOSUB and RETURN are required for all subroutines. The $ARG command demonstrates how values are passed between subroutines. The GOTO command is used to bypass subroutines. This program uses the variables pt1 and pt2 to demonstrate the passing of values between subroutines.<br />100 C ***MAINLINE PROGRAM FOR LOGICAL FIRMWARE<br />110 C LEARNING HOW TO USE GOSUB, RETURN, AND<br />112 C $ARG COMMANDS.***<br />120 C<br />130 GOSUB 1010<br />300 GOSUB 2010 PT1, PT2<br />400 GOTO 3000<br /><br />1000 C --SUBROUTINE 1<br />1001 C THIS SUBROUTINE ASSIGNS NUMBERS<br />1002 C TO PT1 AND PT2. IT THEN RETURNS<br />1004 C CONTROL TO THE MAIN PROGRAM.<br />1008 C<br />1010 PT1 = 10<br />1020 PT2 = 20<br />1030 RETURN<br />2000 C --SUBROUTINE 2<br />2001 C THIS SUBROUTINE PASSES THE VALUE OF<br />2002 C PT1 AND PT2 TO THEIR RESPECTIVE $ARG<br />2003 C POINTS. IT THEN ADDS ONE TO BOTH $ARG<br />2004 C POINTS AND RETURNS THE NEW VALUES TO<br />2005 C PT1 AND PT2.<br />2006 C<br />2010 $ARG1 = $ARG1 + 1<br />2020 $ARG2 = $ARG2 + 1<br />2030 RETURN<br />3000 C*** After the subroutine finishes executing, the program returns to Mainline code.<br />A multiple level subroutine is a block of program code which is called from within another subroutine. Each call you make within a subroutine constitutes a level. You are limited to a total of eight levels.<br />If you need to use multiple level subroutines, the rules that govern $ARGn variables and point name declarations for GOSUB commands change slightly. When using $ARGn variables in a multiple level subroutines, you cannot share the $ARGn variables between subroutine levels. Once a value is assigned to a $ARGn variable, you must retain that value by not assigning another value to that variable.<br />The following example demonstrates the use of $ARGn variables and point declarations used in multiple level subroutines. This programming example contains a main line section of program code and three subroutines. This example demonstrates a method to preserve the values of $ARGn variables as you transfer program control among subroutines.<br />1000 C MAINLINE PROGRAM FOR LOGICAL FIRMWARE<br />1010 C<br />1020 C THIS PROGRAM TEACHES HOW GOSUBS AND<br />1030 C $ARG POINTS WORK IN MULTIPLE<br />1040 C LEVEL SUBROUTINES.<br />1050 C<br />1100 ...<br />1200 ...<br />1300<br />1350 C THIS GOSUB CALLS THE FIRST SUBROUTINE<br />1360 C AND PASSES A VALUE DEFINED IN PT1 TO<br />1370 C TO $ARG1.<br />1380 C<br />1500 GOSUB 2030 PT1<br />2000 C<br />2010 C SUBROUTINE #1<br />2020 C<br />2030 ...<br />2040 ...<br />2050 ...<br />2060 C IN ORDER TO PRESERVE THE VALUE LOCATED<br />2070 C IN $ARG1, YOU MUST DEFINE $ARG1 IN THE<br />2080 C SECOND SUBROUTINE'S CALLING GOSUB. THE<br />2090 C PROGRAM ALSO PASSES A SECOND POINT<br />2100 C VALUE NAMED PT2.<br />2110 C<br />2500 GOSUB 3030 $ARG1,PT2<br />2510 RETURN<br />3000 C<br />3010 C SUBROUTINE #2<br />3020 C<br />3030 ...<br />3040 ...<br />3050 C IN ORDER TO PRESERVE THE VALUES LOCATED<br />3060 C IN $ARG1 AND $ARG2, YOU MUST DEFINE<br />3070 C BOTH POINTS IN THE THIRD SUBROUTINE'S<br />3080 C CALLING GOSUB. THE PROGRAM ALSO PASSES<br />3090 C A THIRD POINT VALUE CALLED PT3.<br />3100 C<br />3200 GOSUB 4020 $ARG1,$ARG2,PT3<br />3210 RETURN<br />4000 C --SUBROUTINE #3<br />4010 C<br />4020 ...<br />4030<br />4040 RETURN"
 		},
 
 	"GOTO": {
 			"function": "GOTO linenum",
-			"description": "This is called a branch statement.  Control is given up from the sequentially following line, and given to the linenumber specified.  It is generally considered bad practice in coding to make a GOTO go up the code (going from line 3300 to line 3200 is a No No), except the case of the very end, where a GOTO sends control back to the top of the code, creating a do while loop.",
+			"description": "This is called a branch statement. Control is given up from the sequentially following line, and given to the linenumber specified.  It is generally considered bad practice in coding to make a GOTO go up the code (going from line 3300 to line 3200 is a No No), except the case of the very end, where a GOTO sends control back to the top of the code, creating a do while loop.",
 			"example": "GOTO 3200 would go to line number 3200"
 		},
 
-	"GOSUB": {
-			"function": "GOSUB linenumber pt1, ..., pt15",
-			"description": "This is a subroutine, called inside the current PPCL program.  This called (not a function call, notice there are no parantheses) cedes control to the linenumber, and feeds as arguments the points pt1 through pt15.  These points are referenced by their plaement in the call, not by their names explicitly.  The subroutine can span any number of lines within the program, but must RETURN at the end.  The subroutine performs its execution, modifying the parameters inside it, and returns to the line number that originally called it.",
-			"example": "At line 3200, GOSUB 5000 OATEMP, OARH, OAWBT is called.  This is kind of typical for these parameters.  The code control is released to line 5000, passing OATEMP, OARH, and OAWBT to the suroutine as $ARG1, $ARG2, and $ARG3 (based on their positions, respectively).  Once the code under the subroutine executes, and the last line of the sub is reached (given by the RETURN command), the control is released back to the line that called the sub, line 3200."
-		},
-
-	".GE.": {
-			"function": "IF(something .GE. something.else) THEN ... ELSE ...",
-			"description": "Greater than or equal to comparision operator",
-			"example": "IF(5 .GE. 3) THEN GOTO 3200 ELSE crash"
-		},
-
-	".GT.": {
-			"function": "IF(something .GT. something.else) THEN ... ELSE ...",
-			"description": "Greater than comparision operator",
-			"example": "IF(5 .GT. 3) THEN GOTO 3200 ELSE crash"
+	"GT": {
+			"function": "if (value1.GT.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is greater than the second value (value2). The comparison between the two values is true if value1 is greater than value2.",
+			"example": "250 C IF THE ROOM TEMP IS GREATER THAN<br />260 C 80, THEN SET THE SET POINT TO 70<br />270 C<br />280 IF (RMTEMP.GT.80.0) THEN RMSET = 70.0"
 		},
 
 	"HAND": {
-			"function": "HAND",
-			"description": "A state used for comparison.  It means the point is in manual mode, also called hand (of Hand-Off-Auto).",
-			"example": "IF(\"PUMP.1.SS\" .EQ. HAND) THEN GOTO 3200"
+			"function": "if (pt1.eq.HAND) then...",
+			"description": "This indicator is used to compare the operational status of a point name to the HAND status indicator. This comparison will be true if the point is currently being controlled through the use of a manual override switch.",
+			"example": "200 IF (FAN.EQ.HAND) THEN OADAMP = 8.0"
 		},
 
 	"HLIMIT": {
-			"function": "HLIMIT(value, pt1, ..., pt15)",
-			"description": "This sets the high limit for alarming on the points.  So, if any of the points in this command exceeds the value, then a high limit alarm will be activated.  Similar to LLIMIT",
-			"example": "HLIMIT(78.0, \"TEMP.1\", \"TEMP.2\")"
+			"function": "HLIMIT(Value,Point 1,...,Point 15)",
+			"description": "This command is used to set a new high alarm limit for alarmable analog points. Up to 15 points can be set to the same high limit with one HLIMIT command.",
+			"example": "100 IF (OATEMP.GT.70.0) THEN HLIMIT(84.0, ROOM16)ELSE HLIMIT(78.0,ROOM16)"
 		},
 
 	"HOLIDA": {
-			"function": "HOLIDA(month1, day1, ..., month8, day8)",
-			"description": "This sets the given month/day to a holiday for scheduling.  Why can't the command be HOLIDAY?  Weird PPCL won't allow function names over 6 characters.  Lots of things weren't well thought out.",
-			"example": "HOLIDA(1,1,2,14,12,25,12,31) would set New Years Day, Valentine's Day, Christmas, and New Years Eve to holidays."
-		},
-
-	"INITTO": {
-			"function": "INITTO(value, pt1, ..., pt16)",
-			"description": "This function reintializes the totalization of all the points, starting them with the value given.  This is typical for something like a daily sum of kWh, where it is reintialized to 0 every morning at 12AM.",
-			"example": "INITTO(0, \"DAILY.KWH\")"
+			"function": "HOLIDA(Month 1,Day 1,...,Month 8,Day 8)",
+			"description": "This command is used to define the dates of holidays up to a year in advance. By entering the pairs of numbers for the dates (month, day). You can define up to eight holidays with one HOLIDA command.",
+			"example": "630 HOLIDA(12,24,12,25,12,26,12,27)"
 		},
 
 	"IF": {
-			"function": "IF(SOMETHING compared to SOMETHING.ELSE AND/OR ...) THEN x ELSE y",
-			"description": "Pretty self-explanatory. If some value compared to some other value, then proceed to condition x, else do y.  The compared piece is one of the operators (like .EQ. or .NE.) and the SOMETHINGs can be points, values, booleans, all sorts of stuff.  There can also be cinjuctions (.AND. or .OR.) and their precedence can be tested.",
-			"example": "IF(\"OA.ENTHALPY\" .GE. 30 .AND. \"COOLING.MODE\" .EQ. ON) THEN GOTO 3200 ELSE \"CHW.VALVE\" = 0"
+			"function": "IF(exp) THEN x ELSE y",
+			"description": "This conditional logic command is used to provide customized decision logic. When the IF expression is true, the THEN command is executed. If the condition is false, the ELSE command (if defined) is executed.",
+			"example": "110 IF (OATEMP.GT.70.0) THEN OADPR = 80.0<br />Example of IF THEN ELSE<br />310  IF (TIME.GT.8:00.AND.TIME.LT.16:00) THEN ON(@NONE,SFAN) ELSE ON(@OPER, SFAN)"
+		},
+
+	"INITTO": {
+			"function": "INITTO(Value, Point 1,..., Point 15)",
+			"description": "This command is used to change the totalized value of a point to a new value (generally 0). A single command can define up to 15 point names which receive the new value.",
+			"example": "10 IF (DAYOFM.EQ.1.0) THEN INITTO(0.0, PMP1,PMP2)"
+		},
+
+	"LE": {
+			"function": "if (value1.LE.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is less than or equal to the second value (value2). The comparison between the two values is true if value1 is less than or equal to value2.",
+			"example": "300 C IF THE ROOM TEMP IS LESS THAN OR<br />310 C EQUAL TO 80, THEN SET THE SET POINT<br />320 C TO 70<br />330 C<br />340 IF (RMTEMP.LE.80.0) THEN RMSET = 70.0"
 		},
 
 	"LINK": {
-			"function": "NOT YET DEFINED",
-			"description": "Would you want to help?  Contribute @ https://github.com/blandfbt/PPCL",
-			"example": "or email me at brien.blandford@gmail.com"
+			"function": "LINK",
+			"description": "This resident point indicates the condition of communications. Depending on the status of the communications link, a point contains the value 0 or 1.<br />- If the LINK value is 0, the node where the LINK point resides is not communicating with the network.<br />- If the LINK value is 1, the node where the LINK point resides is actively communicating with the network.",
+			"example": "300 IF (LINK.EQ.0) THEN ON(ALARM)"
 		},
 
 	"LLIMIT": {
-			"function": "LLIMIT(value, pt1, ..., pt15)",
-			"description": "This sets the low limit for alarming on the points.  So, if any of the points in this command goes below the value, then a low limit alarm will be activated.  Similar to HLIMIT",
-			"example": "LLIMIT(65.0, \"TEMP.1\", \"TEMP.2\")"
+			"function": "LLIMIT(Value,Point 1,...,Point 15)",
+			"description": "This command is used to set a new low alarm limit for alarmable analog points. Up to 15 points can be set to the same low limit with one LLIMIT command.",
+			"example": "100 IF (OATEMP.GT.68.0) THEN LLIMIT(76.0, ROOM16) ELSE LLIMIT(68.0,ROOM16)"
 		},
-		
+
+	"LOC1": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC2": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC3": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC4": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC5": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC6": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC7": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC8": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC9": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC10": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC11": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC12": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC13": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC14": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
+	"LOC15": {
+			"function": "$LOC1 through $LOC15",
+			"description": "These points are used to store the results of calculations. A $LOCn variable can store an analog or digital value and can be used throughout the program.",
+			"example": "Example 1:<br />200 MIN ($LOC1,PT1,PT2,PT3)<br />Example 2:<br />100 $LOC7 = (50/VALUE1+10.0) * 2.0"
+		},
+
 	"LOCAL": {
-			"function": "LOCAL(pt1...pt16)",
-			"description": "Like DEFINE, I think this is a bad idea.  Local points are points where the scope is limited to just the program.  There are built in LOCAL points (called \"lokes\") $LOC1 through $LOC15, but you can define custom ones. They can be helpful, but building real, virtual points is my prefered method.  THis eliminates confusion, makes the points traceable, trendable, etc., and prevent code from being tough to read.  ",
-			"example": "LOCAL(OAT, OAWBT, OARH) would make three local points ($OAT, $OAWBT, and $OARH) inside a program that can only be used by that program."
+			"function": "LOCAL(pt1,... ,pt16)",
+			"description": "Special Function statement that allows the program to reference and create local points as$pt1through$pt16etc. Other programs can command these points by referencing the program name, followed by the system delimiter (:), followed by the local point name.",
+			"example": "Example 1<br />The following is an example of commanding a local point contained within a program:<br />100 LOCAL(FANPT)<br />200 ON($FANPT)<br />Example 2<br />The following is an example of a program using the value of a local point in a different program (where PROG1 is the program name):<br />300 IF(\"PROG1:FANPT\".EQ.ON)THEN ..."
 		},
 
 	"LOG": {
-			"function": "\"POINT.1\" = LOG(\"POINT.2\")",
-			"description": "The NATURAL LOG function. The base e (Euler's number) LOG function.",
-			"example": "\"POINT.1\" = LOG(\"POINT.2\") -> If \"POINT.2\" = 2.718..., then \"POINT.1\" will be set to 1."
+			"function": "Point 1 = LOG(Value 1)",
+			"description": "This function calculates the natural log of a point (Value 1) and stores that value in a defined location (Point 1).",
+			"example": "200 ENTH = LOG(VALUE1)"
+		},
+
+	"LOGICAL": {
+			"function": "None",
+			"description": "While relational operators compare two values producing a condition, logical operators compare two conditions. The result of a comparison between the two conditions is itself, called a condition. If the result of the conditions is true, then a specific action is taken. If the result is false, then an alternate action is performed.",
+			"example": "None"
 		},
 
 	"LOOP": {
-			"function": "LOOP(type, input, output, setpoint, Pgain, Igain, Dgain, SampleTimer, Bias, Low, High, 0)",
-			"description": "Ahh, the good old PID loop.  The type argument is forward acting (0) for raising the output when the difference between setpoint and the value goes up, down otherwise.Type 128 is reverse acting, making the output go down if the difference between the setpoint and value gets bigger, up otherwise.  Pgain is proportional gain (think difference of states in the immediate present), Igain is integral gain (think difference between states over the past), and Dgain is derrivative gain (think difference in the future states).  Dgain is tough to use if you don't know how to use it, and Pgain alone will never be happy.  Start with 1000 for P and 20 for I.  Sample timer is how often the loop samples the input and makes a decision.  Bias is where to start the output, in case the loop gets turned off then on again.  Low limit is the minimum the output will be set to, and High is the high limit.  The extra place holder must be 0, and doesn't do anything. Seriously...",
-			"example": "LOOP(0, \"AHU.SAT\", \"AHU.CHW.VALVE\", \"AHU.SAT.STPT\", 1000, 20, 0, 5, 0, 20, 80, 0) This would open the CHW Valve more and more if the SAT keeps going further past setpoint.  If the SAT is below the set point, then it will close the valve.  Notice the min and max will prevent the valve from ever fully opening or closing, and are likely in percentage.  They could be in volts, depending on the valve actuator configuration.  You would use a type=128 or the same thing, but for a HHW valve."
+			"function": "LOOP(Type,Process Var,Control Var,Set Point,Proportional,Integral,Derivative,Sample Time,Bias,Low Limit,High Limit,Not Used)",
+			"description": "This command performs closed loop control using any combination of proportional, integral, and derivative control actions in either direct or reverse acting modes. The Loop command monitors an input point (process variable), compares it with a desired value (the set point), and adjusts an output (control variable) to bring the input closer to the set point.",
+			"example": "2000 C CONTROL LOOP STATISTICS (LOGICAL<br />2002 C FIRMWARE)<br />2004 C DIRECT CONTROL LOOP<br />2006 C INPUT = RM100  OUTPUT = HVALVE<br />2008 C SETPOINT = HSETPT<br />2010 C PROPORTIONAL GAIN = PGAIN-NO I OR G<br />2012 C  GAINS<br />2014 C SAMPLE TIME = 1 SECOND<br />2016 C BIAS = 5.5<br />2018 C LOW = 3.0<br />2020 C HIGH = 9.0<br />2022 LOOP(0,RM100,HVALVE,HSETPT,PGAIN,0, 0,1, 5.5,3.0,9.0,0)"
 		},
 
-	"LOW": {
-			"function": "@LOW",
-			"description": "A state used for comparison.  It means the battery is LOW.",
-			"example": "IF($BATT .EQ. @LOW) THEN GOTO 3200"
+	"LSQDAT": {
+			"function": "LSQDAT(Point 1, Point 2, Point 3)",
+			"description": "This command defines the input values necessary for performing XYZ Least Squares Curve Fit Function calculations. A total of 8 lines is required to perform the calculation. In the first line of PPCL, the LSQ2 command defines the formula and LSQDAT defines the input values in the following 7 lines.",
+			"example": "6670 LSQDAT(X11, Y11, Z11)<br />6680 LSQDAT(X12, Y12, Z12)<br />6690 LSQDAT(X13, Y13, Z13)<br />6700 LSQDAT(X14, Y14, Z14)<br />6710 LSQDAT(X15, Y15, Z15)<br />6720 LSQDAT(X16, Y16, Z16)<br />6730 LSQDAT(X17, Y17, Z17)"
 		},
 
-	".LE.": {
-			"function": "something .LE. something.else",
-			"description": "Less than or equal to comparision operator",
-			"example": "IF(3 .LE. 5) THEN GOTO 3200 ELSE crash"
-		},
-
-	".LT.": {
-			"function": "something .LT. something.else",
-			"description": "Less than comparision operator",
-			"example": "IF(3 .LT. 5) THEN GOTO 3200 ELSE crash"
+	"LT": {
+			"function": "if (value1.LT.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is less than the second value (value2). The comparison between the two values is true if value1 is less than value2.",
+			"example": "900 C IF THE ROOM TEMP IS LESS THAN 80,<br />910 C THEN SET THE SET POINT TO 70.<br />920 C<br />930 IF (RMTEMP.LT.80.0) THEN RMSET = 70.0"
 		},
 
 	"MAX": {
-			"function": "MAX(result, pt1, ..., pt15)",
-			"description": "This returns the maximum of pts 1-15 and stores the value in result.",
-			"example": "MAX(\"MAX.VALUE\", $LOC3, \"ANTOHER.POINT\") would set the point \"MAX.VALUE\" to the maximum of $LOC3 and \"ANOTHER.POINT\""
+			"function": "MAX(Result,Point 1,...,Point 15)",
+			"description": "This command selects the largest value from 2 to 15 point names or numbers, and stores that value in the result point.",
+			"example": "10 MAX(HOTZON,ZONE1,ZONE2,ZONE3)"
 		},
 
 	"MIN": {
-			"function": "MIN(result, pt1, ..., pt15)",
-			"description": "This returns the minimum of pts 1-15 and stores the value in result.",
-			"example": "MIN(\"MIN.VALUE\", $LOC3, \"ANTOHER.POINT\") would set the point \"MIN.VALUE\" to the minimum of $LOC3 and \"ANOTHER.POINT\""
+			"function": "MIN(Result,Point 1,...,Point 15)",
+			"description": "This command selects the lowest value from 2 to 15 point names or numbers, and stores that value in the Result point.",
+			"example": "10 MIN(COOLZN,ZONE1,ZONE2,ZONE3)"
 		},
 
 	"MONTH": {
 			"function": "MONTH",
-			"description": "Resident point (local) that keeps track of the number of the month, 1-12",
-			"example": "IF(MONTH .EQ. 1) THEN ON(\"COLD.WEATHER\")"
+			"description": "This point specifies the current month. The values for the MONTH point are as follows:",
+			"example": "950 IF (MONTH.GE.4.AND.MONTH.LE.10) THEN SEASON = 1 ELSE SEASON = 0"
 		},
 
-	"NAND": {
-			"function": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN ...",
-			"description": "The NEITHER conditional. If neither one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, one is TRUE, or if both are True, then the condition will not be met",
-			"example": "IF(\"POINT.1\" .NAND. \"POINT.2\") THEN GOTO 4300\" -> Only if both of the points is FALSE, then the condition will proceed.  Otherwise, the next line will execute and trace."
-		},
-	
-	"NIGHT": {
-			"function": "NIGHT(pt1,...,pt16)",
-			"description": "This changes Logical Controller Points to NIGHT mode (which is also sometimes called UnOccupied Mode).  It is the opposite of DAY.",
-			"example": "IF(TIME .GT. 7:00 .AND. TIME .LT. 18:00) THEN DAY(LCTRL2) ELSE NIGHT(LCTR2)"
+	"NE": {
+			"function": "if (value1.NE.value2) then...",
+			"description": "Compares two values to determine if the first value (value1) is not equal to the second value (value2). The comparison between the two values is true if value1 is not equal to value2.",
+			"example": "600 C IF THE ROOM TEMP IS NOT EQUAL TO<br />610 C 80, THEN SET THE SET POINT TO 70.<br />620 C<br />630 IF (RMTEMP.NE.80.0) THEN RMSET = 70.0"
 		},
 
 	"NGTMOD": {
-			"function": "NGTMOD",
-			"description": "Point for comparison to see if something is in Day Mode.  SImilar to DAYMOD.",
-			"example": "IF(\"AHU.1.OCC\" .EQ. NGTOD) THEN \"AHU.1.SAT.STPT\" = 68 ELSE \"AHU.1.SAT.STPT\" = 72"
+			"function": "if (pt1.eq.NGTMOD) then...",
+			"description": "This status indicator determines if a equipment controller is in NIGHT mode. For some equipment controllers, NIGHT mode is also referred to as UNOCC (unoccupied) mode. If an equipment controller is in unoccupied mode, PPCL recognizes this status as NGTMOD.",
+			"example": "200 IF (CNTRL1.EQ.NGTMOD) THEN NGTSP = 78.0"
 		},
 
-	"NODE": {
+	"NIGHT": {
+			"function": "NIGHT(Point 1,...,Point 16)",
+			"description": "Used to command a logical point to NIGHT mode. For some equipment controllers, NIGHT mode is also referred to as UNOCC (unoccupied) mode. If an equipment controller is in the unoccupied mode, PPCL recognizes this status as NIGHT.",
+			"example": "100  IF (TIME.LT.7:00.OR.TIME.GT.18:00) THEN NIGHT(LCTLR2) ELSE DAY(LCTLR2)"
+		},
+
+	"NODE0": {
 			"function": "NODE0 through NODE99",
-			"description": "These are resident points in the panel.  Each CPU or device occupy a node on the system and can be referenced by their node point.",
-			"example": "IF(NODE22 .EQ. FAILED) THEN ON(\"ALARM.NODE22\""
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE1": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE2": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE3": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE4": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE5": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE6": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE7": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE8": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE9": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE10": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE11": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE12": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE13": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE14": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE15": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE16": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE17": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE18": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE19": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE20": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE21": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE22": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE23": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE24": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE25": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE26": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE27": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE28": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE29": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE30": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE31": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE32": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE33": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE34": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE35": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE36": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE37": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE38": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE39": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE40": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE41": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE42": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE43": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE44": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE45": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE46": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE47": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE48": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE49": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE50": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE51": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE52": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE53": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE54": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE55": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE56": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE57": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE58": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE59": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE60": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE61": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE62": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE63": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE64": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE65": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE66": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE67": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE68": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE69": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE70": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE71": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE72": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE73": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE74": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE75": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE76": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE77": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE78": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE79": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE80": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE81": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE82": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE83": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE84": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE85": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE86": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE87": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE88": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE89": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE90": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE91": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE92": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE93": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE94": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE95": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE96": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE97": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE98": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NODE99": {
+			"function": "NODE0 through NODE99",
+			"description": "(NOT BACnet COMPATIBLE see LINK) These resident points allow the program to check the status of a node on the network. All devices or CPUs on the network occupy a node corresponding to its address. This point is generally used to test for normal operation of nodes for control strategies that depend on network communication.<br /><br />Notes:<br />NODE resident points cannot be used in field panels on an EthernetAutomation Level Network (ALN). To use PPCL to monitor the failure status of an Ethernet field panel, use the ADDRESS subpoint of the field panel and equate it to FAILED.",
+			"example": "Example 1:<br />600 IF (NODE22.EQ.FAILED) THEN ON(ALARM)<br />Example 2:<br />300 IF (\"!EthernetMBC1:ADDRESS\".EQ.FAILED)THEN ON(ALARM)"
+		},
+
+	"NONE": {
+			"function": "@NONE",
+			"description": "This command identifies the PPCL priority level indicator.",
+			"example": "The @NONE command can be used to test if a point currently is at PPCL priority. For example, an IF/THEN/ELSE statement would look like the following:<br />300 IF (SFAN.EQ.@NONE) THEN OFF(HORN)"
 		},
 
 	"NORMAL": {
-			"function": "NORMAL(pt1,...,pt16)",
-			"description": "This sets the points from alarm state to their normal states.",
-			"example": "NORMAL(\"CT.1.FAN\")"
+			"function": "NORMAL(Point 1,...,Point 16)",
+			"description": "This command is used to return points to the normal state. Up to 16 points can be commanded back to normal from an alarm-by-command state.",
+			"example": "100 IF (RM90T.GT.80.0) THEN ALARM(ROOM90) ELSE NORMAL(ROOM90)"
 		},
 
 	"OFF": {
-			"function": "OFF(pt1,...,pt16).  Can also be the state OFF",
-			"description": "Changes the point with possiblilities of being set to OFF to OFF.  Note FAST/SLOW/STOP points are changed to STOP.  At sOFF is a value for comparion of assignment.",
-			"example": "OFF(\"CHW.PUMP.1\") will put that point in OFF."
+			"function": "if (pt1.eq.OFF) then...",
+			"description": "This indicator is used to compare the operational status of a point name to the OFF status indicator. The result of the comparison will be true if the point is in the OFF state.",
+			"example": "200 IF (FAN.EQ.OFF) THEN RTDAMP = 3.0"
 		},
 
 	"OIP": {
-			"function": "OIP(trigger, \"sequence\")",
-			"description": "This function repolicates the terminal operator access.  Given a trigger, it executes the sequence.  There is documentation somewhere else, and probably very hard to find, for this terminal access.",
-			"example": "OIP(RPT7AM,\"P/D/P/Y/V/A/N/*\")"
+			"function": "OIP(Trigger, Sequence)",
+			"description": "This command is used to mimic operator sequences which are normally entered from a terminal. This command executes most operator functions from within a PPCL program.",
+			"example": "102 C OIP COMMAND INFORMATION:<br />104 C    OPERATOR SEQUENCE<br />106 C<br />108 C  - POINT<br />110 C  - DISPLAY<br />112 C  - PRINTER<br />114 C  - YES<br />116 C  - VALUE<br />118 C  - ANY<br />120 C  - NAME<br />122 C  - ALL NAMES<br />124 C<br />130 C  TRIGGER POINT - RPT7AM<br />150 OIP(RPT7AM,\"P/D/P/Y/V/A/N/*\")"
 		},
 
 	"OK": {
-			"function": "@OK",
-			"description": "A state used for comparison.  It means the battery is OK.",
-			"example": "IF($BATT .EQ. @OK) THEN GOTO 3200"
+			"function": "if ($BATT.eq.OK) then...",
+			"description": "This indicator is used to compare the value of the $BATT resident point to determine if the backup battery is operational. The result of the comparison will be true if the battery is charged. This function can only be used in field panels that have the ability to monitor the strength of their backup battery.",
+			"example": "600 IF ($BATT.EQ.OK) THEN NORMAL(P26BAT)"
 		},
 
 	"ON": {
-			"function": "ON(pt1,...,pt16). Can also be the state ON",
-			"description": "Changes the point with possiblilities of being set to ON to ON.  Note FAST/SLOW/STOP points are changed to FAST.  The ON alone is a value for comparion of assignment.",
-			"example": "ON(\"CHW.PUMP.1\") will put that point in ON."
+			"function": "if (pt1.eq.ON) then...",
+			"description": "This indicator is used to compare the operational status of a point name to the ON status indicator. The result of the comparison will be true if the point is in the ON state.",
+			"example": "200 IF (FAN.EQ.ON) THEN RTDAMP = 3.0"
 		},
 
 	"ONPWRT": {
-			"function": "ONPWRT(linenumber)",
-			"description": "On power return, goto linenumber. When field panel dies because of a power event, and the battery doesn't kick on, this this goes to a specific line number to resume control.  After the first cycle through the program, this line is ignored.",
-			"example": "ONPWRT(3200) would skip all lines before 3200 and go to 3200 when the power flicks back on."
+			"function": "ONPWRT(Line #)",
+			"description": "This command is similar to a GOTO command and allows you to select the first program line that is executed when power has returned. The ONPWRT command is only executed once and is then ignored as long as power stays ON.",
+			"example": "10 ONPWRT(1800)"
 		},
 
 	"OPER": {
 			"function": "@OPER",
-			"description": "A state used for comparison.  It means the point is in operator (or Hand).",
-			"example": "IF(\"CT.1.FAN\" .EQ. @OPER) THEN RELEAS(\"CT.1.FAN\")"
-		},
-
-	".OR.": {
-			"function": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN ...",
-			"description": "If either or both of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE, then the condition will not be met",
-			"example": "IF(\"POINT.1\" .OR. \"POINT.2\") THEN GOTO 4300\" -> If either or both of the points is TRUE, then the condition will proceed.  Otherwise, the next line will execute and trace."
+			"description": "Identifies the operator priority level indicator.",
+			"example": "The @OPER command is typically used in one of the following situations:"
 		},
 
 	"PDL": {
-			"function": "PDL(area, totalkW, targetkW, g1s,g1e,sh1,...,g4s,g4e,sh4) or the local point $PDL",
-			"description": "The Peak Demand Limiting function is one that tries to predict how to shed specific equipment at a specific time to acheive a target kW.  This is helpful for large sites that are incentivized by the utility company to reduce demand in extremely high demand cases or days, and the customer gets paid a LOT of money to reduce their demand.  Sometimes just signing up for the program provides monetary incentives.  However, just shedding equipment is extremely difficult to do wisely, and I doubt this function will do it well. <br /><br />'Area' is the area where the electric meter is, and it is a number.<br />'Total kW' is a point of the total kW of the equipment that is being monitored by the PDL command. A load is considered to be a power consuming load if it is defined in a PDLDAT command<br />'TargetkW' point is what the PDL command tries to acheive, by shedding associated PDLDAT-defined equipment. <br />'g#s' parameter is is the start line number for the first group od PDLDAT commands<br />'g#e' is the ending line number.<br />'sh#' parameter is the method of shedding, where 0 is all on/off, and 1 is round-robin of the associated equipmet<br /><br />The $PDL is a resident point (local point) for a panel that is set by the PDLMTR function.  It takes on the current value of the demand prediciton",
-			"example": "PDL(1,\"TOTAL.KW\",\"TARGET.KW\",100,199,0,200,299,1, 300,399,0,400,499,0)<br /><br />\"SITE.KWH\" = $PDL"
+			"function": "$PDL",
+			"description": "This point takes on the current value of the demand prediction for each calculation interval made by the PDLMTR statement. The point can be assigned to a virtual LAO point and displayed or trended.",
+			"example": "350 KWH = $PDL"
 		},
 
 	"PDLDAT": {
-			"function": "PDLDAT(pointname,min_on,min_off,max_off,kW)",
-			"description": "This is basically the association of a specific piece of equipment to a Peak Demand Limiting group. The equipment (say it's a pump) is defined by this statement as being part of a PDL strategy, but can only be used with a PDL statement in the same panel and program.  Group the related equipment together in neighboring lines to assiciate them in a PDL statement.<br /><br />'pointname' is the name of the point that is going to be included in PDL<br />'min_on' is the minimum amount of time (minutes) a piece of equipment has to stay on once enabled.<br />'min_off' is the minimum amount of time (minutes) a piece of equipment must remain off.<br />'max_off' is the maximum amount of time (minutes) a piece of equipment can remain off<br />'kW' is the kW of the device",
-			"example": "PDLDAT(\"PUMP.1.SS\",10,5,180,10)"
+			"function": "PDLDAT(Load Name,Min On,Min Off,Max Off,kW Value)",
+			"description": "Defines the minimum on-time, minimum off-time, maximum off-time, and kilowatt value for a specific load. A group of PDLDAT commands are used in conjunction with a single PDL command in a field panel to define load parameters and maintain a certain kilowatt level (or target) for that group of loads.",
+			"example": "102 C PDLDAT COMMAND INFORMATION:<br />104 C<br />106 C  - CONTROLLED POINT - FAN17<br />108 C  - MINIMUM ON TIME - 10 MINUTES<br />110 C  - MINIMUM OFF TIME - 5 MINUTES<br />112 C  - MAXIMUM OFF TIME - 180 MINUTES<br />114 C  - KILOWATT RATING - 10<br />116 C<br />118 PDLDAT(FAN17,10,5,180,10)"
 		},
 
 	"PDLDPG": {
-			"function": "PDLDPG(area,kwtot1,target1,...,kwtot7,target7)",
-			"description": "This sets the targets for the kW total groups for a specific area.  The are must correspond to the are set in PDLMTR.",
-			"example": "PDLDPG(1,TOTKW1,TGT1,TOTKW2,TGT2)"
+			"function": "PDLDPG(Meter Area,Kilowatt 1,Target 1,...,Kilowatt 7,Target 7)",
+			"description": "Associates a power consumption target parameter with each PDL statement. This command also calculates the amount of power used by all loads under the control of each PDL command in a specific meter area.",
+			"example": "100 PDLDPG(1,TOTKW1,TGT1,TOTKW2,TGT2)"
 		},
 
 	"PDLMTR": {
-			"function": "PDLMTR(area,hist,calc,window,plot,warning,mt1, def1,...,mt5,def5)",
-			"description": "If you aren't already thoroughly confused by the PDL stuff (and hence probably won't ever use it), here is another one.  This kind of does the math for all the PDL stuff.  It associates a meter number to its history, a sliding calculation window, warnings, and all the other things.  Who knows what they mean?<br /><br />'Area' is the meter number (1 - 32,767)<br />'hist' is the historical forecasting weight factor (should be less than 50%, usually 30% is good)<br />'calc' is the calculation interval (1 min minimum)<br />'window' is the sliding window interval in minutes, where there are 30 samepls stored in a window<br />'plot' is the max value for a time plot for the PDL Activity Reports (should be higher than the max value in PDLSET)<br />'Warning' 1-yes, 0-no for messages<br />'mt1 through mt5' the point names for the demand consumption meters<br />'def1 through def5' are the default values to give the meters in the event of communication loss (default -1, which is use the most current value).",
-			"example": "PDLMTR(1,30,1,15,500,1,METER1,100,METER2,50)"
+			"function": "PDLMTR(Area,History,Calc Min,Window,Plot Scale,Warning,Meter 1,Default 1,...,Meter 5, Default 5)",
+			"description": "This command monitors meters, makes predictions on demand, and keeps report data up-to-date. Only one PDLMTR command can be defined per meter area. PDLMTR commands are responsible for defining:",
+			"example": "202 C PDLMTR COMMAND INFORMATION:<br />204  C<br />206  C  - HISTORICAL WEIGHTING FACTOR - 30%<br />208  C  - CALCULATION INTERVAL - 1 MINUTE<br />210  C  - PREDICTION WINDOW - 15 MINUTES<br />212  C  - THE TIME VERSUS DEMAND SECTION OF<br />214  C  THE ACTIVITY REPORT PLOT HAS A<br />216  C  FULL SCALE OF 500 KILOWATTS.<br />218  C - WARNING MESSAGES ARE ENABLED TO<br />220  C  SEND TO ALARM DEVICES.<br />222  C  - THE DEFAULT VALUES OF THE TWO<br />224  C   METER POINTS (METER1 AND<br />226  C   METER2) ARE 100 KILOWATTS AND<br />228  C  50 KILOWATTS RESPECTIVELY.<br />230  C<br />250 PDLMTR(1,30,1,15,500,1,METER1,100,METER2,50)"
 		},
 
 	"PDLSET": {
-			"function": "PDLSET(area,exceed,set1,time1,...,set7,time7)",
-			"description": "Why do we have yet another PDL function?  Maybe it's because this is actually a really complicated thing the calculate, and PPCL (or the backend of it) isn't a great place to try to do this.  PDLSET sets the PDL levels and ensuring they are not exceeded.<br />'area' is the meter number<br />'exceed' turns ON if the value from the last window exceeded the limit, and OFF otherwise<br />'set1 through set7' kW set points not to be exceeded<br />'time1 through time7' is the time (military, integer are deimal) at which the set point ends.",
-			"example": "PDLSET(1,PEAKEX,PDLST1,11:00,PDLST2,16:30)"
+			"function": "PDLSET(Area,Exceed,Set1,Time 1,...,Set7,Time7)",
+			"description": "The PDLSET command is responsible for designating the peak demand limiting levels and ensuring that these levels are not exceeded for a meter area. The demand predictions made by the PDLMTR command are compared with the appropriate set points defined by this command. The set points are the basis for determining the number of kilowatts (if any) to shed or restore for the meter area.",
+			"example": "101 C PDLSET COMMAND INFORMATION:<br />102 C<br />103 C THIS COMMAND CONTROLS METER AREA 1.<br />104 C THE VIRTUAL LDO POINT WHICH WILL<br />105 C TOGGLE ON AND OFF AT THE END OF<br />106 C THE SET POINT INTERVALS WHEN THE<br />107 C SET POINT WAS EXCEEDED IS CALLED PEAKEX.<br />108 C PDLST1 SET POINT ENDS AT 11:00 A.M.<br />109 C PDLST2 SET POINT ENDS AT 4:30 P.M.<br />110 C<br />120 PDLSET(1,PEAKEX,PDLST1,11:00,PDLST2,16:30)"
 		},
 
 	"PRFON": {
-			"function": "PRFON",
-			"description": "PRFON (Proof ON) is a resident point for comaprison, that a device's feedback has proved the device is ON when commanded ON.",
-			"example": "IF(\"CT.1.FAN\" .EQ. PRFON) THEN ON(\"COOL\")"
+			"function": "if (pt1.eq.PRFON) then...",
+			"description": "This indicator is used to compare the operational status of a point to the PRFON status indicator. This comparison will be true if the proof for the point is in the ON state.",
+			"example": "200 IF (FAN.EQ.PRFON) THEN OADAMP = 8.5"
+		},
+
+	"RELATIONAL": {
+			"function": "None",
+			"description": "Relational operators compare two values. The result of a comparison, called a condition, determines an action. The action depends upon which condition is true.",
+			"example": "None"
 		},
 
 	"RELEAS": {
-			"function": "RELEAS(pt1,...,pt16) or RELEAS(@prior, pt1,...,pt15)",
-			"description": "Release from any priority to NONE priority for the given points.  In 9.2 firmware, a priority can be set, instead of only NONE.",
-			"example": "RELEAS(\"YO.MAMA\")"
+			"function": "RELEAS(Point 1,...,Point 16)",
+			"description": "This command changes the priority of up to 16 points to NONE. If you change the priority of the points, you can only define a total of 15 points.",
+			"example": "Example 1<br />This example shows how to avoid having the RELEAS command issue multiple COVs.This example applies to SCUs with Firmware Revision 9.1 or lower that do not support the @prior command.<br />100 IF (TEMP.EQ.@ALARM) THEN ON(PTWXY1) ELSE OFF(PTWXY1)<br />110 IF(PTWXY1.EQ.ON.AND.PTWXY2.EQ.OFF) THEN EMON(PTWXYZ)<br />120 IF(PTWXY1.EQ.OFF.AND.PTWXY2.EQ.ON) THEN RELEAS(PTWXYZ)<br />130 PTWXY2=PTWXY1<br />Example 2<br />This example shows code written for firmware that does not issue multiple COVs when the RELEAS command is executed.This example applies to SCUs with firmware 9.2,  9.3, 12.2 and higher, and MBCs with firmware 1.2 and higher.<br />200 IF (TEMP.EQ.@ALARM) THEN EMON(PTWXYZ) ELSE RELEAS(@EMER,PTWXYZ)<br />Example 3<br />This example shows how to avoid having the RELEAS command issue multiple COVs.This example applies to SCUs with firmware 10.1 or higher and MBCs with firmware 1.1 or higher.<br />100 IF (TEMP.EQ.@ALARM) THEN EMON(PTWXYZ)<br />110 IF(TEMP.NE.@ALARM.AND.PTWXYZ.NE.@NONE) THEN RELEAS(@EMER,PTWXYZ)<br />120 C  CONTINUE ON WITH THE PROGRAM"
 		},
 
-	"RETURN": {
-			"function": "RETURN",
-			"description": "This statement declares the end of a subroutine, and branches (cedes control to) the line of code that originally called the subroutine, having performed its action on the given arguments or the subroutine",
-			"example": "A subroutine is called on line 3200, and gives control to that subroutine (say on line 5000).  The subroutine executes, and RETURN is hit, which sends control back to line 3200."
-		},
-
-	".ROOT.": {
-			"function": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\"",
-			"description": "The ROOT function. This takes the Nth root (\"POINT.2\") of a number (\"POINT.1\").  This takes decimal roots and numbers as well.",
-			"example": "\"POINT.3\" = \"POINT.1\" .ROOT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 8, then \"POINT.3\" will be 3."
+	"ROOT": {
+			"function": "Point 1 = (Value 1.ROOT.Value 2)",
+			"description": "This function calculates the nthroot of the defined point for Value 1 by raising the value of Value 1 to the power of n(Value 2), n can be an integer or a real number. The value is then stored in a defined location (Point 1).",
+			"example": "310 RVAL = (TEMP.ROOT.3.0)"
 		},
 
 	"SAMPLE": {
-			"function": "SAMPLE(time) ... rest of line code",
-			"description": "With the internal clock, execute this line every time seconds, otherwise skip it.  Note that it has to have code follow it.  If there should be a lot of code, use a GOTO right after it, skipping the following line, and a GOTO on the following line, skipping all the code you want executed every time it hits.  Confusing, but that's branch statements for ya.",
-			"example": "SAMPLE(10) GOTO 3200 would go to line 3200 every 10 seconds."
+			"function": "SAMPLE(interval sec) statement",
+			"description": "Allows you to define how often a command is evaluated. Sample can be helpful in preventing short cycling in ON/OFF decisions, reducing COVs from noisy flow transmitters, and other situations. The allowable commands can include assignment, calculations, and program control (GOTO, GOSUB).",
+			"example": "200 SAMPLE(600) ON(HALFAN)"
 		},
 
-	"SECND": {
+	"SECND1": {
 			"function": "SECND1 through SECND7",
-			"description": "These are built in timers for PPCL code.  They automatically increment each second (up to 9999 seconds), and need to be (re)set in PPCL to a starting value",
-			"example": "IF(\"SOMETHING.IS.ON\") the SECND1 = 0, and so the timer would be constantly reset to 0 is the something is on.  When the something is off, the timer would begin counting."
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND2": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND3": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND4": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND5": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND6": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
+		},
+
+	"SECND7": {
+			"function": "SECND1 through SECND7",
+			"description": "These seven points count real time seconds and can be used as timers. The computer adds one to the SECNDn variable for every one second of real time that passes. The value of a SECNDn point can only be set by a PPCL command. The maximum value a SECNDn point can be set to is 9999.",
+			"example": "600 IF(SECND1.GT.15) THEN ON(RF) ELSE OFF(RF)"
 		},
 
 	"SECNDS": {
 			"function": "SECNDS",
-			"description": "This is a built in timer for PPCL code.  It automatically increments each second (up to 9999 seconds), and needs to be (re)set in PPCL to a starting value",
-			"example": "IF(\"SOMETHING.IS.ON\") the SECNDS = 0, and so the timer would be constantly reset to 0 is the something is on.  When the something is off, the timer would begin counting."
+			"description": "This point counts real time seconds and can be used as a timer. The computer adds one to the SECNDS variable for every one second of real time that passes. The initial value of the SECNDS point is set by a PPCL command. The maximum value the SECNDS point can be set to is 9999.",
+			"example": "890 IF (SFAN.NE.PRFON) THEN SECNDS = 0"
 		},
 
 	"SET": {
-			"function": "SET(value, pt1,...,pt15)",
-			"description": "Sets the points 1 through 15 to the value given",
-			"example": "SET(0, SECND1, SECND2, SECND3) would set all those seconds timers to 0."
+			"function": "SET(value, Point 1,..., Point 15)",
+			"description": "This command is used to change output points to a new value. Up to 15 points can be assigned a new value (14 points when including a priority) with a single set command.",
+			"example": "Example 1<br />450 SET(75.0,RMSET1,RMSET2,RMSET3)<br />Example 2<br />550 SET(@EMER,75.0,RMSET1,RMSET2,RMSET3)"
 		},
 
 	"SIN": {
-			"function": "\"POINT.1\" = SIN(\"POINT.2\")",
-			"description": "The SINE function. The opposite over the hypotenus.",
-			"example": "\"POINT.1\" = SIN(\"POINT.2\") -> If \"POINT.2\" = PI, then \"POINT.1\" will be set to 1."
+			"function": "pt1 = SIN(value1)",
+			"description": "A trigonometric function that derives the sine of a value (Value 1). That value is then stored in a defined location (Point 1). All values used with this function are expressed in degrees.",
+			"example": "180 VAR = SIN(THETA)"
 		},
 
 	"SLOW": {
-			"function": "SLOW(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of SLOW/SLOW/STOP to SLOW",
-			"example": "SLOW(\"CHW.PUMP.1\") will put that point in SLOW."
+			"function": "if (pt1.eq.SLOW) then...",
+			"description": "This indicator is used to compare the operational status of a point name to the SLOW status indicator. This comparison will be true if the point is in a SLOW state.",
+			"example": "200 IF (FAN.EQ.SLOW) THEN DAMPER = 13.0"
 		},
 
 	"SMOKE": {
 			"function": "@SMOKE",
-			"description": "A state used for comparison.  It means the point is in SMOKE.",
-			"example": "IF(\"CT.1.FAN\" .EQ. @SMOKE) THEN ON(\"RUN\")"
+			"description": "This command identifies the smoke control priority level indicator.",
+			"example": "The @SMOKE command is typically used in one of the following situations:<br />Using the @priority indicator in this manner will not release the point if it has a higher priority (OPER)."
 		},
 
-	".SQRT.": {
-			"function": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\")",
-			"description": "The SQUARE ROOT function. This takes the 2th root (\"POINT.2\") of a number (\"POINT.1\").",
-			"example": "\"POINT.3\" = \"POINT.1\" .SQRT. \"POINT.2\") -> If \"POINT.2\" = 2 and \"POINT.1\" is 4, then \"POINT.3\" will be 2."
+	"SQRT": {
+			"function": "Point 1 = SQRT(Value 1)",
+			"description": "Calculates the square root of a value and stores it in a defined location (Point 1).",
+			"example": "180 SRPT1 = SQRT(PT1)"
 		},
 
 	"SSTO": {
-			"function": "SSTO(zone,mode,cst,csp,est,lst,ost,esp,lsp, osp,ast,asp)",
-			"description": "Like PDL, this can get tricky fast.  This is the Start-Stop Time Optimization, but what goes on behind the scences is unknown.  You define a 'zone' (1 - 5 are valid), and hope for the best!<br /><br />For the 'mode' point:<br />1 Normal Schedule<br />2 Extended Schedule<br />4 Shortened Schedule 8 Weekend Schedule<br />16 Holiday Schedule<br /><br />'cst' is the point name for the calculated start time<br /><br />'csp' is the point name for the calculated stop time<br /><br />'est' is the earliest start time<br /><br />'lst' is the latest start time<br /><br />'ost' is the occupancy start time<br /><br />'esp' is the earliest stop time<br /><br />'lsp' is the latest stop time<br /><br />'osp' is the occupancy stop time<br /><br />'ast' is the adjustment to the start time.  this can be changed day to day (I guess to dial it in...)<br /><br />'asp' is the adjustment to the calculated stop time.",
-			"example": "SSTO(1,1,ONTIM,OFTIM,6:30,7:45,8:00,15:30,16:45,17:00,0.0,0.0)"
+			"function": "SSTO(Zone,Mode,CST,CSP,EST,LST,OST,ESP,LSP,OSP,AST,ASP)",
+			"description": "The SSTO command calculates the optimal start and stop times for each zone based on information derived from the SSTOCO command (outside air temperature, zone temperature, desired zone temperature, etc.) as well as parameters for earliest, latest, and occupancy start times provided in the SSTO command.",
+			"example": "60 SSTO(1,1,ONTIM,OFTIM,6:30,7:45, 8:00,15:30,16:45,17:00,0.0,0.0)"
 		},
 
 	"SSTOCO": {
-			"function": "SSTOCO(zone,season,intemp,outemp,ctemp, ccoef1,ccoef2,ccoef3,ccoef4,htemp,hcoef1, hcoef2,hcoef3,hcoef4)",
-			"description": "This calculates the thermal characteristics of a zone, based on lots of information that is likely always going to be unknown. It 'supposedly' self-tunes, but I don't know how far I would trust that.<br /><br />'zone' is the referenced zone (1 - 5)<br /><br />'season' is the current season<br />heat = 2, cool = 1, disable=0<br /><br />'intemp' is the average indoor temp for the space concerned<br /><br />'outtemp' is the outdoor air temperature<br /><br />'ctemp' is the desired cooling temperature space temp in cooling season<br /><br />'ccoef1' is kind of a cooling coefficient in hours, basically a guess as to how long it takes to cool the space 1 degree<br /><br />'ccoef2' is the cooling retention coefficient, or how long it would take the space to rise 1 degree<br /><br />'ccoef3' is the time it would take to lower the space temp 1 degree if the OAT is 10 degrees higher, and the OA dampers are shut (seriously????)<br /><br />''ccoef4' is the cooling autotune coefficient, in hours, added or subtracted from the optimzal start time (kind of gradient descent, maybe?)<br /><br />'htemp' is the desired heating temperature space temp in heating season<br /><br />'hcoef1' is kind of a heating coefficient in hours, basically a guess as to how long it takes to heat the space 1 degree<br /><br />'hcoef2' is the heating retention coefficient, or how long it would take the space to fall 1 degree<br /><br />'hcoef3' is the time it would take to raise the space temp 1 degree if the OAT is 25 degrees colder, and the OA dampers are shut (seriously????)<br /><br />hcoef4' is the heating autotune coefficient, in hours, added or subtracted from the optimzal start time (kind of gradient descent, maybe?)",
-			"example": "SSTOCO(1,1,\"ROOM10\",\"OATEMP\",75.0, 0.01,0.3, 0.05,0.083,72.0,0.1,0.1,0.2,0.083)"
+			"function": "SSTOCO(Zone,Season,ITEMP,OTEMP,CTEMP, CCOEF 1,CCOEF 2,CCOEF 3,CATSTEP,HTEMP, HCOEF 1, HCOEF 2,HCOEF 3,HATSTEP)",
+			"description": "This command defines the thermal characteristics of a zone based on the season, indoor temperature, outdoor temperature, and a variety of heating and/or cooling coefficients that are necessary to calculate optimal start and stop times.",
+			"example": "100 SSTOCO(1,SEASON,ROOM10,OATEMP,75.0, 0.01,0.3,0.05,0.083,72.0,0.1,0.1,  0.2,0.083)"
 		},
 
 	"STATE": {
-			"function": "STATE(@pri,statetext,pt1...pt14)",
-			"description": "This sets the states of points 1-14 to the desired statetext (see state text tables in Point Editor, or LENUMs), with an optional @priority point",
-			"example": "STATE(NIGHT,TEC1,TEC2,TEC3,TEC4)"
-		},
-
-	"START": {
-			"function": "START(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of START/STOP to START",
-			"example": "START(\"CHW.PUMP.1\") will put that point in START."
-		},
-
-	"STOP": {
-			"function": "STOP(pt1,...,pt16)",
-			"description": "Changes the point with possiblilities of START/STOP to STOP",
-			"example": "STOP(\"CHW.PUMP.1\") will put that point in STOP."
+			"function": "STATE(@prior,State Text,Point 1,Point 2,Point 3,...,Point 15)",
+			"description": "Displays STATE command assist window. STATE commands a digital point to a new state. The custom text that represents each point state (for example, On and Off or Start and Stop) is defined in the state table associated with the point.",
+			"example": "None"
 		},
 
 	"TABLE": {
-			"function": "TABLE($IN, $OUT, $X1, $Y1, $X2, $Y2, ..., $X7, $Y7)",
-			"description": "A table statement makes a linear interpolation between the x points and y points, given the input variable, and maps to the ouptut variable.",
-			"example": "TABLE($LOC1, $LOC2, 0, 0, 10, 100) -> if $LOC1 is 0, $LOC2 would be 0.  If $LOC1 is 5, $LOC2 would be 50.  If $LOC1 is 10, $LOC2 would be 100.  Also,  if $LOC1 is -2, $LOC2 would be 0, and  if $LOC1 is 15, $LOC2 would be 100."
+			"function": "TABLE(Input,Output,X1 value,Y1 value,...,X7 value,Y7 value)",
+			"description": "This command allows you to define a general function of two variables by specifying pairs of coordinates (x,y).",
+			"example": "500 C<br />502 C TABLE COMMAND INFORMATION:<br />504 C<br />506 C OATEMP (X)       HWSP (Y)<br />508 C ----------      ----------<br />510 C   0 DEG F       180 DEG F<br />512 C  60 DEG F       100 DEG F<br />514 C<br />520 TABLE(OATEMP,HWSP,0,180,60,100)<br />Below 0°F outside air temperature the hot water set point stays at 180°F. Above 60° F, hot water set point stays at 100 F."
 		},
 
 	"TAN": {
-			"function": "\"POINT.1\" = TAN(\"POINT.2\")",
-			"description": "The TAN function. It get's you bronzed.  The adjacent over the opposite.",
-			"example": "\"POINT.1\" = TAN(\"POINT.2\") -> If \"POINT.2\" = PI/4, then \"POINT.1\" will be set to 1."
+			"function": "Point 1 = TAN(Value 1)",
+			"description": "A trigonometric function that calculates the tangent of a value (Value 1). That value is then stored in a defined location (Point 1). All values used with this function are expressed in degrees.",
+			"example": "930 TANPT1 = TAN(PT1)"
 		},
 
 	"THEN": {
-			"function": "IF(CONDITION) THEN ... ELSE ...",
-			"description": "The response to a TRUE return from a conditional.",
-			"example": "IF(3 .GT. 2) THEN GOTO 3200 ELSE ON(\"RUH.ROH\")"
+			"function": "IF(exp) THEN x ELSE y",
+			"description": "This conditional logic command is used to provide customized decision logic. When the IF expression is true, the THEN command is executed. If the condition is false, the ELSE command (if defined) is executed.",
+			"example": "110 IF (OATEMP.GT.70.0) THEN OADPR = 80.0<br />Example of IF THEN ELSE<br />310  IF (TIME.GT.8:00.AND.TIME.LT.16:00) THEN ON(@NONE,SFAN) ELSE ON(@OPER, SFAN)"
 		},
 
 	"TIMAVG": {
-			"function": "TIMAVG(result,st,samples,input)",
-			"description": "THis function sets the 'result' parameter to the average of the 'input' point over the specific number of 'sanples', with each sample occuring 'st' seconds apart.",
-			"example": "TIMAVG(RMAVG,600,6,RMTEMP)"
+			"function": "TIMAVG(Result,Sample Time,# Samples,Input)",
+			"description": "This command is used to find an average value over time. You can select how often the values are taken (sample time) and the number of values taken. The average is always over the most recent sample count and all previous values are discarded.",
+			"example": "10 C SIX SAMPLES WILL BE TAKEN TO<br />20 C CALCULATE THE RMAVG.<br />30 C THE INTERVAL BETWEEN EACH SAMPLE<br />40 C IS 10 MINUTES. RMTEMP IS<br />50 C AVERAGED EVERY 60 MINUTES.<br />60 TIMAVG(RMAVG,600,6,RMTEMP)"
 		},
 
 	"TIME": {
 			"function": "TIME",
-			"description": "A resident point reprsenting the current time",
-			"example": "IF(TIME .EQ. 16:30) THEN ON(\"BEER.TIME\")"
+			"description": "This point maintains the current time and stores the value in military time. The TIME value can contain a value from 0:00 to 23:59. For example, 7:30 p.m. = 19:30.",
+			"example": "500 C<br />501 C THIS CODE DEFINES A TIME PERIOD<br />502 C FROM 6:45 A.M. TO 5:30 P.M. FOR<br />503 C SFAN TO OPERATE.<br />502 C<br />510 IF(TIME.GE.6:45.AND.TIME.LE.17:30)THEN<br />ON(SFAN)ELSE OFF(SFAN)"
 		},
 
 	"TOD": {
-			"function": "TOD(mode, recommand, time1, time2, pt1,...,pt12)",
-			"description": "Time Of Day function.  This function cycles digital points (ON/OFF) based on the time of day.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.  The recommand point (0 for no, 1 for yes) will recommand the points back to wherever they shoiuld be after a power failure.  time1 is the time to send an ON command to all the points (can be military time, decimal time, a point or a $LOC), and time2 is the time to send an OFF command to all the points.",
-			"example": "TOD(1, 1, 7:00, 19:00, \"AHU1.OCC.MODE\", \"AHU2.OCC.MODE\", \"AHU3.OCC.MODE\") would follow a normal schedule (like weekday schedule), send ON commands to the three occupancy mode points is the time is 7AM, and turn them all OFF when it's 7PM.  If the power goes out in the middle of the day, it will send ON when power comes back on.  If the power goes out at night, it will send OFF when the power comes back on, because the mode point is set to 1."
+			"function": "TOD(mode,recomd,time1,time2,pt1,...,pt12)",
+			"description": "This command changes digital output points ON and OFF based on the day of the week and the time of day. If the mode number in the TOD command matches the mode number in the TODMOD command, then TOD commands the particular output points ON and OFF at the specified times.",
+			"example": "10 TOD(1,1,17:00,07:00,OLITE1,OLITE2)"
 		},
 
 	"TODMOD": {
-			"function": "TODMOD(MondayMode,TuesdayMode,WednesdayMode,ThursdayMode,FridayMode,SaturdayMode,SundayMode,",
-			"description": "This function only works for days of the week that end in DAY.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.",
-			"example": "TODMOD(1, 2, 4, 8, 16, 1, 2) would make the mode normal for Monday, Extended for Tuesday, Shortened for Wednesday, Weekend for Thursday, Holiday for Friday, Normal for Saturday, and Extended for Sunday.  I don't know why you would do this, but you can."
+			"function": "TODMOD(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday)",
+			"description": "This command defines specific modes (normal, weekend, etc.) for each day of the week. The mode assigned to a specific day of the week is then used in conjunction with the TOD and TODSET commands to command points on that day. The values for the Mode are as follows:",
+			"example": "110 TODMOD(1,1,1,1,2,4,8)"
 		},
 
 	"TODSET": {
-			"function": "TODSET(mode, recommand, time1, value1, time2, value2, pt1,...,pt12)",
-			"description": "Time Of Day Set function.  This function cycles analog points based on the time of day, setting them to the analog values specified.  The mode point can have the following values.  1: Normal Schedule, 2: Extended Schedule, 4: Shortened Schedule, 8: Weekend Schedule, and 16: Holiday Schedule.  The recommand point (0 for no, 1 for yes) will recommand the points back to wherever they shoiuld be after a power failure.  time1 is the time to send value1 command to all the points (can be military time, decimal time, a point or a $LOC), and time2 is the time to send value2 to all the points.",
-			"example": "TOD(1, 1, 7:00, 55, 19:00, 60, \"AHU1.SAT\", \"AHU2.SAT\", \"AHU3.SAT\") would follow a normal schedule (like weekday schedule), send supply air temperature setpoints of 55.0 to the three Supply Air Temperature Setpoints if the time is 7AM, and send supply air temperature setpoints of 60.0 to the three Supply Air Temperature Setpoints when it's 7PM.  If the power goes out in the middle of the day, it will send ON when power comes back on.  If the power goes out at night, it will send OFF when the power comes back on, because the mode point is set to 1."
+			"function": "TODSET(Mode,Recomd,Time 1,Value 1,Time 2,Value 2,Point 1,...,Point 10)",
+			"description": "This command is the counterpart of the TOD command for analog points. It commands analog output points based on the day of the week and the time of day. If the mode number in the TODSET command matches the mode number in the TODMOD command, then the TODSET commands the particular output points to Value 1 and Value 2 at the specified times.",
+			"example": "550 TODSET(1,1,9:00,72.0,17:00,55.0, SPTEMP)"
 		},
 
 	"TOTAL": {
-			"function": "TOTAL(pt)",
-			"description": "This totalizes (sums up) the given point, based on its settings for totalization.  It could be summing up the run hours, or summing up the kWh, or anything like that that needs to be aggregted",
-			"example": "\"TOTAL.FAN.RH\" = TOTAL(\"AHU.FAN.1.START\")"
-		},
-
-	"XOR": {
-			"function": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN ...",
-			"description": "The exclusive OR.  If only one of the points is TRUE or ON, then this will proceed to the then condition.  If both are FALSE or both are TRUE, then the condition will not be met",
-			"example": "IF(\"POINT.1\" .XOR. \"POINT.2\") THEN GOTO 4300\" -> If either of the points is TRUE, but not both, then the condition will proceed.  Otherwise, the next line will execute and trace."
+			"function": "TOTAL(pt1)",
+			"description": "This function allows you to access the totalized value of a point.",
+			"example": "Example 1:<br />800 C<br />801 C THIS LINE COMPARES THE TOTALIZED<br />802 C VALUE OF FAN1 TO DETERMINE IF IT IS<br />803 C GREATER THAN 500. IF THE CONDITION<br />804 C IS TRUE, FAN1 WILL BE PLACED INTO<br />805 C ALARM.<br />806 C<br />810 IF(TOTAL(FAN1).GT.500.0)THEN ALARM(FAN1)<br />Example 2:<br />800 C<br />801 C THIS LINE ASSIGNS THE TOTALIZED<br />802 C VALUE OF FAN1 TO THE POINT CALLED<br />803 C FANRUN.<br />804 C<br />810 FANRUN = TOTAL(FAN1)"
 		},
 
 	"WAIT": {
-			"function": "WAIT(time, pt1, pt2, mode)",
-			"description": "This funtion waits the specified period of time (in seconds), then performs an action specified by mode.  MODE 11: When pt1 turns ON, wait *time* then turn ON pt2.  MODE 10: When pt1 turns ON, wait *time* then turn OFF pt2.  MODE 01: When pt1 turns OFF, wait *time* then turn ON pt2.  MODE 00: When pt1 turns OFF, wait *time* then turn OFF pt2.  ",
-			"example": "WAIT(300, \"CH1.SS\", \"CH1.CHWV\", 00) would wait 5 minutes from turning off Chiller 1 to close its chilled water valve."
+			"function": "WAIT(Time Delay,Point 1,Point 2,Mode)",
+			"description": "Used to turn a point ON or OFF based on the trigger point switching ON or OFF. Selection of trigger/result action is based on the value of a mode point.",
+			"example": "70 C EXAMPLE OF A WAIT COMMAND IN LOGICAL<br />71 C FIRMWARE. WHEN CNPUMP IS TURNED ON,<br />72 C THE FIELD PANEL WAITS 60 SECONDS<br />74 C BEFORE TURNING CHPUMP ON.<br />75 WAIT(60,CNPUMP,CHPUMP,11)"
 		}
-
-	}
-
-
+}
