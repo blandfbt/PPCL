@@ -35,7 +35,7 @@ patterns:
 
 - comment: capture reserved words in PPCL, list 04
   name: variable.language.PPCL
-  match:  (OFF|ON)( ?\()
+  match:  (OFF|ON)(?= ?\()
   captures:
     '1': {name: variable.language.PPCL}
 
@@ -121,7 +121,20 @@ patterns:
   name: constant.numeric.float.ppcl
   begin: (/b)
   end: ([ \)])
-  match: \b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b
+  match: (\d+)
+
+- comment: make dots between numbers purple
+  name: constant.numeric.float.ppcl
+  begin: (/b)
+  end: ([ \)])
+  match: (?<=\d)(\.)(?=\d)
+
+# this approach improperly capture the dots in 9.ROOT.3
+# - comment: make the numbers purple
+#   name: constant.numeric.float.ppcl
+#   begin: (/b)
+#   end: ([ \)])
+#   match: \b((\d+))(\.)?((\d+)?)|((\.)?((\d+)))\b
 
 - comment: find GOTOs not followed by a space,number,space,newline or space,number,space,ELSE
   name: invalid.illegal.PPCL
@@ -176,7 +189,7 @@ patterns:
 #     captures:
 #       '1': {name: variable.parameter.function.ppcl}
 
-- comment: find imroperly formatted ONPWRTs
+- comment: find improperly formatted ONPWRTs
   name: invalid.illegal.PPCL
   match: (?<=ONPWRT)(\(\d+\)(?!\s*\n)|\(.*\D+.*\)).*$
 
