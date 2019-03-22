@@ -1,5 +1,5 @@
 '''
-// Copyright 2017 Brieb Blandford
+// Copyright 2017 Brien Blandford
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -9,10 +9,8 @@
 '''
 
 
-
 import sublime, sublime_plugin
 import re
-from operator import itemgetter
 
 
 class SetIncrementCommand(sublime_plugin.WindowCommand):
@@ -28,6 +26,7 @@ class SetIncrementCommand(sublime_plugin.WindowCommand):
         s = sublime.load_settings('ppcl.sublime-settings')
         # print('enter_line_increment = ', s.get('enter_line_increment', 10))
         return s.get('enter_line_increment', 10) == increment
+
 
 class ShowPopupsCommand(sublime_plugin.WindowCommand):
 
@@ -67,7 +66,7 @@ class CallAdjustCommand(sublime_plugin.TextCommand):
     def get_line_start_and_increment(self):
         inputView = sublime.Window.show_input_panel(sublime.active_window(),
             '<Line Start>:<increment>', '{}:{}'.format(self.adjust_line_start, self.adjust_line_increment),
-            None, self.on_done, None) # Having an action triggered on both "done" and "change" unnecessarily double executes
+            self.on_done, None, None) # Having an action triggered on both "done" and "change" unnecessarily double executes
 
 
     def on_done(self, text):
@@ -425,7 +424,7 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
 
         if ((int(newLineNum) < int(nextLineNum)) or
                 (self.view.rowcol(self.view.size())[0] == row-1)):
-            self.view.insert(edit, self.view.line(self.view.sel()[0]).end(),
+            self.view.insert(edit, self.view.sel()[0].begin(),
                             '\n'+str(newLineNum)+'\t')
         else:
             # popup warning if auto-increment fails
@@ -449,3 +448,78 @@ class InsertLinesCommand(sublime_plugin.TextCommand):
         while len(str(linenum)) < 5:
             linenum = '0' + str(linenum)
         return linenum
+
+
+class MoveLinesCommand(sublime_plugin.TextCommand):
+    '''
+    This class moves code up or down while keeping the line numbers in order.
+    Called by MoveLineUpCommand and MoveLineDownCommand
+    '''
+
+    def run(self, edit, move_up):
+        '''
+        move selected code lines up/down without reordering line numbers.
+        supports multiple selections
+        '''
+        self.edit = edit
+        for sel in self.view.sel():
+            rowcol_start = self.view.rowcol(sel.begin())
+            rowcol_end = self.view.rowcol(sel.end())
+            sel_lines = self.view.lines(sel)
+            new_lines = [self.view.substr(ln) for ln in sel_lines]
+            # get the line before or after selection and prepend/append
+            # to selected lines based on whether moving lines up or down
+            if move_up is True:
+                swap_row = rowcol_start[0] - 1
+                rowcol_start_new = (rowcol_start[0] - 1, rowcol_start[1])
+                rowcol_end_new = (rowcol_end[0] - 1, rowcol_end[1])
+                swap_line = self.view.line(sel_lines[0].begin() - 1)
+                new_lines.append(self.view.substr(swap_line))
+            else:
+                swap_row = rowcol_end[0] + 1
+                rowcol_start_new = (rowcol_start[0] + 1, rowcol_start[1])
+                rowcol_end_new = (rowcol_end[0] + 1, rowcol_end[1])
+                swap_line = self.view.line(sel_lines[-1].end() + 1)
+                new_lines.insert(0, self.view.substr(swap_line))
+
+            # split the lines and sort line numbers only, then rejoin
+            # so code and line nums are in proper order
+            line_nums, code_lines = zip(*(ln.split("\t") for ln in new_lines))
+            new_lines = ['\t'.join(pair)
+                         for pair in zip(sorted(line_nums), code_lines)]
+            newcontent = '\n'.join(new_lines)
+            replace_start = min([i.begin() for i in sel_lines + [swap_line]])
+            replace_end = max([i.end() for i in sel_lines + [swap_line]])
+
+            # cross reference for renumbering GOTO, GOSUB, etc.
+            # may not implement GOTO renumber because it may be counter intuitive for users
+            lookup_map = dict(zip(line_nums, sorted(line_nums)))
+
+            self.view.replace(edit, sublime.Region(
+                replace_start, replace_end), newcontent)
+
+            # keep the original content selected
+            self.view.sel().subtract(sel)
+            new_sel_start = self.view.text_point(*rowcol_start_new)
+            new_sel_end = self.view.text_point(*rowcol_end_new)
+            self.view.sel().add(sublime.Region(new_sel_start, new_sel_end))
+
+
+class MoveLineUpCommand(sublime_plugin.TextCommand):
+    '''
+    This class tells MoveLinesCommand to move selected lines up.
+    '''
+
+    def run(self, edit):
+        move_up = True
+        self.view.run_command("move_lines", {'move_up': move_up})
+
+
+class MoveLineDownCommand(sublime_plugin.TextCommand):
+    '''
+    This class tells MoveLinesCommand to move selected lines down.
+    '''
+
+    def run(self, edit):
+        move_up = False     # False = move lines down
+        self.view.run_command("move_lines", {'move_up': move_up})

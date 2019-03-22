@@ -154,6 +154,26 @@
 		</dict>
 		<dict>
 			<key>begin</key>
+			<string>(^(E|D).{,2}(U|F))</string>
+			<key>comment</key>
+			<string>PPCL Report - find failed or unresolved lines</string>
+			<key>end</key>
+			<string>(?=^E)</string>
+			<key>name</key>
+			<string>invalid.illegal.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(^(E|D)\s{5})</string>
+			<key>comment</key>
+			<string>PPCL Report - Make untraced or disabled lines, including line numbers, comments.</string>
+			<key>end</key>
+			<string>(?=^ET)</string>
+			<key>name</key>
+			<string>comment.block.PPCL</string>
+		</dict>
+		<dict>
+			<key>begin</key>
 			<string>([0-9]{5}([ ]{2,}|\t)(C|c))</string>
 			<key>end</key>
 			<string>($\n)</string>
@@ -296,7 +316,7 @@
 			<key>begin</key>
 			<string>(\")</string>
 			<key>comment</key>
-			<string>capture point names and make the orange and italic</string>
+			<string>capture point names and make them orange and italic</string>
 			<key>end</key>
 			<string>(\")</string>
 			<key>name</key>
